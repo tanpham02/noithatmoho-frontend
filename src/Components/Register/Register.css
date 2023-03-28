@@ -1,0 +1,175 @@
+
+
+.form-group input[type="text"],
+.form-group input[type="password"],
+.form-group input[type="email"],
+.form-group input[type="tel"] {
+    width: 100%;
+    height: 50px;
+    border: 1px solid transparent;
+    background: #ededed;
+    color: #434343;
+    padding: 0 20px;
+    font-size: 1.35rem;
+    margin-bottom: 4px;
+    outline: none;
+    border-radius: 2px;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="password"]:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="tel"]:focus {
+    border-color: #ededed;
+    background-color: #fff;
+}
+
+.create-account__list-types .create-account__item-type input[type="radio"],
+.form-group input[type="radio"] {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.heading {
+    /* padding-left: 12px; */
+}
+.heading-account {
+    font-size: 5.3rem;
+    font-weight: 600;
+}
+
+.btn-register__phone {
+    margin-top: 0;
+    font-size: 1.3rem;
+}
+
+.heading-description {
+    display: block;
+    margin: 4px 0 3px;
+    color: #434343;
+    font-size: 14px;
+}
+
+.heading-line {
+    display: block;
+    width: 60px;
+    height: 4px;
+    background-color: #000;
+    margin-top: 28px;
+}
+
+.create-account {
+    padding-left: 64px;
+}
+
+.create-account__list-types {
+    display: flex;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.create-account__item-type,
+.form-group .male,
+.form-group .female {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #434343;
+}
+
+.create-account__item-type,
+.gender {
+    display: flex;
+    align-items: center;
+}
+
+
+.form-group .gender {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #434343;
+}
+
+.create-account_by-email {
+
+}
+
+.create-account_by-phonenumber {
+
+}
+
+.errorMsg {
+    font-size: 1.2rem;
+    color: red;
+}
+
+
+.policy {
+    color: #9e9e9e;
+    text-align: left;
+    font-size: 1.24rem;
+    width: 535px;
+}
+
+.policy a {
+    color: #285cec;
+    font-weight: 500;
+}
+
+.btn-register,
+.btn-register__phone {
+    background-color: var(--gray-color);
+    color: var(--text-white);
+    padding: 18px 28px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    border-radius: 2px;
+    margin: 27px 0;
+    border: none;
+}
+
+.back-home {
+    font-size: 1.4rem;
+}
+
+.back-home .back-home__icon {
+    font-size: 1.35rem;
+    margin-right: 12px;
+}
+
+.login-with {
+    display: flex;
+    align-items: center;
+}
+
+.login-with__google,
+.login-with__facebook {
+    color: #fff;
+    border: 1px dotted #fff;
+    padding: 12px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 1.4rem;
+}
+
+.login-with__google {
+    background-color: #dd4b39;
+    margin-right: 8px;
+}
+
+.login-with__facebook {
+    background-color: #3b5998;
+}
+
+
+.message-send-otp {
+    display: block;
+    margin-top: 13px;
+    font-size: 1.2rem;
+    color: var(--primary-color-blue);
+    font-weight: 600;
+}
+
+.form-group.input-otp {
+    margin-bottom: 0;
+}

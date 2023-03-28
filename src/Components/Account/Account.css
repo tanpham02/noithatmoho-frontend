@@ -1,0 +1,104 @@
+.account {}
+
+.account__title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    width: 100%;
+    height: 160px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    position: relative;
+    margin-bottom: 45px;
+    letter-spacing: 1px;
+}
+
+.account__title::after {
+    content: '';
+    position: absolute;
+    bottom: 36px;
+    width: 60px;
+    height: 4px;
+    background-color: #000;
+}
+
+.account__heading-body {
+    margin-bottom: 30px;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.account__body-lists {
+
+}
+
+.account__body-item {
+
+}
+
+
+.account__heading-body.account__heading-body--gray {
+    color: var(--gray-color);
+    font-size: 1.4rem;
+}
+
+.account__body-lists .account__body-item > a{
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--gray-color);
+    letter-spacing: 0.5px;
+    display: inline-block;
+    padding: 3px 0;
+}
+
+.account__body-lists .account__body-item > i {
+    margin-right: 7px;
+    font-size: 0.8rem;
+    color: var(--gray-color);
+}
+
+#form-account .form-group {
+    display: flex;
+    align-items: center;
+} 
+
+/* #form-account .form-group.user-address {
+    
+}  */
+
+input#form-account__email,
+input#form-account__fullname,
+input#form-account__birthday,
+input#form-account__address,
+input#form-account__phone-number {
+    width: 50%;
+    height: 45px;
+    color: #000;
+}
+
+#form-account .form-group label[for="form-account__email"],
+#form-account .form-group label[for="form-account__fullname"],
+#form-account .form-group label[for="form-account__birthday"],
+#form-account .form-group label[for="form-account__address"],
+#form-account .form-group label[for="form-account__phone-number"] {
+    display: block;
+    color: #000 !important;
+    text-align: left;
+    font-size: 1.3rem;
+    padding-left: 0px !important;
+    margin-bottom: 0px !important;
+    font-weight: initial;
+    width: 120px;
+    float: left;
+    line-height: 38px;
+    font-weight: 500;
+}
+
+.acount-btn {
+    background-color: var(--gray-color);
+    padding: 10px 26px;
+    text-transform: uppercase;
+    color: var(--text-white);
+}

@@ -1,0 +1,49 @@
+.review-get-prizes__heading {
+    width: 100%;
+    display: block;
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin: 30px 0;
+}
+
+.review-get-prizes__content-item span {
+    font-weight: 500;
+    display: inline-block;
+}
+.review-get-prizes__content-item span.inline, 
+.review-get-prizes__content-item h3.inline {
+    display: inline;
+}
+
+.review-get-prizes__content-item span, 
+.review-get-prizes__content-item strong {
+    color: var(--gray-color);
+    line-height: 1.8rem;
+    font-size: 1.3rem;
+}
+
+.review-get-prizes .review-get-prizes__content-item span.color-black {
+    color: #000;
+}
+
+.review-get-prizes__content-item h3 {
+    color: var(--primary-color-blue);
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+strong.content-item__desc {
+    color: #000;
+    font-size: 1.37rem;
+}
+
+.review-get-prizes__content-item.flex-item > .flex-item__child {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.review-get-prizes__content-item.flex-item > .flex-item__child span.flex-item__color-primary {
+    color: var(--primary-color-blue);
+    font-weight: 700;
+}

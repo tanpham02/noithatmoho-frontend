@@ -1,0 +1,44 @@
+
+.restore-account {
+    padding-left: 64px;
+    margin-right: 12px;
+}
+
+.restore_account__header .restore_account__title {
+    font-size: 1.85rem;
+    font-weight: 600;
+    margin-bottom: 24px;
+}
+
+.restore-account__list-types {
+    margin-bottom: 14px;
+}
+.restore-account__list-types,
+.restore-account__item-type {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.restore-account__list-types .restore-account__item-type input {
+    display: inline-block;
+    margin-right: 5px;
+}
+.restore-account__list-types .restore-account__item-type label {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #434343;
+}
+
+.mess-submit {
+    color: var(--primary-color-blue);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: -8px 0 18px 0;
+    display: block;
+}
+
+.mess-submit i {
+    margin-right: 6px;
+}

@@ -1,0 +1,37 @@
+.pagination {
+    margin-top: 32px;
+}
+
+.pagination .pagination-prev button,
+.pagination .pagination-right button,
+.pagination .pagination-number button {
+    background-color: #fff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.pagination .pagination-number button {
+    font-size: 1.7rem;
+    font-weight: 600;
+    color: #929392;
+    padding: 2px 8px;
+}
+
+.pagination .pagination-number button.active {
+    color: #000;
+}
+
+.pagination .pagination-prev button i,
+.pagination .pagination-right button i {
+    font-size: 1.8rem;
+}
+
+.pagination li {
+    margin-right: 12px;
+}
+.pagination li.pagination-prev {
+    position: relative;
+}
+
+
