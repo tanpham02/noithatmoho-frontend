@@ -7,7 +7,6 @@
     padding-top: 39.5%;
     background-position: top center;
     background-size: contain;
-    /* transition: all linear 0.5s; */
 }
 
 .slider__dots{
@@ -65,10 +64,12 @@
     right: 42px;
 }
 
+.discout-home:hover .slider__prev,
 .slider:hover .slider__prev {
     display: block;
 }
-.slider:hover .slider__next {
+.slider:hover .slider__next,
+.discout-home:hover .slider__prev {
     display: block;
 }
 

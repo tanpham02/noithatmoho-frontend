@@ -64,9 +64,8 @@ const filters = {
   ]
 }
 
-const AllProductsPage = ({ localeLogos, bannerServices, datas, accountInfos, onGetDataSearch, dataSearch }) => {
+const AllProductsPage = ({ localeLogos, bannerServices, datas, accountInfos, }) => {
 
-  console.log(onGetDataSearch)
   useEffect(() => {
     document.title = 'Tất Cả Sản Phẩm Đồ Gỗ Nội Thất Của MOHO'
   }, [])
@@ -76,8 +75,8 @@ const AllProductsPage = ({ localeLogos, bannerServices, datas, accountInfos, onG
   }, [])
   return (
     <>
-      <Header localeLogos={localeLogos} accountInfos={accountInfos} onGetDataSearch={onGetDataSearch}/>
-      <AllProducts datas={dataSearch} filterCategories={filters.filterCategories} filterPrices={filters.filterPrices} filterSort={filters.filterSort} />
+      <Header localeLogos={localeLogos} accountInfos={accountInfos}/>
+      <AllProducts datas={datas} filterCategories={filters.filterCategories} filterPrices={filters.filterPrices} filterSort={filters.filterSort} />
       <BannerService bannerServices={bannerServices} />
       <Footer />
     </>

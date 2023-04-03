@@ -3,9 +3,9 @@ import { Link } from "react-router-dom"
 import Pagination from '../Pagination/Pagination'
 import AllProductsFilter from "./AllProductsFilter"
 
-export const PAGE_SIZE = 12
+export const PAGE_SIZE = 8
 
-const AllProducts = ({ datas, filterCategories, filterPrices, filterSort, }) => {
+const AllProducts = ({ datas, filterCategories, filterPrices, filterSort}) => {
     const [indexShowImg, setIndexShowImg] = useState(0)
     const [expectedData, setExpectedData] = useState([])
     const [currentPageData, setCurrentPageData] = useState([])

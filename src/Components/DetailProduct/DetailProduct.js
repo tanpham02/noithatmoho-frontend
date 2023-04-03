@@ -7,7 +7,7 @@ const DetailProduct = () => {
 
     useEffect(() => {
         window.scroll(0, 0)
-    },[])
+    }, [])
 
     const [dataDetail, setDataDetail] = useState([])
     const [quantity, setQuantity] = useState(1)
@@ -16,7 +16,7 @@ const DetailProduct = () => {
         return JSON.parse(localStorage.getItem('cartLists')) ?? []
     })
 
-    
+
     useEffect(() => {
         const id = JSON.parse(localStorage.getItem('productDetail'))
         async function getData() {
@@ -44,6 +44,8 @@ const DetailProduct = () => {
     }, [quantity])
 
 
+
+
     const handleAddCatLists = (id) => {
         setCartLists(prev => {
             const x = cartLists.find(cart => {
@@ -57,7 +59,6 @@ const DetailProduct = () => {
                     return [...prev, { id, quantity: x.quantity }]
                 }
             } else {
-
                 return [...prev, { id, quantity }]
             }
         })
@@ -75,6 +76,12 @@ const DetailProduct = () => {
     useEffect(() => {
         localStorage.setItem('cartLists', JSON.stringify(handelGetCartUnique))
     }, [handelGetCartUnique])
+
+
+
+    const handleBuyProduct = (id) => {
+        localStorage.setItem('cartLists', JSON.stringify([{ id, quantity }]))
+    }
 
 
     return (
@@ -230,7 +237,7 @@ const DetailProduct = () => {
                                         }
                                     </div>
 
-                                    {data.prices !== 0 && <div className="product-detail__quantity">
+                                    {JSON.parse(localStorage.getItem('isAdmin')) !== 1 && (data.prices !== 0 && <div className="product-detail__quantity">
                                         <i onClick={() => setQuantity(quantity - 1)} className="fa-solid fa-minus"></i>
                                         <input
                                             type='text'
@@ -239,9 +246,9 @@ const DetailProduct = () => {
                                             onChange={(e) => setQuantity(e.target.value)}
                                         />
                                         <i onClick={() => setQuantity(quantity + 1)} className="fa-solid fa-plus"></i>
-                                    </div>}
+                                    </div>)}
 
-                                    <div className="product-detail__btn">
+                                    {JSON.parse(localStorage.getItem('isAdmin')) !== 1 && <div className="product-detail__btn">
                                         {data.prices ?
                                             <>
                                                 <button
@@ -250,15 +257,22 @@ const DetailProduct = () => {
                                                 >
                                                     Thêm vào giỏ
                                                 </button>
-                                                <button
+                                                <Link
+                                                    style={{
+                                                        textAlign: 'center',
+                                                        fontSize: '1.333rem'
+                                                    }}
+                                                    to={`/checkout/${(JSON.parse(localStorage.getItem('fullNameAccount')))?.split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") || ''}  `}
+                                                    onClick={() => handleBuyProduct(data.id)}
                                                     className="btn product-detail__btn-add-cart btn--color-prima-orange"
                                                 >
                                                     Mua ngay
-                                                </button>
+                                                </Link>
                                             </> :
                                             <button style={{ fontSize: '1.5rem', height: 50 }} className="btn product-detail__btn-add-cart btn--color-prima-blue">LIÊN HỆ ĐỂ NHẬN TƯ VẤN VÀ THIẾT KẾ MIỄN PHÍ</button>
                                         }
-                                    </div>
+                                    </div>}
+
                                     <div className="product-detail__info-promotion">
                                         <span>
                                             <i className="fa-solid fa-check"></i>
@@ -287,7 +301,7 @@ const DetailProduct = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 
 

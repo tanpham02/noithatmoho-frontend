@@ -185,7 +185,7 @@ const RegisterPhone = () => {
                         onInput={handleInputPhoneNum}
                     />
                     {!validatePhone && (
-                        <span className="errorMsg">{phoneNumber === '' ? 'Required' : 'Số điện thoại không hợp lệ'}</span>
+                        <span className="errorMsg">{phoneNumber === '' ? 'Required' : 'Số điện thoại phải là chữ số và tối thiểu 8 chữ số'}</span>
                     )}
                     {existPhone && <span className="errorMsg">Số điện thoại đã được sử dụng</span>}
                 </div>))}

@@ -31,6 +31,7 @@ const AccountAddress = ({ accountInfos }) => {
             localStorage.removeItem('fullNameAccount')
             localStorage.removeItem('isAdmin')
             localStorage.removeItem('idUser')
+            localStorage.removeItem('selectedFilePath')
             window.location.replace('/')
         }
     }
@@ -108,7 +109,7 @@ const AccountAddress = ({ accountInfos }) => {
                         <div className='user-address'>
                             <div className='user-address__heading'>
                                 <div className='user-address__heading-main'>
-                                    <h4 className='user-address__name'>{user.full_name}</h4>
+                                    <h4 className='user-address__name'>{user.full_name || user.phone_number}</h4>
                                     <span> (Địa chỉ mặt định)</span>
                                 </div>
                                 <div className='user-address__icon'>

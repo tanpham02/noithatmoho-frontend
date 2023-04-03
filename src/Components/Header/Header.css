@@ -54,6 +54,7 @@
     align-items: center;
     margin-right: 6px;
 }
+
 .menu-account .menu-account__icon i {
     font-size: 2.4rem;
 }
@@ -110,6 +111,7 @@
     position: absolute;
     border: none;
 }
+
 .btn-search i {
     font-size: 1.6rem;
     text-align: center;
@@ -128,7 +130,7 @@
 
 .locale-language img.active {
     display: block;
-} 
+}
 
 .moho-cart {
     position: relative;
@@ -218,8 +220,8 @@
 }
 
 .userInfo__item-link {
-   color: #677279;
-   font-size: 1.4rem;
+    color: #677279;
+    font-size: 1.4rem;
 }
 
 
@@ -239,4 +241,98 @@
     color: #000;
     font-weight: 600;
     text-decoration: none;
+}
+
+
+/* Search */
+
+.header-search {
+    position: relative;
+}
+
+.list-searchs {
+    position: absolute;
+    top: 42px;
+    right: -16px;
+    width: calc(100% + 16px);
+    max-height: 270px;
+    overflow-y: scroll;
+    background-color: #fff;
+    box-shadow: 0 7px 11px rgba(0, 0, 0, 0.2);
+    z-index: 9;
+    animation: FadeIn linear 0.4s;
+}
+
+.list-searchs::-webkit-scrollbar {
+    width: 2px;
+}
+
+.list-searchs::-webkit-scrollbar-track {}
+
+.list-searchs::-webkit-scrollbar-thumb {
+    height: 80%;
+    background-color: #787878;
+    border-radius: 20px;
+}
+
+.list-searchs__heading {
+    margin: 8px 0;
+    padding: 16px 0 13px 12px;
+    font-size: 1.35rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #677279;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.item-search {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px dotted #e3e5ec;
+    color: var(--gray-color);
+}
+
+.item-search a {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    color: var(--gray-color);
+}
+
+.item-search:hover a {
+    color: #000;
+}
+
+.item-search__content {
+    width: 80%;
+}
+
+.item-search__name {
+    text-transform: uppercase;
+    font-size: 1.05rem;
+    margin-bottom: 8px;
+}
+
+.item-search__prices {
+    font-weight: 600;
+    letter-spacing: 1px;
+    position: relative;
+    font-size: 1.1rem;
+}
+
+.list-searchs .item-search__prices span.VND {
+    position: absolute;
+    top: -1.5px;
+    right: -8px;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.item-search_img {}
+
+.item-search_img img {
+    width: 40px;
+    height: auto;
 }

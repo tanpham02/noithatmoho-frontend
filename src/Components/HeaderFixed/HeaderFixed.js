@@ -5,9 +5,10 @@ import { useState, useEffect, useLayoutEffect, useCallback, useRef, memo } from 
 import { Link } from "react-router-dom"
 import { useTranslation } from 'react-i18next'
 import './HeaderFixed.css'
+
 import { groupTypes, types, products } from '../Header/Header'
 
-const Header = ({search, setValueSearch, localeLogos, accountInfos, onGetValueSearch}) => {
+const Header = ({ search, setValueSearch, localeLogos, accountInfos, dataSearch, onGetValueSearch, onDetailPro }) => {
     const { t, i18n } = useTranslation(['header'])
     const [showLogin, setShowLogin] = useState(false)
     const [showCart, setShowCart] = useState(false)
@@ -18,6 +19,7 @@ const Header = ({search, setValueSearch, localeLogos, accountInfos, onGetValueSe
     const [isAdmin, setIsAdmin] = useState(false)
     const [author, setAuthor] = useState([])
     const [activeSearch, setActiveSearch] = useState(false)
+    const [fixedHeader, setFixedHeader] = useState(false)
     const localeLngRef = useRef()
 
 
@@ -143,9 +145,22 @@ const Header = ({search, setValueSearch, localeLogos, accountInfos, onGetValueSe
     }, [search])
 
 
+    useEffect(() => {
+        const handleShowHeader = () => {
+            if (window.scrollY > 200) {
+                setFixedHeader(true)
+                return
+            }
+            setFixedHeader(false)
+        }
+        window.addEventListener('scroll', handleShowHeader)
+
+        return () => window.removeEventListener('scroll', handleShowHeader)
+    }, [])
+
 
     return (
-        <div className="header-fixed">
+        <div className={`header-fixed ${fixedHeader && 'active'}`}>
             <div className="grid">
                 <div className="grid__row">
                     <div className="grid__col" style={{ width: '100%', maxWidth: '100%' }}>
@@ -178,6 +193,40 @@ const Header = ({search, setValueSearch, localeLogos, accountInfos, onGetValueSe
                                     />
 
                                 </div>}
+                                {activeSearch && (search && <ul className="list-searchs fixed">
+                                    {dataSearch.length ? dataSearch.map((data, index) => (
+                                        <li
+                                            className="item-search"
+                                            key={index}
+                                            onClick={() => onDetailPro(data.id)}
+                                        >
+                                            <Link to={`/products/${(data.name).split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`}>
+                                                <div className="item-search__content">
+                                                    <h3 className="item-search__name">{data.name}</h3>
+                                                    {data.prices === 0 ?
+                                                        <span className="item-search__prices">{`Giá dự kiến chỉ từ ${parseInt(30000000).toLocaleString('EN-VI')}`}
+                                                            <span className="VND">₫</span>
+                                                        </span>
+                                                        : <span className="item-search__prices">{parseInt(data.prices).toLocaleString('EN')}
+                                                            <span className="VND">₫</span>
+                                                        </span>
+                                                    }
+                                                </div>
+                                                <div className="item-search_img">
+                                                    <img src={data.image_url.split(',')[0]} alt={data.name} />
+                                                </div>
+                                            </Link>
+                                        </li>
+                                    )) :
+                                        <span style={{
+                                            padding: '18px 10px',
+                                            display: 'block',
+                                            fontSize: '1.2rem',
+                                            color: '#434343',
+                                            fontWeight: 600
+                                        }}>Không tìm thấy sản phẩm nào phù hợp!</span>
+                                    }
+                                </ul>)}
                             </div>
 
                             <div

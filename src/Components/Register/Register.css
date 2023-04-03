@@ -1,10 +1,14 @@
-
+.register .grid__row.no-wrap {
+    display: flex;
+    flex-wrap: nowrap;
+}
 
 .form-group input[type="text"],
 .form-group input[type="password"],
 .form-group input[type="email"],
 .form-group input[type="tel"] {
     width: 100%;
+    display: block;
     height: 50px;
     border: 1px solid transparent;
     background: #ededed;

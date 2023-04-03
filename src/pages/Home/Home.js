@@ -1,14 +1,14 @@
 import Header from "../../Components/Header/Header"
 import Sliders from "../../Components/Slider/Slider"
+import Home from "../../Components/Home/Home"
 import Customer from "../../Components/Customer/Customer"
 import BannerService from "../../Components/BannerService/BannerService"
 import Footer from "../../Components/Footer/Footer"
-
 import { useEffect } from "react"
 
 
 
-const HomePage = ({ accountInfos, localeLogos, bannerServices, sliders, customers }) => {
+const HomePage = ({ datas, dataGroupTypes, dataTypes, accountInfos, localeLogos, bannerServices, sliders, customers }) => {
     useEffect(() => {
         document.title = "Nội thất MOHO | Miễn phí giao hàng & Lắp đặt tận phòng"
     }, [])
@@ -20,6 +20,7 @@ const HomePage = ({ accountInfos, localeLogos, bannerServices, sliders, customer
         <>
             <Header localeLogos={localeLogos} accountInfos={accountInfos} />
             <Sliders sliders={sliders} />
+            <Home datas={datas} dataGroupTypes={dataGroupTypes} dataTypes={dataTypes}/>
             <Customer customers={customers} />
             <BannerService bannerServices={bannerServices} />
             <Footer />

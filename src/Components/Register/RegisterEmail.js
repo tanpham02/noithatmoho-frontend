@@ -18,10 +18,10 @@ const RegisterEmail = () => {
             // confirmedPassword: ''
         },
         validationSchema: Yup.object({
-            firstName: Yup.string().required('Required').min(2, 'Họ phải lớn hơn 2 ký tự'),
-            lastName: Yup.string().required('Required').min(4, 'Tên phải lớn hơn 4 ký tự'),
+            firstName: Yup.string().required('Required').matches(/[a-zA-Z]/, 'Phải là chữ cái').min(2, 'Họ phải lớn hơn 2 ký tự'),
+            lastName: Yup.string().required('Required').matches(/[a-zA-Z]/, 'Phải là chữ cái').min(4, 'Tên phải lớn hơn 4 ký tự'),
             email: Yup.string().required('Required').matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, 'Vui lòng nhập email hợp lệ'),
-            password: Yup.string().required('Required').matches(/(?=.{8,})/, 'Mật khẩu phải từ 8 ký tự'),
+            password: Yup.string().required('Required').matches(/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/, 'Mật khẩu phải từ 8 ký tự, ít nhất 1 chữ cái thường, 1 chữ cái hoa, 1 chữ số, 1 kí tự đặc biệt'),
             // phoneNumber: Yup.string()
             // .required('Required')
             // .matches(
@@ -38,8 +38,8 @@ const RegisterEmail = () => {
                         setErrorEmail(true)
                         return flag;
                     }
-                    
-                    if((data.email !== formik.values.email) || !flag) {
+
+                    if ((data.email !== formik.values.email) || !flag) {
                         if (formik.values.firstName || formik.values.lastName) {
                             const newValues = {
                                 full_name: `${formik.values.firstName} ${formik.values.lastName}`,

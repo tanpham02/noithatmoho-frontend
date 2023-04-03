@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import RegisterPage from './pages/RegisterPage/Register';
 import HomePage from './pages/Home/Home';
@@ -62,8 +62,11 @@ import BlanketPage from './pages/Blanket/Blanket';
 import TreeFlowersPage from './pages/TreeFlowers/TreeFlowers';
 import ChairPadCushionPage from './pages/ChairPadCushion/ChairPadCushion';
 import KitchenwarePage from './pages/Kitchenware/Kitchenware';
-import AdminPage from './pages/Admin/Admin';
-
+import CheckoutPage from './pages/CheckOut/CheckOut';
+import BestSellerPage from './pages/BestSeller/BestSeller';
+import AdminHome from './pages/AdminHome/AdminHome';
+import ManagerUsersPage from './pages/ManagerUsers/ManagerUsers';
+import ManagerProductsPage from './pages/ManagerProducts/ManagerUsers';
 
 const localeLogos = [
   {
@@ -211,13 +214,11 @@ const customers = [
 
 
 function App() {
-
   const [gotoTop, setGotoTop] = useState(false)
   const [showChat, setShowChat] = useState(false)
   const [datas, setDatas] = useState([])
   const [dataGroupTypes, setDataGroupTypes] = useState([])
   const [dataTypes, setDataTypes] = useState([])
-  const [dataSearch, setDataSeach] = useState([])
   const timerId = useRef()
 
 
@@ -236,15 +237,9 @@ function App() {
     },
     {
       name: 'Đăng xuất',
-      path: '#'
+      path: '/account/logout'
     }
   ]
-
-
-  const handleGetDataSearch = ((data) => {
-    setDataSeach(data)
-  })
-
 
   useEffect(() => {
     async function getDataProducts() {
@@ -274,7 +269,7 @@ function App() {
 
 
   const handleShowGotoTop = () => {
-    if (window.scrollY > 1500 || document.documentElement.scrollTo > 1500) {
+    if (window.scrollY > 1000 || document.documentElement.scrollTo > 1000) {
       setGotoTop(!gotoTop)
     } else {
       setGotoTop(gotoTop)
@@ -301,7 +296,7 @@ function App() {
       <Routes>
         <Route
           path='/'
-          element={<HomePage accountInfos={accountInfos} localeLogos={localeLogos} bannerServices={bannerServices} sliders={sliders} customers={customers} />}
+          element={<HomePage datas={datas} dataGroupTypes={dataGroupTypes} dataTypes={dataTypes} accountInfos={accountInfos} localeLogos={localeLogos} bannerServices={bannerServices} sliders={sliders} customers={customers} />}
         />
         <Route
           path='/account'
@@ -386,7 +381,7 @@ function App() {
         />
         <Route
           path='/collections/tat-ca-san-pham-moho'
-          element={<AllProductsPage accountInfos={accountInfos} dataSearch={dataSearch} onGetDataSearch={handleGetDataSearch}
+          element={<AllProductsPage accountInfos={accountInfos}
             localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} />}
         />
         <Route
@@ -397,6 +392,11 @@ function App() {
         <Route
           path='/collections/phong-ngu'
           element={<BedRoomPage accountInfos={accountInfos}
+            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} dataGroupTypes={dataGroupTypes} />}
+        />
+        <Route
+          path='/page/best-seller'
+          element={<BestSellerPage accountInfos={accountInfos}
             localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} dataGroupTypes={dataGroupTypes} />}
         />
         <Route
@@ -626,10 +626,20 @@ function App() {
             localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
         />
         <Route
+          path='/checkout/:username'
+          element={<CheckoutPage datas={datas} />}
+        />
+        <Route
           path='/admin'
-          element={<AdminPage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} />}
+          element={<AdminHome />}
+        />
+        <Route
+          path='/manager-users'
+          element={<ManagerUsersPage />}
+        />
+        <Route
+          path='/manager-products'
+          element={<ManagerProductsPage />}
         />
       </Routes>
       {gotoTop && <GoToTop />}

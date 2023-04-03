@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
-
 * {
     margin: 0;
     box-sizing: border-box;
@@ -7,11 +6,10 @@
 }
 
 html {
-    font-family: 'Montserrat', sans-serif;
+    font-family: "Montserrat", sans-serif !important;
     font-size: 62.5%;
     user-select: none;
 }
-
 
 a {
     text-decoration: none;
@@ -50,7 +48,6 @@ ul {
     padding: 40px 0;
 }
 
-
 .pr--22 {
     padding-right: 22px;
 }
@@ -62,6 +59,7 @@ ul {
 .px--16 {
     padding: 0 16px;
 }
+
 .py--100{
     padding: 100px 0;
 }
@@ -97,7 +95,7 @@ ul {
 .btn {
     min-width: 50px;
     min-height: 30px;
-    border-radius: 2px;
+    border-radius: 4px;
     border: none;
     outline: none;
     cursor: pointer;
@@ -106,7 +104,6 @@ ul {
 .border--left {
     border-left: 1px solid var(--border-color);
 }
-
 
 
 

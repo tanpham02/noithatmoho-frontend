@@ -1,0 +1,12 @@
+.container-admin {
+    display: flex;
+}
+
+.home-addmin {
+    flex: 4;
+}
+
+.homeWidgets {
+    display: flex;
+    margin-left: 20px;
+}

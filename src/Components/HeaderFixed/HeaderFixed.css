@@ -3,7 +3,6 @@
     top: 0;
     right: 0;
     left: 0;
-    display: block;
     height: 60px;
     background-color: #fff;
     z-index: 100;
@@ -12,6 +11,24 @@
     align-items: center;
     transform-origin: top;
     animation: showToptoBottom linear 0.3s;
+    display: none;
+}
+
+.header-fixed.active {
+    display: flex;
+}
+
+.list-searchs.fixed {
+    position: absolute;
+    top: 86px;
+    right: -45px;
+    width: 278px;
+    max-height: 270px;
+    overflow-y: scroll;
+    background-color: #fff;
+    box-shadow: 0 7px 11px rgba(0, 0, 0, 0.2);
+    z-index: 9;
+    animation: FadeIn linear 0.4s;
 }
 
 .icon-search.fixed,
@@ -31,7 +48,7 @@
     align-items: center;
     box-shadow: 0.1px 0.3px 6px rgba(0, 0, 0, 0.25);
     padding: 2px 14px;
-    border-radius: 169px;
+    border-radius: 2px;
     line-height: 42px;
     z-index: 9;
     background-color: #fff;

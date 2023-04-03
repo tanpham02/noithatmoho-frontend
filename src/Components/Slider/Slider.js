@@ -7,30 +7,34 @@ const Slider = ({ sliders }) => {
 
   const handleNextSlide = () => {
     setCurrentIndex(currentIndex + 1)
-    if(currentIndex >= sliders.length -1 ) {
+    if (currentIndex >= sliders.length - 1) {
       setCurrentIndex(0)
     }
   }
+
 
   const timerId = useRef()
   useEffect(() => {
     timerId.current = setInterval(() => {
       setCurrentIndex(currentIndex + 1)
-      if(currentIndex >= sliders.length -1 ) {
+      if (currentIndex >= sliders.length - 1) {
         setCurrentIndex(0)
       }
-    }, 4000)
+    }, 3800)
 
     return () => clearInterval(timerId.current)
-  }, [currentIndex]) 
+  }, [currentIndex])
 
 
   const handlePrevSlide = () => {
     setCurrentIndex(currentIndex - 1)
-    if(currentIndex <=0) {
+    if (currentIndex <= 0) {
       setCurrentIndex(sliders.length - 1)
     }
   }
+
+
+
 
   const handleWitchSlider = (index) => {
     setCurrentIndex(index)
@@ -38,17 +42,19 @@ const Slider = ({ sliders }) => {
 
   return (
     <div style={{}} className='slider'>
-      <div className={`slider__image active `} style={{backgroundImage: `url(${sliders[currentIndex].url})`, transition: 'all linear 0.5s'}}></div>
+      <div className={`slider__image active `} style={{ backgroundImage: `url(${sliders[currentIndex].url})`, transition: 'all linear 1s', transitionDelay: '0.2s' }}></div>
 
-      <div 
+      <div
         className='slider__prev'
         onClick={handlePrevSlide}
+        style={{ transition: 'all linear 0.5s', transitionDuration: '0.5s', transitionDelay: '0.3s' }}
       >
         <i className="fa-solid fa-arrow-left"></i>
       </div>
 
-      <div 
+      <div
         className='slider__next'
+        style={{ transition: 'all linear 0.5s', transitionDuration: '0.5s', transitionDelay: '0.3s'}}
         onClick={handleNextSlide}
       >
         <i className="fa-solid fa-arrow-right"></i>

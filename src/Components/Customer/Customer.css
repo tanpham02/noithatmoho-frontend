@@ -1,6 +1,7 @@
 .customer {
     width: 1200px;
     margin: 0 auto;
+    margin-top: 15px;
 }
 
 .customer__title {

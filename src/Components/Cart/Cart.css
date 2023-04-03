@@ -183,6 +183,7 @@
     background-color: #ededed;
     text-align: center;
     border-radius: 2px;
+    padding: 8px;
 }
 
 .item-product__quantity-icon-increase {
@@ -197,9 +198,8 @@
     text-align: center;
     padding: 6px 12px;
     font-size: 1.2rem;
-    line-height: 1;
-    margin-right: 12px;
     color: var(--gray-color);
+    margin-right: 8px;
 }
 
 .item-product__prices {
@@ -219,6 +219,14 @@
     letter-spacing: 1px;
 }
 
+span.cart__total-price.total-carts {
+    font-size: 1.45rem;
+    color: var(--primary-color-orange);
+    font-weight: 600;
+    position: relative;
+    letter-spacing: 1px;
+}
+
 .item-product__price-new,
 .item-product__price-old,
 .cart__total-price {
@@ -231,6 +239,7 @@
     font-size: 1.2rem;
     text-decoration: line-through;
     margin-left: 14px;
+    letter-spacing: 1px;
 }
 
 .cart__total-prices {

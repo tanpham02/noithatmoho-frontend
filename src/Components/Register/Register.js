@@ -42,7 +42,7 @@ const Register = () => {
     return (
         <div className="register">
             <div className="grid">
-                <div className="grid__row">
+                <div className="grid__row no-wrap">
                     <div className="grid__col-2">
                         <div className="heading py--100">
                             <h1 className="heading-account">Tạo tài khoản</h1>

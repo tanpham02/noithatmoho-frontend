@@ -9,7 +9,7 @@ const Login = ({ onGetDataAuthor }) => {
     const [datas, setDatas] = useState([])
     const [errorMes, setErrorMes] = useState(false)
     const [dataLogins, setDataLogins] = useState([])
-    const [author, setAuthor] = useState([])
+    const [isLogin, setisLogin] = useState(false)
 
     useEffect(() => {
         async function fetchData() {
@@ -35,8 +35,8 @@ const Login = ({ onGetDataAuthor }) => {
 
                     if (data.phone_number) {
                         const x = String(data.phone_number)
-                        const stringPhone = `0${x.slice(3)}`
-                        if (stringPhone.trim() === (dataLogin.phone_number).trim()) {
+                        // const stringPhone = `0${x.slice(3)}`
+                        if (x.trim() === (dataLogin.phone_number).trim()) {
                             return dataLogin
                         } else {
                             return 0
@@ -48,24 +48,24 @@ const Login = ({ onGetDataAuthor }) => {
 
                 if (output.length) {
                     onGetDataAuthor(output)
-                    output.forEach(data => localStorage.setItem('fullNameAccount',JSON.stringify(data.full_name ? data.full_name : `0${(data.phone_number).slice(3)}`)))
-                    output.forEach(data => localStorage.setItem('idUser',JSON.stringify(data.id)))
+                    output.forEach(data => localStorage.setItem('fullNameAccount', JSON.stringify(data.full_name || data.phone_number)))
+                    output.forEach(data => localStorage.setItem('idUser', JSON.stringify(data.id)))
                 }
             })
         }
     }, [dataLogins, datas])
 
 
-
     const handleSubmit = useCallback((e) => {
+        setisLogin(false)
         if (emailOrPhonenumber !== '' && password !== '') {
             e.preventDefault()
             if (datas.length) {
                 const output = datas.filter(data => {
                     let flag = false;
-                    const x = String(data.phone_number)
-                    const stringPhone = `0${x.slice(3)}`
-                    if (((emailOrPhonenumber.trim() === data.email && password.trim() === data.password) || (emailOrPhonenumber.trim() === stringPhone.trim() && password.trim() === data.password)) && !flag) {
+                    // const x = String(data.phone_number)
+                    // const stringPhone = `0${x.slice(3)}`
+                    if (((emailOrPhonenumber.trim() === data.email && password.trim() === data.password) || (emailOrPhonenumber.trim() === String(data.phone_number).trim() && password.trim() === data.password)) && !flag) {
                         setErrorMes(false)
                         const regexPhone = /^[0-9]+$/
                         const check = regexPhone.test(emailOrPhonenumber) ? 'phone_number' : 'email'
@@ -76,6 +76,7 @@ const Login = ({ onGetDataAuthor }) => {
                         }
 
                         setDataLogins([dataLogin])
+                        setisLogin(true)
 
                         async function LoginData() {
                             const res = await axios.post('http://localhost:9080/api/login', dataLogin)
@@ -100,6 +101,10 @@ const Login = ({ onGetDataAuthor }) => {
 
         }
     }, [datas, emailOrPhonenumber, password])
+
+    useEffect(() => {
+        localStorage.setItem('isLogin', JSON.stringify(isLogin))
+    }, [isLogin])
 
 
     return (

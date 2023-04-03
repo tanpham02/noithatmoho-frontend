@@ -38,20 +38,23 @@ const Cart = () => {
 
 
     const handleRemoveCart = (id, e) => {
-        e.stopPropagation()
-        const index = carts.findIndex(cart => cart.id === id)
-        if (index > -1) {
-            carts.splice(index, 1)
+        if (e.target.closest('i.fa-solid.fa-xmark.rounded-sm.cart__item-remove')) {
+            e.preventDefault()
+            e.stopPropagation()
+            const index = carts.findIndex(cart => cart.id === id)
+            if (index > -1) {
+                carts.splice(index, 1)
+            }
+            localStorage.setItem('cartLists', JSON.stringify([...carts]))
+            window.location.replace(window.location.pathname)
         }
-        localStorage.setItem('cartLists', JSON.stringify([...carts]))
-        window.location.replace(window.location.pathname)
     }
 
 
     const totalCart = useMemo(() => {
         const merge = cartLists.concat(carts)
         const result = Object.values(merge.reduce((accumulator, current) => {
-            const { id, name, discount, prices = 0, quantity_sold = 0, quantity_stock = 0, image_url = '', quantity = 0 } = current
+            const { id, name, discount= '', prices = 0, quantity_sold = 0, quantity_stock = 0, image_url = '', quantity = 0 } = current
             accumulator[id] = accumulator[id] || { id, name, discount, prices: 0, quantity_sold: 0, quantity_stock: 0, image_url: '', quantity: 0 }
             accumulator[id].prices += prices
             accumulator[id].quantity_sold += quantity_sold
@@ -62,7 +65,7 @@ const Cart = () => {
         }, {}));
 
         const totals = result.reduce((acc, next) => {
-            if(next?.discount) {
+            if (next?.discount) {
                 return acc + ((next.prices - (next.prices * (parseInt(next.discount)) / 100)) * next.quantity)
             }
             return acc + next.prices * next.quantity
@@ -76,8 +79,6 @@ const Cart = () => {
         localStorage.setItem('productDetail', JSON.stringify(id))
         window.location.reload()
     }
-
-
 
     return (
         <div
@@ -96,11 +97,10 @@ const Cart = () => {
                                 <li
                                     className="cart__item"
                                     onClick={() => handlGetProductDetail(cart.id)}
-
                                 >
                                     <Link
                                         style={{ display: 'flex' }}
-                                        to={`/products/${(cart.name).split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`}
+                                        to={`/products/${(cart.name).split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")} `}
                                     >
                                         <img
                                             src={cart.image_url.split(',')[0]}
@@ -119,7 +119,11 @@ const Cart = () => {
 
                                                 {carts.map((cartStorage, index) => {
                                                     if (cart.id === cartStorage.id) {
-                                                        return <span key={index} className='item-product__quantity'>{cartStorage.quantity}</span>
+                                                        return (
+                                                            <div className='item-product__groups-quantity' >
+                                                                <span key={index} className='item-product__quantity'>{cartStorage.quantity}</span>
+                                                            </div>
+                                                        )
                                                     }
                                                 })}
                                                 <div className="item-product__prices">
@@ -171,24 +175,40 @@ const Cart = () => {
 
             <div className="cart__total-prices">
                 <span className="cart__total-title">TỔNG TIỀN:</span>
-                <span className="cart__total-price">{totalCart}
+                <span className="cart__total-price total-carts">{totalCart}
                     <span className="cart__total-price-vnd alignment--position">₫</span>
                 </span>
             </div>
 
             <div className="cart-btns">
                 <Link className="btn cart-btns__view"
-                    to="..."
+                    to=""
                 >
                     Xem giỏ hàng
                 </Link>
-                <Link className="btn cart-btns__checkout"
-                    to=".."
-                >
-                    Thanh toán
-                </Link>
+                {carts.length ?
+                    JSON.parse(localStorage.getItem('isLogin')) ?
+                        <Link className="btn cart-btns__checkout"
+                            to={
+                                `/checkout/${(JSON.parse(localStorage.getItem('fullNameAccount')))?.split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`}
+                        >
+                            Thanh toán
+                        </Link> :
+                        <Link className="btn cart-btns__checkout" onClick={() => window.alert('Vui lòng đăng nhập để trải nghiệm được tốt hơn!')}
+                            to=''
+                        >
+                            Thanh toán
+                        </Link> :
+                    <Link className="btn cart-btns__checkout"
+                        onClick={() => window.alert('Hiện tại không có sản phẩm nào!')}    
+                        to=''
+                    >
+                        Thanh toán
+                    </Link>
+                }
+
             </div>
-        </div>
+        </div >
     )
 }
 

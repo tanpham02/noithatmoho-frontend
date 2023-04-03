@@ -5,6 +5,7 @@
     border-radius: 2px;
     cursor: pointer;
     position: relative;
+    margin-top: 15px;
 }
 
 .not-product {
@@ -92,6 +93,7 @@
 .product__price-new,
 .product__price-old.item-product__price-old {
     font-size: 1.3rem;
+    letter-spacing: 1px;
 }
 
 .product-content__price {

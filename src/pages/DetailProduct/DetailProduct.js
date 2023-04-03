@@ -10,7 +10,6 @@ import axios from "axios"
 
 const DetailProductPage = ({ accountInfos, localeLogos, bannerServices, sliders, customers }) => {
     
-
     const id = JSON.parse(localStorage.getItem('productDetail'))
 
     useEffect(() => {
