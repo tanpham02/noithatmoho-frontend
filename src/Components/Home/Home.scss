@@ -1,0 +1,70 @@
+.container.product-lists {
+
+    & .seen-more {
+        width: 9.5%;
+        text-align: center;
+        color: var(--primary-color-orange);
+        font-size: 1.35rem;
+        font-weight: 500;
+    }
+
+    & .flex-box {
+        display: flex;
+        justify-content: center;
+        align-items: baseline;
+        width: 100%;
+    }
+
+    & .discount-home {
+        display: flex;
+        flex-wrap: wrap;
+        position: relative !important;
+    }
+
+    & .best-seller-products-home {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    & .collection-home,
+    & .decoration-home {
+        display: flex;
+        flex-wrap: wrap;
+        width: 1200px;
+        max-width: 100%;
+    }
+
+    & .collection-home {
+
+        & .collection-home__left,
+        & .collection-home__right {
+            padding: 0 15px;
+        }
+
+
+        & .collection-home__right {
+            & .collection-home__right__wrapper {
+                display: flex;
+
+                & li {
+                    &:last-of-type {
+                        position: relative;
+                        top: 0;
+                        right: -32px;
+                    }
+                }
+            }
+
+        }
+
+
+    }
+
+    & .discount-home .products__title.px--16.discount-home__heading,
+    & .best-seller-products-home .products__title.px--16.best-seller-products-home__heading,
+    & .collection-home .products__title.px--16.collection-home__heading,
+    & .decoration-home .products__title.px--16.decoration-home__heading {
+        font-size: 2.45rem;
+        font-weight: 500;
+    }
+}

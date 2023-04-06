@@ -1,5 +1,5 @@
 import {  memo } from "react"
-import './PolicyWarranty.css'
+import './PolicyWarranty.scss'
 const PolicyWarranty = () => {
 
     

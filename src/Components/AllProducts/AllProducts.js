@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect, memo } from "react"
 import { Link } from "react-router-dom"
 import Pagination from '../Pagination/Pagination'
 import AllProductsFilter from "./AllProductsFilter"
+import './AllProducts.scss'
 
 export const PAGE_SIZE = 8
 

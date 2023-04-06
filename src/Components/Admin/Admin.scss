@@ -1,0 +1,17 @@
+.container-admin {
+    display: flex;
+    margin-top: 30px;
+    flex-direction: row;
+
+}
+
+.home-admin {
+    flex: 4;
+    display: flex;
+    flex-direction: column;
+}
+
+.home-widgets {
+    display: flex;
+    margin-left: 20px;
+}

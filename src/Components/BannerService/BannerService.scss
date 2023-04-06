@@ -1,0 +1,46 @@
+.banner-service {
+    margin: 100px 0;
+    height: 200px;
+}
+
+.container-banner-service {
+    border: 1px solid #f4f4f7;
+    text-align: center;
+    padding: 40px 15px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    transition: all ease-out 0.25s;
+
+    &:hover {
+        background-color: #f4f4f7;
+    }
+    &:hover .banner-service__title{
+        color: #000;
+        font-size: 1.8rem;
+    }
+
+    & img {
+        width: 55px;
+        height: 55px;
+        opacity: 1;
+    }
+
+    & .banner-service__title {
+        font-size: 1.7rem;
+        font-weight: 500;
+        margin: 10px 0;
+        color: #666;
+        font-weight: 500;
+        transition: all ease-out 0.25s;
+    }
+    
+    & .banner-service__desc {
+        color: #666;
+        font-size: 1.4rem;
+        font-weight: 500;
+    }
+}
+
+

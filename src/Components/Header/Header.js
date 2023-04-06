@@ -4,7 +4,7 @@ import Cart from "../Cart/Cart"
 import { useState, useEffect, useLayoutEffect, useCallback, useRef, useMemo, memo } from "react"
 import { Link } from "react-router-dom"
 import { useTranslation } from 'react-i18next'
-import './Header.css'
+import './Header.scss'
 import HeaderFixed from "../HeaderFixed/HeaderFixed"
 import axios from "axios"
 

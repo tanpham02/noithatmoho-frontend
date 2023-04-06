@@ -1,0 +1,49 @@
+.customer-loyal {
+
+    &__heading {
+        width: 100%;
+        display: block;
+        font-size: 2.8rem;
+        font-weight: 700;
+        margin: 30px 0;
+    }
+
+    & span {
+        font-weight: 500;
+        display: inline-block;
+
+        &.inline {
+            display: inline;
+        }
+    }
+
+    & .customer-loyal span,
+    & .customer-loyal strong {
+        color: var(--gray-color);
+        line-height: 1.8rem;
+        font-size: 1.3rem;
+    }
+
+    & .customer-loyal__content {
+        font-size: 1.3rem;
+
+        &>span {
+            display: inline-block;
+        }
+
+        & span {
+
+            &.color-gray {
+                color: var(--gray-color);
+            }
+        }
+
+        & .customer-loyal__content-item {
+            & span.color-gray.font-bold {
+                font-weight: 600;
+            }
+        }
+    }
+
+
+}

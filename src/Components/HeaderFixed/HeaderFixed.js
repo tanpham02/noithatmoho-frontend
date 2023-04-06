@@ -4,7 +4,7 @@ import Cart from "../Cart/Cart"
 import { useState, useEffect, useLayoutEffect, useCallback, useRef, memo } from "react"
 import { Link } from "react-router-dom"
 import { useTranslation } from 'react-i18next'
-import './HeaderFixed.css'
+import './HeaderFixed.scss'
 
 import { groupTypes, types, products } from '../Header/Header'
 
@@ -21,6 +21,7 @@ const Header = ({ search, setValueSearch, localeLogos, accountInfos, dataSearch,
     const [activeSearch, setActiveSearch] = useState(false)
     const [fixedHeader, setFixedHeader] = useState(false)
     const localeLngRef = useRef()
+    const inputSearchRef = useRef()
 
 
 
@@ -147,7 +148,7 @@ const Header = ({ search, setValueSearch, localeLogos, accountInfos, dataSearch,
 
     useEffect(() => {
         const handleShowHeader = () => {
-            if (window.scrollY > 200) {
+            if (window.scrollY > 250) {
                 setFixedHeader(true)
                 return
             }
@@ -157,6 +158,12 @@ const Header = ({ search, setValueSearch, localeLogos, accountInfos, dataSearch,
 
         return () => window.removeEventListener('scroll', handleShowHeader)
     }, [])
+
+    useEffect(() => {
+        if (activeSearch) {
+            inputSearchRef.current.focus()
+        }
+    }, [activeSearch])
 
 
     return (
@@ -185,6 +192,7 @@ const Header = ({ search, setValueSearch, localeLogos, accountInfos, dataSearch,
                                     onClick={(e) => e.stopPropagation()}
                                     className="search fixed">
                                     <input
+                                        ref={inputSearchRef}
                                         className="header-search__input"
                                         type='search'
                                         placeholder={t('Search product')}

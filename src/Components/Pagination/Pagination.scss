@@ -1,0 +1,47 @@
+.pagination {
+    margin-top: 32px;
+
+    & .pagination-prev,
+    & .pagination-next,
+    & .pagination-number {
+        & button {
+            background-color: #fff;
+            border: none;
+            outline: none;
+            cursor: pointer;
+        }
+    }
+
+    & .pagination-number {
+        
+        & button {
+            padding: 2px 8px;
+            color: #929392;
+            font-size: 1.75rem;
+
+            &.active {
+                color: #000;
+                font-weight: 600;
+
+            }
+        }
+    }
+
+    & .pagination-prev,
+    & .pagination-next {
+        & button {
+            & i {
+                font-size: 1.8rem;
+            }
+        }
+    }
+
+    & li {
+        margin-right: 12px;
+
+        &.pagination-prev {
+            position: relative;
+        }
+
+    }
+}

@@ -1,5 +1,5 @@
 import { memo } from "react"
-import './PolicyPartnerSale.css'
+import './PolicyPartnerSale.scss'
 const PolicyPartnerSale = () => {
 
     

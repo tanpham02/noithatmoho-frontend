@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { useState, memo, useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import './Navigation.css'
+import './Navigation.scss'
 
 
 const Navigation = ({ groupTypes, types, products }) => {

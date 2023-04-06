@@ -1,5 +1,5 @@
 import { memo } from "react"
-import './Chat.css'
+import './Chat.scss'
 const Chat = () => {
 
     return (

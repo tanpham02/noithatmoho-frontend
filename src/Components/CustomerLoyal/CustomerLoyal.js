@@ -1,5 +1,5 @@
 import { memo } from "react"
-import './CustomerLoyal.css'
+import './CustomerLoyal.scss'
 const CustomerLoyal = () => {
     return (
         <div className="customer-loyal">

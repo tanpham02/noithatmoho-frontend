@@ -1,5 +1,5 @@
 import { memo } from "react"
-import './BannerService.css'
+import './BannerService.scss'
 
 const BannerService = ({ bannerServices }) => {
     return (

@@ -1,5 +1,5 @@
 import { useEffect, memo } from 'react'
-import './BrandStory.css'
+import './BrandStory.scss'
 
 const BrandStory = () => {
 
@@ -44,7 +44,7 @@ const BrandStory = () => {
 
                         <div>
                             <span className='mb--10'>- Truyền cảm hứng về tiêu dùng bền vững đến mọi người tại Việt Nam.</span> <br />
-                            <span className='mb--10'>- Sử dụng 100% nguồn nguyên liệu gỗ đạt chứng nhận <a style={{textDecoration: 'underline'}} href='https://fsc.org/en/about-us'>chứng nhận FSC® - Forest Stewardship Council®.</a></span> <br />
+                            <span className='mb--10'>- Sử dụng 100% nguồn nguyên liệu gỗ đạt chứng nhận <a style={{ textDecoration: 'underline' }} href='https://fsc.org/en/about-us'>chứng nhận FSC® - Forest Stewardship Council®.</a></span> <br />
                             <span className='mb--10'>- Bảo trì trọn đời sản phẩm nhằm kéo dài tuổi thọ và tính hữu dụng của sản phẩm trong thời gian dài. </span>
                         </div>
 
@@ -70,7 +70,7 @@ const BrandStory = () => {
                             cần có trách nhiệm hơn với cộng đồng và môi trường xanh của chúng ta. Giá trị tốt đẹp này không chỉ riêng MOHO mà mỗi một khách hàng sử dụng&nbsp;
                             sản phẩm MOHO đều đóng góp và nhân rộng lên giá trị bền vững này.&nbsp;
                         </span>
-                        <img src='/assets/img/brand-story/noi-that-moho-ben-vung.png' alt='Nội Thất MOHO Bền Vững' className='mb--10'/>
+                        <img src='/assets/img/brand-story/noi-that-moho-ben-vung.png' alt='Nội Thất MOHO Bền Vững' className='mb--10' />
                         <strong className='color-primary'>Nội thất MOHO đạt chứng nhận FSC - Bảo vệ và phát triển rừng</strong>
 
                         <div className='brand-story__item-standard'>
@@ -88,10 +88,10 @@ const BrandStory = () => {
                             cũng như các yếu tố an toàn trong quá trình sử dụng, MOHO tin rằng việc tiên phong về tiêu chuẩn sức khoẻ -
                             an toàn người dùng sẽ là điểm mạnh mang thương hiệu nội thất của người Việt vươn tầm quốc tế trong tương lai.
                         </span>
-                        <img className='mb--10' src='/assets/img/brand-story/noi-that-moho-an-toan-suc-khoe.png' alt='Nội Thất MOHO An Toàn Sức Khỏe'/>
+                        <img className='mb--10' src='/assets/img/brand-story/noi-that-moho-an-toan-suc-khoe.png' alt='Nội Thất MOHO An Toàn Sức Khỏe' />
 
                         <strong className='mb--10 color-primary'>Nội thất MOHO đạt chuẩn CARB-P2 an toàn cho sức khỏe</strong> <br />
-                        <strong className='mb--10 color-primary'>Nội thất MOHO sử dụng sơn gốc nước bảo vệ an toàn cho sức khỏe người tiêu dùng</strong> <br/>
+                        <strong className='mb--10 color-primary'>Nội thất MOHO sử dụng sơn gốc nước bảo vệ an toàn cho sức khỏe người tiêu dùng</strong> <br />
                         <strong className='mb--10 color-primary'>Anti tip kit - Phụ kiện chống lật ngã tủ dùng trong nội thất</strong>
 
                         <div className='brand-story__item-standard'>
@@ -102,7 +102,7 @@ const BrandStory = () => {
                             <span className='mb--10'>- Nhà máy chế biến gỗ đầu tiên tại Việt Nam đạt chứng nhận hệ thống quản lý môi trường đạt chuẩn quốc tế ISO 14001.</span> <br />
                             <span className='mb--10'>- Rộng 10ha với hơn 1,500 công nhân viên giàu kinh nghiệm cùng máy móc công nghệ hiện đại.</span>
                         </div>
-                        <img className='mb--10' src='/assets/img/brand-story/noi-that-moho-chat-luong-quoc-te.png' alt='Nội Thất MOHO Chất Lượng Quốc Tế'/>
+                        <img className='mb--10' src='/assets/img/brand-story/noi-that-moho-chat-luong-quoc-te.png' alt='Nội Thất MOHO Chất Lượng Quốc Tế' />
 
                         <div className='brand-story__item-standard'>
                             <h4 className='item-standard__name'>TINH TẾ TRONG TỪNG ĐƯỜNG NÉT</h4>
@@ -127,21 +127,21 @@ const BrandStory = () => {
                             các sản phẩm nội thất được bố trí theo từng không gian và phong cách nội thất,
                             mang đến trải nghiệm mua sắm tuyệt vời cho khách hàng.
                         </span>
-                        <img className='mb--10 item-standard__img-center' src='/assets/img/brand-story/cua-hang-noi-that-moho-furniture_1.png' alt='Cửa Hàng Nội Thất MOHO - ShowRoom'/>
-                        <div className='mb--14' style={{textAlign: 'center'}}>
+                        <img className='mb--10 item-standard__img-center' src='/assets/img/brand-story/cua-hang-noi-that-moho-furniture_1.png' alt='Cửa Hàng Nội Thất MOHO - ShowRoom' />
+                        <div className='mb--14' style={{ textAlign: 'center' }}>
                             <span>
                                 <strong>Showroom: </strong>
                                 162 HT17, P. Hiệp Thành, Q. 12, TP. HCM
                             </span>
                         </div>
-                        <img className='mb--10 item-standard__img-center' src='/assets/img/brand-story/cua-hang-noi-that-moho-furniture_2.png' alt='Cửa Hàng Nội Thất MOHO - ShowRoom'/>
-                        <div className='mb--10' style={{textAlign: 'center'}}>
+                        <img className='mb--10 item-standard__img-center' src='/assets/img/brand-story/cua-hang-noi-that-moho-furniture_2.png' alt='Cửa Hàng Nội Thất MOHO - ShowRoom' />
+                        <div className='mb--10' style={{ textAlign: 'center' }}>
                             <span>
                                 <strong>Experience Store 1: </strong>
                                 S05.03-S18 phân khu The Rainbow | Vinhomes Grand Park, TP. Thủ Đức
                             </span>
                         </div>
-                        <div className='mb--10' style={{textAlign: 'center'}}>
+                        <div className='mb--10' style={{ textAlign: 'center' }}>
                             <span className='text-justify'>
                                 <strong>Experience Store 2: </strong>
                                 S3.03-Sh15 phân khu Sapphire | Vinhomes Smart City, Hà Nội
@@ -151,8 +151,8 @@ const BrandStory = () => {
                         <div className='brand-story__item-standard'>
                             <h4 className='item-standard__name'>CÁC CHỨNG NHẬN CỦA MOHO</h4>
                         </div>
-                        <img className='mb--10' src='/assets/img/brand-story/noi-that-moho-chung-nhan-quoc-te_1.png' alt='Nội Thất MOHO Chứng Nhận Quốc Tế'/>
-                        <img src='/assets/img/brand-story/noi-that-moho-chung-nhan-quoc-te_2.png' alt='Nội Thất MOHO Chứng Nhận Quốc Tế'/>
+                        <img className='mb--10' src='/assets/img/brand-story/noi-that-moho-chung-nhan-quoc-te_1.png' alt='Nội Thất MOHO Chứng Nhận Quốc Tế' />
+                        <img src='/assets/img/brand-story/noi-that-moho-chung-nhan-quoc-te_2.png' alt='Nội Thất MOHO Chứng Nhận Quốc Tế' />
                     </div>
                 </div>
             </div>

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
-import './Home.css'
-// import '../Slider/Slider.css'
+import './Home.scss'
 const Home = ({ datas, dataGroupTypes, dataTypes }) => {
     const [indexShowImg, setIndexShowImg] = useState(0)
     const [dataDiscount, setDataDiscount] = useState([])

@@ -2,7 +2,7 @@ import { useState, useCallback, memo } from 'react'
 import { Link } from 'react-router-dom'
 import RegisterPhone from './RegisterPhone'
 import RegisterEmail from './RegisterEmail'
-import './Register.css'
+import './Register.scss'
 
 const checkTypes = [
     {

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, memo } from 'react'
-import './Slider.css'
+import './Slider.scss'
 
 const Slider = ({ sliders }) => {
 
@@ -20,7 +20,7 @@ const Slider = ({ sliders }) => {
       if (currentIndex >= sliders.length - 1) {
         setCurrentIndex(0)
       }
-    }, 3800)
+    }, 4000)
 
     return () => clearInterval(timerId.current)
   }, [currentIndex])
@@ -34,27 +34,37 @@ const Slider = ({ sliders }) => {
   }
 
 
-
-
   const handleWitchSlider = (index) => {
     setCurrentIndex(index)
   }
 
   return (
     <div style={{}} className='slider'>
-      <div className={`slider__image active `} style={{ backgroundImage: `url(${sliders[currentIndex].url})`, transition: 'all linear 1s', transitionDelay: '0.2s' }}></div>
+      <div
+        className={`slider__image active `}
+        style={{
+          backgroundImage: `url(${sliders[currentIndex].url})`,
+          transition: 'all linear 1.5s',
+          transitionDuration: '1s'
+        }}></div>
 
       <div
         className='slider__prev'
         onClick={handlePrevSlide}
-        style={{ transition: 'all linear 0.5s', transitionDuration: '0.5s', transitionDelay: '0.3s' }}
+        style={{
+          transition: 'all linear 1.5s',
+          transitionDelay: '1s',
+        }}
       >
         <i className="fa-solid fa-arrow-left"></i>
       </div>
 
       <div
         className='slider__next'
-        style={{ transition: 'all linear 0.5s', transitionDuration: '0.5s', transitionDelay: '0.3s'}}
+        style={{
+          transition: 'all linear 1.5s',
+          transitionDelay: '1s',
+        }}
         onClick={handleNextSlide}
       >
         <i className="fa-solid fa-arrow-right"></i>
@@ -66,6 +76,10 @@ const Slider = ({ sliders }) => {
             className={`slider__dot ${index === currentIndex && 'active'}`}
             key={index}
             onClick={() => handleWitchSlider(index)}
+            style={{
+              transition: 'all linear 1.5s',
+              transitionDelay: '1s',
+            }}
           >
           </span>
         ))}

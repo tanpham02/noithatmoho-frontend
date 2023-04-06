@@ -1,0 +1,18 @@
+.customer {
+    width: 1200px;
+    margin: 0 auto;
+    margin-top: 15px;
+
+    &__title {
+        width: 100%;
+        display: block;
+        font-size: 2.4rem;
+        font-weight: 500;
+        margin-bottom: 32px;
+    }
+}
+
+
+.slick-slider {
+    margin-left: 40px;
+}

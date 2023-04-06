@@ -1,4 +1,4 @@
-import "./Chart.css";
+import "./Chart.scss";
 import {
   LineChart,
   Line,

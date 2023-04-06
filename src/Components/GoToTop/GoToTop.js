@@ -1,5 +1,5 @@
 import { memo } from "react"
-import './GoToTop.css'
+import './GoToTop.scss'
 const GoToTop = () => {
     const handleScroll = () => {
         window.scroll(0, 0)

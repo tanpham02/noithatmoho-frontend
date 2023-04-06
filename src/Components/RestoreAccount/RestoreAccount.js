@@ -2,7 +2,7 @@ import { useState, memo } from "react"
 import { Link } from "react-router-dom"
 import RestoreByEmail from "./RestoreByEmail"
 import RestoreByPhone from "./RestoreByPhone"
-import './RestoreAccount.css'
+import './RestoreAccount.scss'
 
 const RestoreAccount = ({ restoreTypes }) => {
     const [checked, setChecked] = useState(0)

@@ -1,29 +1,20 @@
-import React from "react";
-import "./Topbar.css";
+
+import "./Topbar.scss";
 import { NotificationsNone, Language, Settings } from "@material-ui/icons";
 
-export default function Topbar() {
+const Topbar = () => {
+
+  
+
   return (
-    <div className="topbar">
-      <div className="topbarWrapper">
-        <div className="topLeft">
+    <div className="top-bar">
+      <div className="top-bar__wrapper">
+        <div className="top-left">
           <span className="logo">MOHO Administrator</span>
-        </div>
-        <div className="topRight">
-          <div className="topbarIconContainer">
-            <NotificationsNone />
-            <span className="topIconBadge">2</span>
-          </div>
-          <div className="topbarIconContainer">
-            <Language />
-            <span className="topIconBadge">2</span>
-          </div>
-          <div className="topbarIconContainer">
-            <Settings />
-          </div>
-          <img src="https://images.pexels.com/photos/1526814/pexels-photo-1526814.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="" className="topAvatar" />
         </div>
       </div>
     </div>
-  );
+  )
 }
+
+export default Topbar

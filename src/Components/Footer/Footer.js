@@ -1,7 +1,7 @@
 import { memo } from "react"
 import { Link } from "react-router-dom"
 import { types } from '../Header/Header'
-import './Footer.css'
+import './Footer.scss'
 
 const Footer = () => {
     return (

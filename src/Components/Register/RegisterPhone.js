@@ -15,7 +15,6 @@ const RegisterPhone = () => {
     const [datas, setDatas] = useState([])
     const [existPhone, setExistPhone] = useState(false)
     const [passwordByPhone, setPasswordByPhone] = useState('')
-    const [errorMsg, setErrorMsg] = useState(true)
 
     const handlePhoneNumberChange = (e) => {
         setExistPhone(false)

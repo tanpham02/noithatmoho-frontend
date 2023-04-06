@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, memo } from "react"
-import './AllProducts.css'
+import './AllProducts.scss'
 
 
 const AllProductsFilter = ({ dataAlls, filterPrices, filterCategories, filterSort, onGetData }) => {

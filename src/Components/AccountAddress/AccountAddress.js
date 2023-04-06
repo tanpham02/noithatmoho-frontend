@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useState, useEffect, memo } from 'react'
 import { Link } from 'react-router-dom'
-import './AccountAddress.css'
+import './AccountAddress.scss'
 const AccountAddress = ({ accountInfos }) => {
     const [showFormUpdate, setShowFormUpdate] = useState(false)
     const [datas, setDatas] = useState([])

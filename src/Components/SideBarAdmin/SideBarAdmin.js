@@ -1,49 +1,42 @@
+import { useState, useEffect } from 'react'
 import {
-    PermIdentity,
-    Storefront,
-    HouseOutlined,
-    StoreRounded
+    HouseOutlined
 
 } from "@material-ui/icons";
-import './SideBarAdmin.css'
+import './SideBarAdmin.scss'
 import { Link } from "react-router-dom";
 
-const SideBarAdmin = () => {
+const SideBarAdmin = ({ listPage }) => {
+
+
     return (
         <div className="sidebar">
-            <div className="sidebarWrapper">
-                <div className="sidebarMenu">
-                    <h3 className="sidebarTitle">Dashboard</h3>
-                    <ul className="sidebarList">
-                        <Link to="/admin" className="link">
-                            <li className="sidebarListItem active">
-                                <HouseOutlined className="sidebarIcon" />
-                                Home
-                            </li>
-                        </Link>
+            <div className="sidebar__wrapper">
+                <div className="sidebar__menu">
+                    <h3 className="sidebar__title mb--10">Dashboard</h3>
+                    <ul className="sidebar__list">
+                        <li className="sidebar__list-item active">
+                            <Link to="/admin" className="link">
+                                <HouseOutlined className="sidebar-icon" />
+                                Trang Chủ
+                            </Link>
+                        </li>
                     </ul>
                 </div>
                 <div className="sidebarMenu">
-                    <h3 className="sidebarTitle">Managers</h3>
-                    <ul className="sidebarList">
-                        <Link to="/manager-users" className="link">
-                            <li className="sidebarListItem">
-                                <PermIdentity className="sidebarIcon" />
-                                Users
+                    <h3 className="sidebar__title">Quản Lý</h3>
+                    <ul className="sidebar__list">
+                        {listPage.map((itemPage, index) => (
+                            <li className={`sidebar__list-item`}>
+                                <Link
+                                    to={itemPage.path}
+                                    className="link"
+                                >
+                                    <itemPage.icon className="sidebar-icon" />
+                                    {itemPage.name}
+                                </Link>
                             </li>
-                        </Link>
-                        <Link to="/manager-products" className="link">
-                            <li className="sidebarListItem">
-                                <Storefront className="sidebarIcon" />
-                                Products
-                            </li>
-                        </Link>
-                        <Link to="/" className="link">
-                            <li className="sidebarListItem">
-                                <StoreRounded className="sidebarIcon" />
-                                View Store
-                            </li>
-                        </Link>
+                        ))}
                     </ul>
                 </div>
             </div>

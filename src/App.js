@@ -66,7 +66,18 @@ import CheckoutPage from './pages/CheckOut/CheckOut';
 import BestSellerPage from './pages/BestSeller/BestSeller';
 import AdminHome from './pages/AdminHome/AdminHome';
 import ManagerUsersPage from './pages/ManagerUsers/ManagerUsers';
-import ManagerProductsPage from './pages/ManagerProducts/ManagerUsers';
+import ManagerProductsPage from './pages/ManagerProducts/ManagerProducts';
+import DetailUserPage from './pages/DetailUser/DetailUser';
+import CreateUserPage from './pages/CreateUser/CreateUser';
+import CreateProductPage from './pages/CreateProduct/CreateProduct';
+import DetailProductAdminPage from './pages/DetailProductAdmin/DetailProductAdmin';
+
+import {
+  PermIdentity,
+  Storefront,
+  StoreRounded
+
+} from "@material-ui/icons"
 
 const localeLogos = [
   {
@@ -212,6 +223,23 @@ const customers = [
   },
 ]
 
+const listPage = [
+  {
+    name: 'Người Dùng',
+    path: '/manager-users',
+    icon: PermIdentity
+  },
+  {
+    name: 'Sản Phẩm',
+    path: '/manager-products',
+    icon: Storefront
+  },
+  {
+    name: 'Xem Cửa Hàng',
+    path: '/',
+    icon: StoreRounded
+  }
+]
 
 function App() {
   const [gotoTop, setGotoTop] = useState(false)
@@ -269,7 +297,7 @@ function App() {
 
 
   const handleShowGotoTop = () => {
-    if (window.scrollY > 1000 || document.documentElement.scrollTo > 1000) {
+    if (window.scrollY > 1500 || document.documentElement.scrollTo > 1500) {
       setGotoTop(!gotoTop)
     } else {
       setGotoTop(gotoTop)
@@ -284,11 +312,16 @@ function App() {
 
   useEffect(() => {
     timerId.current = setTimeout(() => {
-      setShowChat(!showChat)
-    }, 10000)
+      setShowChat(true)
+      if (window.location.pathname.includes('/admin') || window.location.pathname.includes('/manager-users') ||
+        window.location.pathname.includes('/manager-products')) {
+        setShowChat(false)
+      }
+    }, 1000)
+
 
     return () => clearTimeout(timerId.current)
-  }, [])
+  }, [window.location.pathname])
 
 
   return (
@@ -631,15 +664,32 @@ function App() {
         />
         <Route
           path='/admin'
-          element={<AdminHome />}
+          element={<AdminHome listPage={listPage} />}
         />
         <Route
           path='/manager-users'
-          element={<ManagerUsersPage />}
+          element={<ManagerUsersPage listPage={listPage} />}
         />
         <Route
+          path='/manager-users/detail/:id'
+          element={<DetailUserPage listPage={listPage} />}
+        />
+        <Route
+          path='/manager-users/create-user'
+          element={<CreateUserPage listPage={listPage} />}
+        />
+
+        <Route
           path='/manager-products'
-          element={<ManagerProductsPage />}
+          element={<ManagerProductsPage listPage={listPage} />}
+        />
+        <Route
+          path='/manager-products/create-product'
+          element={<CreateProductPage listPage={listPage} />}
+        />
+        <Route
+          path='/manager-products/detail/:id'
+          element={<DetailProductAdminPage listPage={listPage} />}
         />
       </Routes>
       {gotoTop && <GoToTop />}

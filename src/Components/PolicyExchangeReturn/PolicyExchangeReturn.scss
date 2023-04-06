@@ -1,0 +1,32 @@
+.policy-exchange-return {
+
+    &__heading {
+        width: 100%;
+        display: block;
+        font-size: 2.8rem;
+        font-weight: 700;
+        margin: 30px 0;
+    }
+
+    & span {
+        font-weight: 500;
+        display: inline-block;
+
+        &.inline {
+            display: inline;
+        }
+    }
+
+    & span,
+    & strong {
+        color: var(--gray-color);
+        line-height: 1.8rem;
+        font-size: 1.3rem;
+    }
+
+    & .policy-exchange-return__content {
+        &>span {
+            display: inline-block;
+        }
+    }
+}

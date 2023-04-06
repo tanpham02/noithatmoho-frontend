@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, memo } from 'react'
 import { Link } from "react-router-dom"
 import axios from 'axios'
-import './Login.css'
+import './Login.scss'
 
 const Login = ({ onGetDataAuthor }) => {
     const [emailOrPhonenumber, setEmailOrPhonenumber] = useState('')

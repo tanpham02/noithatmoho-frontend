@@ -1,0 +1,125 @@
+.footer {
+    background-color: #f8f8f8;
+    max-height: 720px;
+
+    &__title {
+        font-size: 1.55rem;
+        font-weight: 700;
+        color: #312a2a;
+        margin-top: 12px;
+    }
+
+    &__content {
+        text-align: justify;
+
+        & p {
+            color: var(--gray-color);
+            line-height: 2rem;
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
+    }
+
+    & .footer-item__link {
+        text-decoration: none;
+        color: var(--gray-color);
+        outline: none;
+        list-style: none;
+        font-size: 1.3rem;
+        font-weight: 500;
+        line-height: 2rem;
+    }
+
+    &__lists {
+
+        & .footer__item {
+            font-size: 14.5px;
+            color: var(--gray-color);
+            list-style: none;
+
+
+
+            &-icon {
+                left: 0;
+            }
+
+            &-child {
+                margin-bottom: 12px;
+            }
+
+            & .address-icon {
+                margin-right: 14px;
+                font-size: 13px;
+                margin-top: 4.5px;
+            }
+
+            & .phonenumber-icon {
+                margin-right: 10px;
+                font-size: 12px;
+                margin-top: 4.5px;
+            }
+
+            & .email-icon {
+                font-size: 1.5rem;
+                margin-right: 8px;
+                margin-top: 4.5px;
+            }
+
+        }
+
+        &.contact {
+
+            & .footer__item {
+
+                &.address,
+                &.cskh,
+                &.orther {
+                    display: flex;
+
+                    & .footer__item-child {
+                        font-size: 1.3rem;
+                        line-height: 2rem;
+                        font-weight: 500;
+                        color: var(--gray-color);
+                    }
+                }
+            }
+        }
+
+
+    }
+
+    & .footer__logo {
+        & .footer__logo-link {
+            & .logo-bct {
+                width: 185px;
+                margin-bottom: 10px;
+            }
+        }
+    }
+
+    &__bottom {
+        margin: 40px 0 15px;
+        background: #151515;
+
+        & p {
+            color: #fff;
+            font-size: 1.3rem;
+            text-align: center;
+            padding: 18px 0;
+        }
+    }
+
+    & .footer__logo-img {
+        & img {
+            width: 100%;
+        }
+    }
+
+}
+
+.footer__list-img {
+    width: 340px;
+    height: 130px;
+    cursor: pointer;
+}

@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react"
 import axios from 'axios'
 import { Link } from 'react-router-dom'
-import './CheckOut.css'
+import './CheckOut.scss'
 
 export const ID_USER = JSON.parse(localStorage.getItem('idUser'))
 
@@ -556,7 +556,14 @@ const CheckOut = ({ datas }) => {
                                     {priceVoucher ?
                                         <span className="price-voucher">
 
-                                            <span style={{ width: 8, position: 'relative', top: '-4px', right: '5px' }} className="fee-line"></span>
+                                            <span style={{
+                                                width: 8,
+                                                position: 'relative',
+                                                top: '-4px',
+                                                right: '5px'
+                                            }}
+                                                className="fee-line"
+                                            ></span>
                                             {parseInt(priceVoucher).toLocaleString('EN-VI')}
                                             <span className="VND">₫</span>
                                         </span>

@@ -1,5 +1,5 @@
 import { memo } from "react"
-import './PolicyExchangeReturn.css'
+import './PolicyExchangeReturn.scss'
 const PolicyExchangeReturn = () => {
 
     

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { PAGE_SIZE } from "../AllProducts/AllProducts";
-import './Pagination.css'
+import './Pagination.scss'
 
 function Pagination({ total, onPageChange }) {
     const [currentPage, setCurrentPage] = useState(1);
@@ -41,7 +41,7 @@ function Pagination({ total, onPageChange }) {
                 </button>
             </li>
             {renderPageNumbers()}
-            <li className="pagination-right">
+            <li className="pagination-next">
                 <button
                     onClick={() => handlePageChange(currentPage + 1)}
                     style={{display: currentPage === totalPages ? 'none' : ''}}

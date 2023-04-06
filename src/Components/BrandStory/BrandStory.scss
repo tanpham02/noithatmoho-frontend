@@ -1,0 +1,74 @@
+.brand-story__heading {
+    width: 100%;
+    display: block;
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin: 30px 0;
+}
+
+.brand-story {
+    & span {
+        display: inline-block;
+    }
+
+    & a,
+    & span {
+        color: var(--gray-color);
+        font-size: 1.3rem;
+        font-weight: 500;
+    }
+
+    & .grid__col {
+        & strong {
+            color: var(--gray-color);
+            font-size: 1.3rem;
+            display: inline-block;
+
+            &.color-primary {
+                color: var(--primary-color-blue);
+            }
+        }
+    }
+
+}
+
+
+.brand-story__item-standard {
+    font-size: 1.7rem;
+    color: var(--gray-color);
+    position: relative;
+    padding-left: 26px;
+    height: 50px;
+    line-height: 50px;
+    margin: 16px 0;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 5px;
+        height: 100%;
+        background-color: #eee;
+    }
+}
+
+
+
+.item-standard__video {
+    width: 100%;
+    padding-bottom: 22px;
+
+    & video {
+        height: 100%;
+        width: 100%;
+    }
+
+}
+
+
+.item-standard__img-center {
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0);
+}

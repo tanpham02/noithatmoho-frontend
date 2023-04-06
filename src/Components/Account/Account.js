@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { Link, json } from "react-router-dom"
 import axios from "axios"
-import './Account.css'
+import './Account.scss'
 import { ID_USER } from "../CheckOut/CheckOut"
 
 const Account = ({ accountInfos, onReload }) => {
@@ -14,7 +14,6 @@ const Account = ({ accountInfos, onReload }) => {
     const [dataUserCheckout, setDataUserCheckout] = useState({})
     const [boughtProducts, setBoughtProducts] = useState([])
     const [isSuccessCheckout, setIsSuccessCheckout] = useState(false)
-
     const [selectedFile, setSelectedFile] = useState(null);
     const [avatar, setAvatar] = useState()
 
@@ -155,6 +154,7 @@ const Account = ({ accountInfos, onReload }) => {
 
 
 
+
     return (
         <div className='account'>
             <div className='grid'>
@@ -278,27 +278,98 @@ const Account = ({ accountInfos, onReload }) => {
                                             ))}
 
                                         </ul>
+
+
+
                                         <div style={{
-                                            padding: '5px 0 20px 15px'
+                                            padding: '28px 0px 20px 2px'
                                         }}>
-                                            <h4 style={{
-                                                color: '#4b4b4b',
-                                                fontSize: '1.55rem',
+
+                                            <div className="info-checkout" style={{
+                                                display: 'flex',
+                                                color: '#434343',
+                                                flexDirection: 'column',
                                                 fontWeight: 500
-                                            }}>Vui lòng chuẩn bị trước số tiền: </h4>
+                                            }}>
+                                                <h3 style={{
+                                                    fontWeight: 600,
+                                                    fontSize: '1.5rem',
+                                                    marginBottom: 12,
+                                                    color: '#4b4b4b'
+                                                }}>Thông tin đơn hàng</h3>
+                                                <span
+                                                    style={{
+                                                        fontWeight: 600,
+                                                        color: '#4b4b4b',
+                                                        fontSize: '1.3rem'
+                                                    }}
+                                                >- Ngày đặt hàng:
+                                                    <span style={{
+                                                        fontWeight: 500,
+                                                        color: '#434343',
+                                                        fontSize: '1.25rem'
+                                                    }}>&nbsp;{dataUserCheckout.checkout.split('; ')[7]}</span>
+                                                </span>
+                                                <span
+                                                    className="mt--12"
+                                                    style={{
+                                                        fontWeight: 600,
+                                                        color: '#4b4b4b',
+                                                        fontSize: '1.3rem'
+                                                    }}
+                                                >- Vận chuyển bởi:
+                                                    <span style={{
+                                                        fontWeight: 500,
+                                                        color: '#434343',
+                                                        fontSize: '1.25rem'
+                                                    }}>&nbsp;{dataUserCheckout.checkout.split('; ')[4]}</span>
+                                                </span>
+                                                <span
+                                                    style={{
+                                                        fontWeight: 600,
+                                                        color: '#434343',
+                                                        fontSize: '1.3rem'
+                                                    }}
+                                                    className="mt--12">- Phương thức thanh toán:
+                                                    <span style={{
+                                                        fontWeight: 500,
+                                                        color: '#434343',
+                                                        fontSize: '1.25rem'
+                                                    }}>
+                                                        &nbsp;{dataUserCheckout.checkout.split('; ')[5]}
+                                                    </span>
+                                                </span>
+                                            </div>
+
+                                            <h4
+
+                                                className="mt--38"
+                                                style={{
+                                                    color: '#4b4b4b',
+                                                    fontSize: '1.55rem',
+                                                    fontWeight: 600
+                                                }}>Vui lòng chuẩn bị trước số tiền: </h4>
                                             <span
                                                 className="cart-item__prices-total"
                                                 style={{
                                                     position: 'relative',
                                                     right: '-84.5%',
                                                     bottom: '16px',
-                                                    margin: '22px 6px',
+                                                    margin: '22px 0px 6px 18px',
                                                     display: 'inline - block',
-                                                    fontWeight: 400
+                                                    fontWeight: 500,
+                                                    fontSize: '1.6rem',
+                                                    letterSpacing: '1px',
+                                                    color: '#4b4b4b'
                                                 }}
                                             >
                                                 {dataUserCheckout.checkout.split('; ')[6].slice(0, -1)}
-                                                <span className="VND">₫</span>
+                                                <span className="VND" style={{
+                                                    position: 'absolute',
+                                                    top: '-2px',
+                                                    right: '-10px',
+                                                    fontSize: '1.3rem'
+                                                }}>₫</span>
                                             </span>
                                         </div>
                                         <button

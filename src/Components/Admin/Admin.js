@@ -4,19 +4,19 @@ import FeaturedInfo from '../FeaturedInfo/FeaturedInfo'
 import Topbar from '../Topbar/Topbar'
 import WidgetSm from '../WidgetSm/WidgetSm'
 import WidgetLg from '../WidgetLg/WidgetLg'
-import './Admin.css'
+import './Admin.scss'
 
 
-const Admin = () => {
+const Admin = ({listPage}) => {
     return (
         <>
         <Topbar />
         <div className='container-admin'>
-            <SideBarAdmin />
-            <div className='home-addmin'>
+            <SideBarAdmin listPage={listPage} />
+            <div className='home-admin'>
                 <FeaturedInfo />
                 <Chart />
-                <div className='homeWidgets'>
+                <div className='home-widgets'>
                     <WidgetSm />
                     <WidgetLg />
                 </div>

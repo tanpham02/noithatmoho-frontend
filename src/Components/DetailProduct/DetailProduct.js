@@ -1,7 +1,7 @@
 import { useState, useEffect, useLayoutEffect, useMemo, memo } from "react"
 import { Link } from 'react-router-dom'
 import axios from "axios"
-import './DetailProduct.css'
+import './DetailProduct.scss'
 
 const DetailProduct = () => {
 

@@ -1,5 +1,5 @@
 import { memo } from "react"
-import './ReviewGetPrizes.css'
+import './ReviewGetPrizes.scss'
 const ReviewGetPrizes = () => {
 
     

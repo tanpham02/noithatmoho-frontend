@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import './Career.css'
+import './Career.scss'
 
 const Career = () => {
     return (

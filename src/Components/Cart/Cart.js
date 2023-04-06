@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { useState, useEffect, useMemo, memo } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
-import './Cart.css'
+import './Cart.scss'
 
 const Cart = () => {
     const [datas, setDatas] = useState([])
