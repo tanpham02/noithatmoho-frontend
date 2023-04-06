@@ -7,6 +7,9 @@ const DetailProductAdminPage = ({ listPage }) => {
     useEffect(() => {
         document.title = 'Nội thất MOHO | Chi tiết sản phẩm'
     }, [])
+    useEffect(() => {
+        window.scroll(0, 0)
+    }, [])
     return (
         <>
             <Topbar />

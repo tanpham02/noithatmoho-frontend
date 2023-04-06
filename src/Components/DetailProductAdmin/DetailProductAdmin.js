@@ -1,18 +1,12 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import {
-    CalendarToday,
-    LocationSearching,
-    MailOutline,
-    PermIdentity,
-    PhoneAndroid,
-    Publish,
-} from "@material-ui/icons";
-import { Link } from "react-router-dom";
+import { Publish } from "@material-ui/icons";
 import './DetailProductAdmin.scss'
 
 const DetailProductAdmin = () => {
     const [product, setProduct] = useState({})
+    const [isACtive, setIsActive] = useState(0)
+
 
     useEffect(() => {
         const id = window.location.pathname.split('/')[3]
@@ -26,64 +20,195 @@ const DetailProductAdmin = () => {
     }, [window.location.pathname])
 
     return (
-        <div className="product">
-            <div className="productTitleContainer">
-                <h1 className="productTitle">Product</h1>
-                <Link to="/newproduct">
-                    <button className="productAddButton">Create</button>
-                </Link>
-            </div>
+        <div className="product-detail-admin">
+            <h1 className="productTitle">Chi tiết sản phẩm</h1>
             <div className="productTop">
+
                 <div className="productTopRight">
                     <div className="productInfoTop">
-                        <img src="https://images.pexels.com/photos/7156886/pexels-photo-7156886.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="" className="productInfoImg" />
-                        <span className="productName">Apple Airpods</span>
+                        <img src={product.image_url && product.image_url.split(', ')[0]} alt={product.name} className="productInfoImg" />
+                        <span className="productName">{product.name}</span>
                     </div>
                     <div className="productInfoBottom">
                         <div className="productInfoItem">
-                            <span className="productInfoKey">id:</span>
-                            <span className="productInfoValue">123</span>
+                            <span className="productInfoKey">ID</span>
+                            <span className="productInfoValue">{product.id}</span>
                         </div>
                         <div className="productInfoItem">
-                            <span className="productInfoKey">sales:</span>
-                            <span className="productInfoValue">5123</span>
+                            <span className="productInfoKey">Giảm giá</span>
+                            {product.discount ?
+                                <span className="productInfoValue">{product.discount}</span> :
+                                <span className='fee-line'></span>
+                            }
                         </div>
                         <div className="productInfoItem">
-                            <span className="productInfoKey">active:</span>
-                            <span className="productInfoValue">yes</span>
+                            <span className="productInfoKey">Giá</span>
+                            <span className="productInfoValue" style={{ letterSpacing: 1 }}>{`${parseInt(product.prices).toLocaleString('en-vi')}₫`}</span>
                         </div>
                         <div className="productInfoItem">
-                            <span className="productInfoKey">in stock:</span>
-                            <span className="productInfoValue">no</span>
+                            <span className="productInfoKey">Số lượng bán ra</span>
+                            <span className="productInfoValue">{product.quantity_sold}</span>
+                        </div>
+                        <div className="productInfoItem">
+                            <span className="productInfoKey">Số lượng nhập vào</span>
+                            <span className="productInfoValue">{product.quantity_stock}</span>
+                        </div>
+
+                        <div className="productInfoItem">
+                            <span className="productInfoKey">Số lượng tồn kho</span>
+                            <span className="productInfoValue">{
+                                product.quantity_remaining ?
+                                    product.quantity_remaining :
+                                    (parseInt(product.quantity_stock - product.quantity_sold))
+                            }</span>
+                        </div>
+                        <div className="productInfoItem">
+                            <span className="productInfoKey">Kích thước</span>
+                            <span className="productInfoValue">{product.size}</span>
                         </div>
                     </div>
                 </div>
+
+                <div className="productTopLeft">
+                    <div className="productInfoBottom">
+                        <div className="productInfoItem">
+                            {product.image_url && (
+                                <div className='product-detail__img'>
+                                    <div className="product-detail__img-group">
+                                        {product.image_url.split(',').map((img, index) => (
+                                            <div
+                                                key={index}
+                                                className={`product-detail__img-content ${isACtive === index && 'active'}`}
+                                                onClick={() => setIsActive(index)}
+                                            >
+                                                <img
+                                                    src={img}
+                                                    alt={product.name}
+                                                />
+                                            </div>)
+                                        )}
+
+                                    </div>
+                                    <div className="product-detail__img-single">
+                                        <img
+                                            src={product.image_url.split(',')[isACtive]}
+                                            alt={product.name}
+                                        />
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <div className="productBottom">
-                <form className="productForm">
-                    <div className="productFormLeft">
-                        <label>Product Name</label>
-                        <input type="text" placeholder="Apple AirPod" />
-                        <label>In Stock</label>
-                        <select name="inStock" id="idStock">
-                            <option value="yes">Yes</option>
-                            <option value="no">No</option>
-                        </select>
-                        <label>Active</label>
-                        <select name="active" id="active">
-                            <option value="yes">Yes</option>
-                            <option value="no">No</option>
-                        </select>
-                    </div>
-                    <div className="productFormRight">
-                        <div className="productUpload">
-                            <img src="https://images.pexels.com/photos/7156886/pexels-photo-7156886.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="" className="productUploadImg" />
-                            <label for="file">
-                                <Publish />
-                            </label>
-                            <input type="file" id="file" style={{ display: "none" }} />
+                <form className="userUpdateForm">
+                    <div className="userUpdateLeft">
+                        <div className="userUpdateItem">
+                            <label style={{
+                                margin: '5px 0 0 0',
+                                fontWeight: 500,
+                                fontSize: '1.25rem'
+                            }}>Tên sản phẩm</label>
+                            <input
+                                type="text"
+                                name='name'
+                                placeholder={product.name}
+                                className="userUpdateInput"
+                            />
                         </div>
-                        <button className="productButton">Update</button>
+                        <div className="userUpdateItem">
+                            <label style={{
+                                margin: '5px 0 0 0',
+                                fontWeight: 500,
+                                fontSize: '1.25rem'
+                            }}>Giảm giá</label>
+                            <input
+                                type="text"
+                                placeholder='_%'
+                                name='discount'
+                                className="userUpdateInput"
+                            />
+                        </div>
+                        <div className="userUpdateItem">
+                            <label style={{
+                                margin: '5px 0 0 0',
+                                fontWeight: 500,
+                                fontSize: '1.25rem'
+                            }}>Giá</label>
+                            <input
+                                type="text"
+                                placeholder={product.prices}
+                                name='prices'
+                                className="userUpdateInput"
+                            />
+                        </div>
+                        <div className="userUpdateItem">
+                            <label style={{
+                                margin: '5px 0 0 0',
+                                fontWeight: 500,
+                                fontSize: '1.25rem'
+                            }}>Số lượng bán ra</label>
+                            <input
+                                type="text"
+                                placeholder={product.quantity_sold}
+                                name='quantity_sold'
+                                className="userUpdateInput"
+                            />
+                        </div>
+                        <div className="userUpdateItem">
+                            <label style={{
+                                margin: '5px 0 0 0',
+                                fontWeight: 500,
+                                fontSize: '1.25rem'
+                            }}>Số lượng nhập vào</label>
+                            <input
+                                type="text"
+                                placeholder={product.quantity_stock}
+                                name='quantity_stock'
+                                className="userUpdateInput"
+                            />
+                        </div>
+                        <div className="userUpdateItem">
+                            <label style={{
+                                margin: '5px 0 0 0',
+                                fontWeight: 500,
+                                fontSize: '1.25rem'
+                            }}>Số lượng tồn kho</label>
+                            <input
+                                type="text"
+                                placeholder={product.quantity_remaining}
+                                name='quantity_remaining'
+                                className="userUpdateInput"
+                            />
+                        </div>
+                        <div className="userUpdateItem">
+                            <label style={{
+                                margin: '5px 0 0 0',
+                                fontWeight: 500,
+                                fontSize: '1.25rem'
+                            }}>Kích thước</label>
+                            <input
+                                type="text"
+                                placeholder={product.size}
+                                name='size'
+                                className="userUpdateInput"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="userUpdateRight">
+                        <div className="productFormRight">
+                            <div className="productUpload">
+                                <img src={product.image_url && product.image_url.split(', ')[0]} alt="" className="productUploadImg" />
+                                <label for="file">
+                                    <Publish />
+                                </label>
+                                <input type="file" id="file" style={{ display: "none" }} />
+                            </div>
+                            <button className="btn productButton">Update</button>
+                        </div>
                     </div>
                 </form>
             </div>

@@ -92,15 +92,24 @@ const ManagerUsers = () => {
 
     return (
         <>
-            <Link to="/manager-users/create-user"
+            <Link to="/manager-products/create-product"
                 style={{
                     margin: '0px 20px 20px 0px',
                     width: '6%',
                     position: 'relative',
-                    right: '-91.8%'
+                    right: '-93.8%'
                 }}>
-                <button className="userAddButton">Create</button>
-            </Link>
+                <button className="userAddButton" style={{
+                    backgroundColor: 'teal',
+                    color: '#fff',
+                    padding: '7px',
+                    fontSize: '1.3rem',
+                    fontWeight: '600',
+                    borderRadius: '4px',
+                    outline: 'none',
+                    border: 'none'
+                }}>Create</button>
+            </Link >
             <div className="userList">
 
                 <DataGrid

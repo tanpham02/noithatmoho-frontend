@@ -4,11 +4,8 @@ import {
     CalendarToday,
     LocationSearching,
     MailOutline,
-    PermIdentity,
-    PhoneAndroid,
-    Publish,
+    PhoneAndroid
 } from "@material-ui/icons";
-import { Link } from "react-router-dom";
 import './DetailUser.scss'
 
 const DetailUser = () => {
@@ -29,10 +26,7 @@ const DetailUser = () => {
 
     return (
         <div className="user">
-            <div className="userTitleContainer">
-                <h1 className="userTitle">Chỉnh sửa người dùng</h1>
-
-            </div>
+            <h1 className="userTitle">Chỉnh sửa người dùng</h1>
             <div className="userContainer">
                 <div className="userShow">
                     <div className="userShowTop">
@@ -98,7 +92,7 @@ const DetailUser = () => {
                                 <label>Tên đầy đủ</label>
                                 <input
                                     type="text"
-                                    name='name' 
+                                    name='name'
                                     placeholder={user.full_name}
                                     className="userUpdateInput"
                                 />

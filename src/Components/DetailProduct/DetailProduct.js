@@ -46,23 +46,29 @@ const DetailProduct = () => {
 
 
 
-    const handleAddCatLists = (id) => {
-        setCartLists(prev => {
-            const x = cartLists.find(cart => {
-                if (cart.id === id) {
-                    const newQuantity = (cart.quantity += quantity)
-                    return newQuantity
+    const handleAddCatLists = (id, quantity_remaining) => {
+        if (quantity_remaining === '0') {
+            window.alert('Sản phẩm tạm hết hàng. Vui lòng chọn sản phẩm khác!')
+            return
+        } else {
+            setCartLists(prev => {
+                const x = cartLists.find(cart => {
+                    if (cart.id === id) {
+                        const newQuantity = (cart.quantity += quantity)
+                        return newQuantity
+                    }
+                })
+                if (x) {
+                    if (x.id === id) {
+                        return [...prev, { id, quantity: x.quantity }]
+                    }
+                } else {
+                    return [...prev, { id, quantity }]
                 }
             })
-            if (x) {
-                if (x.id === id) {
-                    return [...prev, { id, quantity: x.quantity }]
-                }
-            } else {
-                return [...prev, { id, quantity }]
-            }
-        })
-        window.location.reload()
+            window.location.reload()
+            return
+        }
     }
 
     const handelGetCartUnique = useMemo(() => {
@@ -79,8 +85,14 @@ const DetailProduct = () => {
 
 
 
-    const handleBuyProduct = (id) => {
-        localStorage.setItem('cartLists', JSON.stringify([{ id, quantity }]))
+    const handleBuyProduct = (id, quantity_remaining) => {
+        if (quantity_remaining === '0') {
+            window.alert('Sản phẩm tạm hết hàng. Vui lòng chọn sản phẩm khác!')
+            return
+        } else {
+            localStorage.setItem('cartLists', JSON.stringify([{ id, quantity }]))
+            return
+        }
     }
 
 
@@ -162,12 +174,12 @@ const DetailProduct = () => {
 
                                     <div className="product-detail__prices">
                                         {
-                                            data.discount &&
-                                            <span className="product-detail__discount">
-                                                -{data.discount}
-                                            </span>
+                                            (data.quantity_remaining !== '0') && (data.discount &&
+                                                <span className="product-detail__discount">
+                                                    -{data.discount}
+                                                </span>)
                                         }
-                                        {data.discount ?
+                                        {(data.quantity_remaining !== '0') ? (data.discount ?
                                             <>
                                                 <span className="product-detail__prices-new">
                                                     {data.discount ?
@@ -191,6 +203,19 @@ const DetailProduct = () => {
                                                 <span className="product-detail__prices-new ">{data.prices.toLocaleString('en-VI')}
                                                     <span className="VND">₫</span>
                                                 </span>
+                                        ) :
+                                            <span style={{
+                                                backgroundColor: 'var(--primary-color-blue)',
+                                                fontSize: '1.3rem',
+                                                fontWeight: 600,
+                                                color: 'var(--text-white)',
+                                                filter: 'brightness(1.1)',
+                                                display: 'inline-block',
+                                                lineHeight: '40px',
+                                                height: '40px',
+                                                padding: '0 12px',
+                                                borderRadius: '4px'
+                                            }}>Tạm hết hàng</span>
                                         }
                                     </div>
 
@@ -237,43 +262,50 @@ const DetailProduct = () => {
                                         }
                                     </div>
 
-                                    {JSON.parse(localStorage.getItem('isAdmin')) !== 1 && (data.prices !== 0 && <div className="product-detail__quantity">
-                                        <i onClick={() => setQuantity(quantity - 1)} className="fa-solid fa-minus"></i>
-                                        <input
-                                            type='text'
-                                            value={quantity}
-                                            min='1'
-                                            onChange={(e) => setQuantity(e.target.value)}
-                                        />
-                                        <i onClick={() => setQuantity(quantity + 1)} className="fa-solid fa-plus"></i>
-                                    </div>)}
+                                    {
+                                        JSON.parse(localStorage.getItem('isAdmin')) !== 1 && (data.prices !== 0 && <div className="product-detail__quantity">
+                                            <i onClick={() => setQuantity(quantity - 1)} className="fa-solid fa-minus"></i>
+                                            <input
+                                                type='text'
+                                                value={quantity}
+                                                min='1'
+                                                onChange={(e) => setQuantity(e.target.value)}
+                                            />
+                                            <i onClick={() => setQuantity(quantity + 1)} className="fa-solid fa-plus"></i>
+                                        </div>)
+                                    }
 
-                                    {JSON.parse(localStorage.getItem('isAdmin')) !== 1 && <div className="product-detail__btn">
-                                        {data.prices ?
-                                            <>
-                                                <button
-                                                    onClick={() => handleAddCatLists(data.id)}
-                                                    className="btn product-detail__btn-add-cart btn--color-prima-blue"
-                                                >
-                                                    Thêm vào giỏ
-                                                </button>
-                                                <Link
-                                                    style={{
-                                                        textAlign: 'center',
-                                                        fontSize: '1.333rem'
-                                                    }}
-                                                    to={`/checkout/${(JSON.parse(localStorage.getItem('fullNameAccount')))?.split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") || ''}  `}
-                                                    onClick={() => handleBuyProduct(data.id)}
-                                                    className="btn product-detail__btn-add-cart btn--color-prima-orange"
-                                                >
-                                                    Mua ngay
-                                                </Link>
-                                            </> :
-                                            <button style={{ fontSize: '1.5rem', height: 50 }} className="btn product-detail__btn-add-cart btn--color-prima-blue">LIÊN HỆ ĐỂ NHẬN TƯ VẤN VÀ THIẾT KẾ MIỄN PHÍ</button>
-                                        }
-                                    </div>}
+                                    {
+                                        JSON.parse(localStorage.getItem('isAdmin')) !== 1 && <div className="product-detail__btn">
+                                            {data.prices ?
+                                                <>
+                                                    <button
+                                                        onClick={() => handleAddCatLists(data.id, data.quantity_remaining)}
+                                                        className="btn product-detail__btn-add-cart btn--color-prima-blue"
+                                                    >
+                                                        Thêm vào giỏ
+                                                    </button>
+                                                    <Link
+                                                        style={{
+                                                            textAlign: 'center',
+                                                            fontSize: '1.333rem'
+                                                        }}
+                                                        to={data.quantity_remaining !== '0' ?
+                                                            (`/checkout/${(JSON.parse(localStorage.getItem('fullNameAccount')))?.split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") || ''}  `) :
+                                                            '#'
+                                                        }
+                                                        onClick={() => handleBuyProduct(data.id, data.quantity_remaining)}
+                                                        className="btn product-detail__btn-add-cart btn--color-prima-orange"
+                                                    >
+                                                        Mua ngay
+                                                    </Link>
+                                                </> :
+                                                <button style={{ fontSize: '1.5rem', height: 50 }} className="btn product-detail__btn-add-cart btn--color-prima-blue">LIÊN HỆ ĐỂ NHẬN TƯ VẤN VÀ THIẾT KẾ MIỄN PHÍ</button>
+                                            }
+                                        </div>
+                                    }
 
-                                    <div className="product-detail__info-promotion">
+                                    < div className="product-detail__info-promotion" >
                                         <span>
                                             <i className="fa-solid fa-check"></i>
                                             Miễn phí giao hàng & lắp đặt tại tất cả quận huyện thuộc TP.HCM, Hà Nội, Biên Hòa và một số quận thuộc Bình Dương (*)
@@ -300,7 +332,7 @@ const DetailProduct = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
         </div >
     )
 

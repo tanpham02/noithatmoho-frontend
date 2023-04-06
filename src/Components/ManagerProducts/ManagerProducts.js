@@ -54,7 +54,7 @@ const ManagerProducts = () => {
                 );
             },
         },
-        { field: "quantity_stock", headerName: "Số lượng kho", width: 180 },
+        { field: "quantity_stock", headerName: "Số lượng nhập vào", width: 180 },
         {
             field: "quantity_sold",
             headerName: "Số lượng đã bán",
@@ -95,10 +95,19 @@ const ManagerProducts = () => {
                     margin: '0px 20px 20px 0px',
                     width: '6%',
                     position: 'relative',
-                    right: '-91.8%'
+                    right: '-93.8%'
                 }}>
-                <button className="userAddButton">Create</button>
-            </Link>
+                <button className="productAddButton" style={{
+                    backgroundColor: 'teal',
+                    color: '#fff',
+                    padding: '7px',
+                    fontSize: '1.3rem',
+                    fontWeight: '600',
+                    borderRadius: '4px',
+                    outline: 'none',
+                    border: 'none'
+                }}>Create</button>
+            </Link >
 
             <div className="productList">
                 <DataGrid

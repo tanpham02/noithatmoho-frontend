@@ -7,6 +7,9 @@ const CreateUserPage = ({ listPage }) => {
     useEffect(() => {
         document.title = 'Nội thất MOHO | Thêm mới người dùng'
     }, [])
+    useEffect(() => {
+        window.scroll(0, 0)
+    }, [])
     return (
         <>
             <Topbar />

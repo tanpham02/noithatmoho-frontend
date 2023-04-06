@@ -1,93 +1,91 @@
-.productList{
+.productList {
     flex: 4;
     padding: 0 20px;
-}
 
-.productListItem{
-    display: flex;
-    align-items: center;
-}
+    & .productListItem {
+        display: flex;
+        align-items: center;
+    }
 
-.productListImg {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-right: 10px;
-  }
+    & .productListImg {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 10px;
+    }
 
-.productListEdit{
-    border: none;
-    border-radius: 10px;
-    padding: 5px 10px;
-    background-color: #3bb077;
-    color: white;
-    cursor: pointer;
-    margin-right: 20px;
-}
+    & .productListEdit {
+        border: none;
+        border-radius: 10px;
+        padding: 5px 10px;
+        background-color: #3bb077;
+        color: white;
+        cursor: pointer;
+        margin-right: 20px;
+    }
 
-.productListDelete{
-    color: red;
-    cursor: pointer;
-}
-
-// .MuiDataGrid-root .MuiDataGrid-cell--textLeft {
-//     text-align: left !important;
-//     margin-left: 8px !important;
-// }
-
-.MuiDataGrid-window {
-    font-size: 1.2rem !important;
-}
-
-.MuiDataGrid-main .MuiDataGrid-columnsContainer {
-    font-weight: 700 !important;
-    color: var(--gray-color);
-    font-size: 1.20rem;
-}
-
-.MuiDataGrid-root .MuiDataGrid-columnHeaderTitle {
-    overflow: hidden;
-    font-weight: 700 !important;
-    font-size: 1.20rem;
-    color: var(--gray-color);
-    white-space: nowrap;
-    // text-overflow: n;
-}
-
-.MuiDataGrid-root .MuiDataGrid-window {
-    left: 0;
-    right: 0;
-    bottom: 0;
-    position: absolute;
-    overflow-x: auto;
-    font-size: 1.2rem;
-    color: var(--gray-color);
-}
-
-.MuiDataGrid-root .MuiDataGrid-columnHeader:focus, .MuiDataGrid-root .MuiDataGrid-cell:focus {
-    outline: none !important;
-}
+    & .productListDelete {
+        color: red;
+        cursor: pointer;
+    }
 
 
-.MuiDataGrid-root .MuiDataGrid-footerContainer {
-    font-size: 1.3rem;
-}
+    & .MuiDataGrid-window {
+        font-size: 1.2rem !important;
+    }
+
+    & .MuiDataGrid-main .MuiDataGrid-columnsContainer {
+        font-weight: 700 !important;
+        color: var(--gray-color);
+        font-size: 1.20rem;
+    }
+
+    & .MuiDataGrid-root .MuiDataGrid-columnHeaderTitle {
+        overflow: hidden;
+        font-weight: 700 !important;
+        font-size: 1.20rem;
+        color: var(--gray-color);
+        white-space: nowrap;
+        // text-overflow: n;
+    }
+
+    & .MuiDataGrid-root .MuiDataGrid-window {
+        left: 0;
+        right: 0;
+        bottom: 0;
+        position: absolute;
+        overflow-x: auto;
+        font-size: 1.2rem;
+        color: var(--gray-color);
+    }
+
+    & .MuiDataGrid-root .MuiDataGrid-columnHeader:focus,
+    & .MuiDataGrid-root .MuiDataGrid-cell:focus {
+        outline: none !important;
+    }
 
 
-.MuiTypography-root.MuiTablePagination-caption.makeStyles-caption-2.MuiTypography-body2.MuiTypography-colorInherit {
-    font-size: 1.4rem;
-}
-
-.MuiTablePagination-actions {
-    font-size: 1.3erm;
-}
-
-.MuiSvgIcon-root.productListDelete {
-    font-size: 2rem !important;
-}
+    & .MuiDataGrid-root .MuiDataGrid-footerContainer {
+        font-size: 1.3rem;
+    }
 
 
-.productListEdit {
-    font-size: 1.2rem !important;
+    & .MuiTypography-root.MuiTablePagination-caption.makeStyles-caption-2.MuiTypography-body2.MuiTypography-colorInherit {
+        font-size: 1.4rem !important;
+    }
+
+    & .MuiTablePagination-actions {
+        font-size: 1.3erm;
+    }
+
+    & .MuiSvgIcon-root.productListDelete {
+        font-size: 2rem !important;
+    }
+
+
+    & .productListEdit {
+        font-size: 1.2rem !important;
+    }
+
 }

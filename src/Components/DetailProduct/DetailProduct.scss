@@ -73,10 +73,11 @@
             &-old {
                 position: relative;
                 color: #aaa2a2;
-                font-size: 1.5rem;
+                font-size: 1.4rem;
                 font-weight: 500;
                 display: inline-block;
                 margin-left: 22px;
+                text-decoration: line-through;
             }
 
             & span {
