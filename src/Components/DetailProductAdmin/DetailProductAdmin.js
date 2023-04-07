@@ -102,12 +102,24 @@ const DetailProductAdmin = () => {
                 </div>
 
             </div>
+            <h2 style={{
+                display: 'inline-block',
+                margin: '12px 0 0 18px',
+                fontSize: '1.9rem',
+                color: 'var(--gray-color)',
+                fontWeight: 800,
+            }}>Cập nhật sản phẩm</h2>
             <div className="productBottom">
-                <form className="userUpdateForm">
+
+                <form className="userUpdateForm" style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between'
+                }}>
                     <div className="userUpdateLeft">
                         <div className="userUpdateItem">
                             <label style={{
-                                margin: '5px 0 0 0',
+                                margin: '5px 0',
                                 fontWeight: 500,
                                 fontSize: '1.25rem'
                             }}>Tên sản phẩm</label>
@@ -120,7 +132,7 @@ const DetailProductAdmin = () => {
                         </div>
                         <div className="userUpdateItem">
                             <label style={{
-                                margin: '5px 0 0 0',
+                                margin: '5px 0',
                                 fontWeight: 500,
                                 fontSize: '1.25rem'
                             }}>Giảm giá</label>
@@ -133,7 +145,7 @@ const DetailProductAdmin = () => {
                         </div>
                         <div className="userUpdateItem">
                             <label style={{
-                                margin: '5px 0 0 0',
+                                margin: '5px 0',
                                 fontWeight: 500,
                                 fontSize: '1.25rem'
                             }}>Giá</label>
@@ -146,7 +158,7 @@ const DetailProductAdmin = () => {
                         </div>
                         <div className="userUpdateItem">
                             <label style={{
-                                margin: '5px 0 0 0',
+                                margin: '5px 0',
                                 fontWeight: 500,
                                 fontSize: '1.25rem'
                             }}>Số lượng bán ra</label>
@@ -159,7 +171,7 @@ const DetailProductAdmin = () => {
                         </div>
                         <div className="userUpdateItem">
                             <label style={{
-                                margin: '5px 0 0 0',
+                                margin: '5px 0',
                                 fontWeight: 500,
                                 fontSize: '1.25rem'
                             }}>Số lượng nhập vào</label>
@@ -172,7 +184,7 @@ const DetailProductAdmin = () => {
                         </div>
                         <div className="userUpdateItem">
                             <label style={{
-                                margin: '5px 0 0 0',
+                                margin: '5px 0',
                                 fontWeight: 500,
                                 fontSize: '1.25rem'
                             }}>Số lượng tồn kho</label>
@@ -185,7 +197,7 @@ const DetailProductAdmin = () => {
                         </div>
                         <div className="userUpdateItem">
                             <label style={{
-                                margin: '5px 0 0 0',
+                                margin: '5px 0',
                                 fontWeight: 500,
                                 fontSize: '1.25rem'
                             }}>Kích thước</label>
@@ -198,8 +210,11 @@ const DetailProductAdmin = () => {
                         </div>
                     </div>
 
-                    <div className="userUpdateRight">
-                        <div className="productFormRight">
+                    <div className="userUpdateRight" >
+                        <div className="productFormRight" style={{
+                        position: 'relative',
+                        top: '-142px'
+                    }}>
                             <div className="productUpload">
                                 <img src={product.image_url && product.image_url.split(', ')[0]} alt="" className="productUploadImg" />
                                 <label for="file">

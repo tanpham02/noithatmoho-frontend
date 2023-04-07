@@ -163,4 +163,11 @@
         color: white;
         font-weight: 600;
     }
+
+    & .MuiDataGrid-root.MuiDataGrid-cell--textLeft.MuiDataGrid-cell--withRenderer,
+    .MuiDataGrid-root .MuiDataGrid-cell--textLeft.MuiDataGrid-cell--editing {
+        justify-content: flex-start;
+        border: none !important;
+        outline: none !important;
+    }
 }

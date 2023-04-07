@@ -105,16 +105,26 @@
         flex-direction: column;
     }
 
-    & .productFormLeft>label {
+    & .userUpdateItem>label {
         margin-bottom: 10px;
-        color: gray;
+        color: var(--gray-color);
+        font-weight: 600 !important;
+        display: block;
     }
 
-    & .productFormLeft>input {
+    & .userUpdateItem>input {
         margin-bottom: 10px;
         border: none;
+        outline: none;
         padding: 5px;
-        border-bottom: 1px solid gray;
+        border-bottom: 2px solid gray;
+        transition: all ease-out 0.25s;
+        width: calc(100% + 100px);
+
+        &:focus {
+            border-bottom: 2px solid var(--primary-color-blue);
+            filter: brightness(1.2);
+        }
     }
 
     & .productFormLeft>select {
@@ -149,7 +159,7 @@
         font-weight: 600;
         cursor: pointer;
         position: relative;
-        top: 70px;
-        right: 14px;
+        top: 240px;
+        right: 19px;
     }
 }
