@@ -83,9 +83,9 @@
             & span {
                 &.VND {
                     position: absolute;
-                    font-size: 1.65rem;
-                    top: -2px;
-                    right: -9px;
+                    font-size: 1.35rem;
+                    top: -1px;
+                    right: -10px;
                 }
             }
 
@@ -125,7 +125,7 @@
                     color: var(--primary-color-orange);
                 }
 
-                & .product-detail__content-review span {
+                & span {
                     font-size: 1.3rem;
                     color: var(--gray-color);
                     font-weight: 500;
@@ -165,7 +165,7 @@
                 font-size: 1.25rem;
                 color: #000;
                 text-align: left;
-                font-weight: 400;
+                font-weight: 500;
             }
 
             & .product-detail__desc-size,

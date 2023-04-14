@@ -34,7 +34,6 @@ const MohoWork = ({ datas, dataTypes, dataGroupTypes, filterCategories, filterPr
 
     useEffect(() => {
         const results = datas.filter(data => id.includes(data['type_id']))
-        console.log(results)
         setDataMohoWork(prev => [...prev, ...results])
     }, [datas, id])
 

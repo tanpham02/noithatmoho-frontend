@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo, useRef } from "react"
 import { Link, json } from "react-router-dom"
 import axios from "axios"
 import './Account.scss'
@@ -12,10 +12,14 @@ const Account = ({ accountInfos, onReload }) => {
     const [userId, setUserId] = useState()
     const [isUpdate, setIsUpdate] = useState(false)
     const [dataUserCheckout, setDataUserCheckout] = useState({})
-    const [boughtProducts, setBoughtProducts] = useState([])
     const [isSuccessCheckout, setIsSuccessCheckout] = useState(false)
     const [selectedFile, setSelectedFile] = useState(null);
     const [avatar, setAvatar] = useState()
+
+    const [products, setProducts] = useState([])
+    const timerCancelId = useRef()
+    const [hiddenBtnCancel, setHiddenBtnCancel] = useState(false)
+
 
 
 
@@ -29,6 +33,15 @@ const Account = ({ accountInfos, onReload }) => {
         }
         fetchDataUser()
     }, [isUpdate])
+
+    useEffect(() => {
+        async function fetchDataPros() {
+            const res = await axios.get(`http://localhost:9080/api/products`)
+            const data = await res.data
+            setProducts(data)
+        }
+        fetchDataPros()
+    }, [])
 
 
 
@@ -50,19 +63,10 @@ const Account = ({ accountInfos, onReload }) => {
         async function getCheckout() {
             const res = await axios.get(`http://localhost:9080/api/users/${ID_USER}`)
             const data = await res.data
-            setDataUserCheckout(data)
+            setDataUserCheckout({ ...data })
         }
         getCheckout()
     }, [])
-
-    useEffect(() => {
-        if (dataUserCheckout.checkout) {
-            const outputs = dataUserCheckout.checkout.split('; ')
-            const index = outputs.findIndex(output => output.includes('['))
-            setBoughtProducts(JSON.parse(outputs[index]))
-        }
-    }, [dataUserCheckout.checkout])
-
 
     const handleChangeFullname = (e) => {
         setFullName(e.target.value)
@@ -143,16 +147,119 @@ const Account = ({ accountInfos, onReload }) => {
         }
     }
 
+
     const handleIsSuccessCheckout = () => {
         localStorage.setItem('isSuccessCheckout', JSON.stringify(true))
-        window.location.reload()
+        localStorage.removeItem('cancelCheckout')
+
+        if (dataUserCheckout?.checkout) {
+            const nextProduct = JSON.parse(dataUserCheckout.checkout?.split('; ')[2])
+
+            const dateLocale = new Date().toLocaleDateString().split('/')
+            const localeDay = dateLocale[0] + '/' + dateLocale[2]
+
+            const dateLocaleDb = dataUserCheckout?.checkout && dataUserCheckout.checkout?.split('; ')[7]?.split('/')
+            const localeDayDb = dataUserCheckout?.checkout && dateLocaleDb[0] + '/' + dateLocaleDb[2]
+
+            if (localeDayDb === localeDay) {
+                async function updateProBought() {
+                    axios.put(`http://localhost:9080/api/users/${ID_USER}`, {
+                        ...dataUserCheckout,
+                        product_boughts: dataUserCheckout?.product_boughts ?
+                            JSON.stringify([...JSON.parse(dataUserCheckout.product_boughts), ...nextProduct]) :
+                            JSON.stringify([...nextProduct]),
+                    })
+                    window.location.reload()
+                }
+                updateProBought()
+            }
+        }
     }
+
+
+    const handleCancelCheckout = (e) => {
+        if (hiddenBtnCancel) {
+            window.alert('Không thể hủy đơn hàng này. Người bán đã gói hàng và chuyển giao cho đơn vị vận chuyển!')
+            window.location.replace('/pages/chinh-sach-doi-tra')
+        } else {
+
+            async function cancelCheckout() {
+                let totalOrder = dataUserCheckout?.total_order ? parseInt(dataUserCheckout.total_order) - 1 : 0
+
+                const totalAfterOrder = JSON.parse(dataUserCheckout.checkout?.split('; ')[6]?.split(',').join('')?.slice(0, -1))
+
+                const transactions = dataUserCheckout?.transactions ?
+                    String(Number(dataUserCheckout?.transactions) - Number(totalAfterOrder)) :
+                    ''
+                const res = await axios.put(`http://localhost:9080/api/users/${ID_USER}`, {
+                    ...dataUserCheckout,
+                    checkout: '',
+                    total_order: String(totalOrder),
+                    transactions: transactions
+
+                }).then(res => {
+                    return dataUserCheckout?.checkout && JSON.parse(dataUserCheckout.checkout?.split('; ')[2]).forEach(checkoutData => {
+                        products.filter(data => {
+                            if (data.id === checkoutData.id) {
+                                if (checkoutData.id === data.id) {
+                                    const quantity_sold = data.quantity_sold - checkoutData.quantity
+                                    const quantity_stock = data.quantity_stock + checkoutData.quantity
+                                    const updatePro = {
+                                        ...data,
+                                        quantity_sold,
+                                        quantity_stock
+                                    }
+                                    axios.put(`http://localhost:9080/api/products/${data.id}`, updatePro)
+                                        .then(res => console.log(res.data))
+                                        .catch(err => console.log(err))
+                                }
+                            }
+                        })
+                    })
+                })
+                window.location.reload()
+                return res.data
+            }
+            cancelCheckout()
+        }
+
+    }
+
+
+    useEffect(() => {
+        setHiddenBtnCancel(JSON.parse(localStorage.getItem('cancelCheckout')))
+    }, [])
+
+
+    useEffect(() => {
+        if (dataUserCheckout.checkout) {
+            timerCancelId.current = setTimeout(() => {
+                localStorage.setItem('cancelCheckout', JSON.stringify(true))
+                setHiddenBtnCancel(true)
+                return
+            }, 5000)
+        }
+
+        return () => clearTimeout(timerCancelId)
+    }, [dataUserCheckout, dataUser])
+
 
     useEffect(() => {
         setIsSuccessCheckout(JSON.parse(localStorage.getItem('isSuccessCheckout')))
     }, [])
 
 
+    const handleSubTotal = useMemo(() => {
+        if (dataUserCheckout?.checkout) {
+            const subTotal = JSON.parse(dataUserCheckout.checkout?.split('; ')[2]).reduce((result, next) => {
+                if (next?.discount) {
+                    return result + ((next.prices - (next.prices * (parseInt(next.discount)) / 100)) * next.quantity)
+                }
+                return result + (next.prices * next.quantity)
+            }, 0)
+            return parseInt(subTotal)
+        }
+    }, [dataUserCheckout])
 
 
     return (
@@ -248,187 +355,253 @@ const Account = ({ accountInfos, onReload }) => {
                         </div>
 
 
-                        {!isSuccessCheckout && <div className="warraper-products-bought">
-                            <div className="products-bought">
-
-                                {boughtProducts.length ?
-                                    <>
-                                        <span className="products-bought__heading">Đơn hàng của bạn</span>
-                                        <ul className="checkout__cart-lists">
-                                            {boughtProducts.map((bought, index) => (
-                                                <li key={index} className="checkout__cart-item">
-                                                    <div className='cart-item__wrap'>
-                                                        <div className="cart-item__img">
-                                                            <img src={bought.img.split(',')[0]} alt={bought.name} />
-                                                            <span key={index} className='cart-item__quantity'>{bought.quantity}</span>
+                        {(!isSuccessCheckout && dataUserCheckout?.checkout) &&
+                            <div className="warraper-products-bought">
+                                {dataUserCheckout?.checkout &&
+                                    <div className="products-bought">
+                                        <>
+                                            <span className="products-bought__heading">Đơn hàng của bạn</span>
+                                            <ul className="checkout__cart-lists">
+                                                {JSON.parse(dataUserCheckout.checkout?.split('; ')[2]).map((bought, index) => (
+                                                    <li key={index} className="checkout__cart-item">
+                                                        <div className='cart-item__wrap'>
+                                                            <div className="cart-item__img">
+                                                                <img src={bought.img.split(', ')[0]} alt={bought.name} />
+                                                                <span key={index} className='cart-item__quantity'>{bought.quantity}</span>
+                                                            </div>
+                                                            <div className="cart-item__desc">
+                                                                <h3 className="cart-item__name"
+                                                                    style={{
+                                                                        width: '100%'
+                                                                    }}
+                                                                >
+                                                                    {bought.name}</h3>
+                                                                <span className="cart-item__color">Màu tự nhiên</span>
+                                                            </div>
                                                         </div>
-                                                        <div className="cart-item__desc">
-                                                            <h3 className="cart-item__name">{bought.name}</h3>
-                                                            <span className="cart-item__color">Màu tự nhiên</span>
-                                                        </div>
-                                                    </div>
-                                                    <span className="cart-item__prices" style={{ letterSpacing: 1 }}>
-                                                        {bought.discount ?
-                                                            (bought.prices - (bought.prices * (parseInt(bought.discount)) / 100)).toLocaleString("en-VI") :
-                                                            parseInt(bought.prices).toLocaleString("en-VI")
-                                                        }
-                                                        <span className="VND">₫</span>
-                                                    </span>
-                                                </li>
-                                            ))}
+                                                        <span className="cart-item__prices" style={{ letterSpacing: 1 }}>
+                                                            {bought.discount ?
+                                                                (bought.prices - (bought.prices * (parseInt(bought.discount)) / 100)).toLocaleString("en-VI") :
+                                                                parseInt(bought.prices).toLocaleString("en-VI")
+                                                            }
+                                                            <span className="VND">₫</span>
+                                                        </span>
+                                                    </li>
+                                                ))}
+                                            </ul>
 
-                                        </ul>
-
-
-
-                                        <div style={{
-                                            padding: '28px 0px 20px 2px'
-                                        }}>
-
-                                            <div className="info-checkout" style={{
-                                                display: 'flex',
-                                                color: '#434343',
-                                                flexDirection: 'column',
-                                                fontWeight: 500
+                                            <div style={{
+                                                padding: '0px 0px 20px 2px'
                                             }}>
-                                                <h3 style={{
-                                                    fontWeight: 600,
-                                                    fontSize: '1.5rem',
-                                                    marginBottom: 12,
-                                                    color: '#4b4b4b'
-                                                }}>Thông tin đơn hàng</h3>
-                                                <span
-                                                    style={{
-                                                        fontWeight: 600,
-                                                        color: '#4b4b4b',
-                                                        fontSize: '1.3rem'
-                                                    }}
-                                                >- Ngày đặt hàng:
-                                                    <span style={{
-                                                        fontWeight: 500,
-                                                        color: '#434343',
-                                                        fontSize: '1.25rem'
-                                                    }}>&nbsp;{dataUserCheckout.checkout.split('; ')[7]}</span>
-                                                </span>
-                                                <span
-                                                    className="mt--12"
-                                                    style={{
-                                                        fontWeight: 600,
-                                                        color: '#4b4b4b',
-                                                        fontSize: '1.3rem'
-                                                    }}
-                                                >- Vận chuyển bởi:
-                                                    <span style={{
-                                                        fontWeight: 500,
-                                                        color: '#434343',
-                                                        fontSize: '1.25rem'
-                                                    }}>&nbsp;{dataUserCheckout.checkout.split('; ')[4]}</span>
-                                                </span>
-                                                <span
-                                                    style={{
-                                                        fontWeight: 600,
-                                                        color: '#434343',
-                                                        fontSize: '1.3rem'
-                                                    }}
-                                                    className="mt--12">- Phương thức thanh toán:
-                                                    <span style={{
-                                                        fontWeight: 500,
-                                                        color: '#434343',
-                                                        fontSize: '1.25rem'
-                                                    }}>
-                                                        &nbsp;{dataUserCheckout.checkout.split('; ')[5]}
-                                                    </span>
-                                                </span>
-                                            </div>
 
-                                            <h4
-
-                                                className="mt--38"
-                                                style={{
-                                                    color: '#4b4b4b',
-                                                    fontSize: '1.55rem',
-                                                    fontWeight: 600
-                                                }}>Vui lòng chuẩn bị trước số tiền: </h4>
-                                            <span
-                                                className="cart-item__prices-total"
-                                                style={{
-                                                    position: 'relative',
-                                                    right: '-84.5%',
-                                                    bottom: '16px',
-                                                    margin: '22px 0px 6px 18px',
-                                                    display: 'inline - block',
+                                                <div className="info-checkout" style={{
+                                                    display: 'flex',
+                                                    color: '#434343',
+                                                    flexDirection: 'column',
                                                     fontWeight: 500,
-                                                    fontSize: '1.6rem',
-                                                    letterSpacing: '1px',
-                                                    color: '#4b4b4b'
+                                                    borderTop: '1px solid var(--border-color)',
+                                                    padding: '20px 0 30px 0',
+                                                }}>
+                                                    <h3 style={{
+                                                        fontWeight: 600,
+                                                        fontSize: '1.55rem',
+                                                        marginBottom: 12,
+                                                        color: '#4b4b4b'
+                                                    }}>Thông tin đơn hàng</h3>
+                                                    <span
+
+                                                        style={{
+                                                            fontWeight: 600,
+                                                            color: '#4b4b4b',
+                                                            fontSize: '1.3rem'
+                                                        }}
+                                                    >- Tên người đặt hàng:
+                                                        <span style={{
+                                                            fontWeight: 500,
+                                                            color: '#434343',
+                                                            fontSize: '1.25rem',
+                                                            letterSpacing: '1px'
+                                                        }}>&nbsp;{dataUserCheckout.checkout.split('; ')[0]}</span>
+                                                    </span>
+                                                    <span
+                                                        className="mt--12"
+                                                        style={{
+                                                            fontWeight: 600,
+                                                            color: '#4b4b4b',
+                                                            fontSize: '1.3rem'
+                                                        }}
+                                                    >- Ngày đặt hàng:
+                                                        <span style={{
+                                                            fontWeight: 500,
+                                                            color: '#434343',
+                                                            fontSize: '1.25rem',
+                                                            letterSpacing: '1px'
+                                                        }}>&nbsp;{dataUserCheckout.checkout.split('; ')[7]}</span>
+                                                    </span>
+                                                    <span
+                                                        className="mt--12"
+                                                        style={{
+                                                            fontWeight: 600,
+                                                            color: '#4b4b4b',
+                                                            fontSize: '1.3rem'
+                                                        }}
+                                                    >- Vận chuyển bởi:
+                                                        <span style={{
+                                                            fontWeight: 500,
+                                                            color: '#434343',
+                                                            fontSize: '1.25rem'
+                                                        }}>&nbsp;{dataUserCheckout.checkout.split('; ')[4]}</span>
+                                                    </span>
+                                                    <span
+                                                        style={{
+                                                            fontWeight: 600,
+                                                            color: '#434343',
+                                                            fontSize: '1.3rem'
+                                                        }}
+                                                        className="mt--12">- Phương thức thanh toán:
+                                                        <span style={{
+                                                            fontWeight: 500,
+                                                            color: '#434343',
+                                                            fontSize: '1.25rem'
+                                                        }}>
+                                                            &nbsp;{dataUserCheckout.checkout.split('; ')[5]}
+                                                        </span>
+                                                    </span>
+                                                    {handleSubTotal !==
+                                                        parseInt(dataUserCheckout.checkout.split('; ')[6].split(',').join('').slice(0, -1)) &&
+                                                        <span
+                                                            style={{
+                                                                fontWeight: 600,
+                                                                color: '#434343',
+                                                                fontSize: '1.3rem'
+                                                            }}
+                                                            className="mt--12">- Mã giảm giá:
+                                                            <span style={{
+                                                                fontWeight: 500,
+                                                                color: '#434343',
+                                                                fontSize: '1.25rem',
+                                                                position: 'relative',
+                                                                letterSpacing: '1px'
+                                                            }}>
+                                                                &nbsp;- {(handleSubTotal - parseInt(dataUserCheckout.checkout.split('; ')[6].split(',').join('').slice(0, -1))).toLocaleString('en-vi')}
+                                                                <span className="VND" style={{
+                                                                    position: 'absolute',
+                                                                    top: '-1px',
+                                                                    right: '-9px',
+                                                                    fontSize: '1.15rem'
+                                                                }}>₫</span>
+                                                            </span>
+                                                        </span>}
+                                                </div>
+
+                                                <div
+                                                    style={{
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'space-between',
+                                                        borderTop: '1px solid var(--border-color)',
+                                                        paddingTop: '20px',
+                                                    }}
+                                                >
+                                                    <h4
+                                                        style={{
+                                                            color: '#4b4b4b',
+                                                            fontSize: '1.55rem',
+                                                            fontWeight: 600,
+                                                            display: "inline-block"
+                                                        }}>Vui lòng chuẩn bị trước số tiền: </h4>
+                                                    <span
+                                                        className="cart-item__prices-total"
+                                                        style={{
+                                                            position: 'relative',
+                                                            textAlign: 'right',
+                                                            margin: '22px 19px 6px',
+                                                            display: 'inline - block',
+                                                            fontWeight: 500,
+                                                            fontSize: '1.6rem',
+                                                            letterSpacing: '1px',
+                                                            color: '#4b4b4b'
+                                                        }}
+                                                    >
+                                                        {dataUserCheckout.checkout.split('; ')[6].slice(0, -1)}
+                                                        <span className="VND" style={{
+                                                            position: 'absolute',
+                                                            top: '-1px',
+                                                            right: '-10px',
+                                                            fontSize: '1.3rem'
+                                                        }}>₫</span>
+                                                    </span>
+                                                </div>
+
+                                            </div>
+                                            <div
+                                                style={{
+                                                    display: 'flex',
+                                                    justifyContent: 'space-evenly',
+                                                    alignItems: 'center'
                                                 }}
                                             >
-                                                {dataUserCheckout.checkout.split('; ')[6].slice(0, -1)}
-                                                <span className="VND" style={{
-                                                    position: 'absolute',
-                                                    top: '-2px',
-                                                    right: '-10px',
-                                                    fontSize: '1.3rem'
-                                                }}>₫</span>
-                                            </span>
-                                        </div>
-                                        <button
-                                            className="btn btn-checkout"
-                                            style={{
-                                                position: 'relative',
-                                                right: '-78%',
-                                                bottom: '16px',
-                                                margin: '20px 0'
-                                            }}
-                                            onClick={handleIsSuccessCheckout}
-                                        >
-                                            Đã nhận được hàng!
-                                        </button>
-                                    </>
-                                    :
-                                    <span className="products-bought__not">
-                                        Bạn chưa đặt mua sản phẩm.
-                                    </span>
-                                }
-                            </div>
-                        </div>}
+                                                <button
+                                                    className="btn btn-checkout"
+                                                    onClick={handleIsSuccessCheckout}
+                                                >
+                                                    Đã nhận được hàng
+                                                </button>
+                                                <button
+                                                    className="btn btn-checkout__cancel"
+                                                    onClick={handleCancelCheckout}
+                                                >
+                                                    Hủy
+                                                </button>
+                                            </div>
+                                        </>
+                                    </div>}
+                            </div>}
 
 
-                        {isSuccessCheckout && <div className="warraper-products-bought">
-                            <div className="products-bought">
-                                {boughtProducts.length ?
-                                    <>
-                                        <span className="products-bought__heading">Sản phẩm đã mua</span>
-                                        <ul className="checkout__cart-lists border-last-child">
-                                            {boughtProducts.map((bought, index) => (
-                                                <li key={index} className="checkout__cart-item">
-                                                    <div className='cart-item__wrap'>
-                                                        <div className="cart-item__img">
-                                                            <img src={bought.img.split(',')[0]} alt={bought.name} />
+                        {(dataUserCheckout.product_boughts) ?
+                            <div className="warraper-products-bought">
+                                <div className="products-bought">
+                                    {dataUserCheckout?.product_boughts &&
+                                        <>
+                                            <span className="products-bought__heading">Sản phẩm đã mua</span>
+                                            <ul className="checkout__cart-lists border-last-child">
+                                                {JSON.parse(dataUserCheckout?.product_boughts).map((bought, index) => (
+                                                    <li key={index} className="checkout__cart-item">
+                                                        <div className='cart-item__wrap'>
+                                                            <div className="cart-item__img">
+                                                                <img src={bought.img.split(', ')[0]} alt={bought.name} />
+                                                            </div>
+                                                            <div className="cart-item__desc">
+                                                                <h3 className="cart-item__name"
+                                                                    style={{
+                                                                        width: '100%'
+                                                                    }}
+                                                                >
+                                                                    {bought.name}</h3>
+                                                                <span className="cart-item__color">Màu tự nhiên</span>
+                                                            </div>
                                                         </div>
-                                                        <div className="cart-item__desc">
-                                                            <h3 className="cart-item__name">{bought.name}</h3>
-                                                            <span className="cart-item__color">Màu tự nhiên</span>
-                                                        </div>
-                                                    </div>
-                                                    <span className="cart-item__prices" style={{ letterSpacing: 1 }}>
-                                                        {bought.discount ?
-                                                            (bought.prices - (bought.prices * (parseInt(bought.discount)) / 100)).toLocaleString("en-VI") :
-                                                            parseInt(bought.prices).toLocaleString("en-VI")
-                                                        }
-                                                        <span className="VND">₫</span>
-                                                    </span>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </>
-                                    :
-                                    <span className="products-bought__not">
-                                        Bạn chưa đặt mua sản phẩm.
-                                    </span>
-                                }
-                            </div>
-                        </div>}
+                                                        <span className="cart-item__prices" style={{ letterSpacing: 1 }}>
+                                                            {bought.discount ?
+                                                                (bought.prices - (bought.prices * (parseInt(bought.discount)) / 100)).toLocaleString("en-VI") :
+                                                                parseInt(bought.prices).toLocaleString("en-VI")
+                                                            }
+                                                            <span className="VND">₫</span>
+                                                        </span>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </>
+                                    }
+                                </div>
+                            </div> :
+
+                            (!dataUserCheckout.checkout && <span className="products-bought__not">
+                                Bạn chưa đặt mua sản phẩm.
+                            </span>)
+
+                        }
                     </div>
                 </div>
             </div>

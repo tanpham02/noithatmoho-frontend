@@ -11,9 +11,10 @@ const Cart = () => {
     const [carts, setCarts] = useState([])
 
     useEffect(() => {
-        const carts = JSON.parse(localStorage.getItem('cartLists'))
+        const carts = JSON.parse(localStorage.getItem('cartLists')) ?? []
         setCarts([...carts])
     }, [])
+
 
     useEffect(() => {
         async function fetchData() {
@@ -54,7 +55,7 @@ const Cart = () => {
     const totalCart = useMemo(() => {
         const merge = cartLists.concat(carts)
         const result = Object.values(merge.reduce((accumulator, current) => {
-            const { id, name, discount= '', prices = 0, quantity_sold = 0, quantity_stock = 0, image_url = '', quantity = 0 } = current
+            const { id, name, discount = '', prices = 0, quantity_sold = 0, quantity_stock = 0, image_url = '', quantity = 0 } = current
             accumulator[id] = accumulator[id] || { id, name, discount, prices: 0, quantity_sold: 0, quantity_stock: 0, image_url: '', quantity: 0 }
             accumulator[id].prices += prices
             accumulator[id].quantity_sold += quantity_sold
@@ -103,7 +104,7 @@ const Cart = () => {
                                         to={`/products/${(cart.name).split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")} `}
                                     >
                                         <img
-                                            src={cart.image_url.split(',')[0]}
+                                            src={cart.image_url.split(', ')[0]}
                                             alt={cart.name}
                                             className="cart__item-img"
                                         />
@@ -186,21 +187,25 @@ const Cart = () => {
                 >
                     Xem giỏ hàng
                 </Link>
-                {carts.length ?
+                {
                     JSON.parse(localStorage.getItem('isLogin')) ?
+                    carts.length ?
                         <Link className="btn cart-btns__checkout"
                             to={
                                 `/checkout/${(JSON.parse(localStorage.getItem('fullNameAccount')))?.split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`}
                         >
                             Thanh toán
                         </Link> :
-                        <Link className="btn cart-btns__checkout" onClick={() => window.alert('Vui lòng đăng nhập để trải nghiệm được tốt hơn!')}
+
+                        <Link className="btn cart-btns__checkout"
+                            onClick={() => window.alert('Hiện tại không có sản phẩm nào!')}
                             to=''
                         >
                             Thanh toán
-                        </Link> :
-                    <Link className="btn cart-btns__checkout"
-                        onClick={() => window.alert('Hiện tại không có sản phẩm nào!')}    
+                        </Link>
+
+                    :
+                    <Link className="btn cart-btns__checkout" onClick={() => window.alert('Vui lòng đăng nhập để trải nghiệm được tốt hơn!')}
                         to=''
                     >
                         Thanh toán

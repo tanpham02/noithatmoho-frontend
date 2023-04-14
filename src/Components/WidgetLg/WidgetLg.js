@@ -1,80 +1,64 @@
+import { memo, useEffect, useState } from 'react'
 import "./WidgetLg.scss";
+import axios from 'axios';
 
-export default function WidgetLg() {
-  const Button = ({ type }) => {
-    return <button className={"widget-lg__button " + type}>{type}</button>;
-  };
+const WidgetLg = () => {
+
+  const [userDatas, setUserData] = useState([])
+
+  useEffect(() => {
+    async function getData() {
+      const res = await axios.get('http://localhost:9080/api/users')
+      const data = await res.data
+      setUserData(data)
+    }
+    getData()
+  }, [])
+
   return (
     <div className="widget-lg">
-      <h3 className="widget-lg__title">Latest transactions</h3>
+      <h3 className="widget-lg__title">Đơn hàng gần đây</h3>
       <table className="widget-lg__table">
         <tr className="widget-lg__tr">
-          <th className="widget-lg__th">Customer</th>
-          <th className="widget-lg__th">Date</th>
-          <th className="widget-lg__th">Amount</th>
-          <th className="widget-lg__th">Status</th>
+          <th className="widget-lg__th">Tên khách hàng</th>
+          <th className="widget-lg__th">Ngày</th>
+          <th className="widget-lg__th">Tổng giá trị đơn hàng (VND)</th>
         </tr>
-        <tr className="widget-lg__tr">
-          <td className="widget-lg__user">
-            <img
-              src="https://images.pexels.com/photos/4172933/pexels-photo-4172933.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-              alt=""
-              className="widget-lg__img"
-            />
-            <span className="widget-lg__name">Susan Carol</span>
-          </td>
-          <td className="widget-lg__date">2 Jun 2021</td>
-          <td className="widget-lg__amount">$122.00</td>
-          <td className="widget-lg__status">
-            <Button type="Approved" />
-          </td>
-        </tr>
-        <tr className="widget-lg__tr">
-          <td className="widget-lg__user">
-            <img
-              src="https://images.pexels.com/photos/4172933/pexels-photo-4172933.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-              alt=""
-              className="widget-lg__img"
-            />
-            <span className="widget-lg__name">Susan Carol</span>
-          </td>
-          <td className="widget-lg__date">2 Jun 2021</td>
-          <td className="widget-lg__amount">$122.00</td>
-          <td className="widget-lg__status">
-            <Button type="Declined" />
-          </td>
-        </tr>
-        <tr className="widget-lg__tr">
-          <td className="widget-lg__user">
-            <img
-              src="https://images.pexels.com/photos/4172933/pexels-photo-4172933.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-              alt=""
-              className="widget-lg__img"
-            />
-            <span className="widget-lg__name">Susan Carol</span>
-          </td>
-          <td className="widget-lg__date">2 Jun 2021</td>
-          <td className="widget-lg__amount">$122.00</td>
-          <td className="widget-lg__status">
-            <Button type="Pending" />
-          </td>
-        </tr>
-        <tr className="widget-lg__tr">
-          <td className="widget-lg__user">
-            <img
-              src="https://images.pexels.com/photos/4172933/pexels-photo-4172933.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-              alt=""
-              className="widget-lg__img"
-            />
-            <span className="widget-lg__name">Susan Carol</span>
-          </td>
-          <td className="widget-lg__date">2 Jun 2021</td>
-          <td className="widget-lg__amount">$122.00</td>
-          <td className="widget-lg__status">
-            <Button type="Approved" />
-          </td>
-        </tr>
+
+        {userDatas.length && userDatas.map((user, index) =>
+          (user.is_admin === 0 && user?.checkout) && (
+            <tr className="widget-lg__tr" key={index}>
+              <td className="widget-lg__user">
+                <img
+                  src={user.avatar}
+                  alt={user.full_name}
+                  className="widget-lg__img"
+                />
+                <span className="widget-lg__name">{user.full_name}</span>
+              </td>
+              <td className="widget-lg__date">{user.checkout?.split('; ')[7]}</td>
+              <td className="widget-lg__amount"
+                style={{
+                  position: 'relative'
+                }} 
+              >{
+                user?.checkout &&
+                parseInt(user.checkout?.split('; ')[6].split(',').join('').slice(0, -1)).toLocaleString('ev-vi')
+              }
+              <span className='VND'
+                style={{
+                  position: 'absolute',
+                  top: '12px',
+                  fontSize: '1.1rem'
+                }}
+              >
+                ₫</span>
+              </td>
+            </tr>
+          ))}
       </table>
     </div>
-  );
+  )
 }
+
+export default memo(WidgetLg)

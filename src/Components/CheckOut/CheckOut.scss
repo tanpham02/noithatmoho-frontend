@@ -359,9 +359,14 @@
     padding: 16px;
     background-color: #338dbc;
     color: #fff;
+    height: 48px;
     font-size: 1.45rem;
     position: relative;
-    right: -56.6%;
+    right: -39.5%;
+
+    &:hover {
+        background-color: #3c92bf;
+    }
 }
 
 

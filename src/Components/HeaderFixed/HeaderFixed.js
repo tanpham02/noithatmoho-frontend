@@ -4,6 +4,7 @@ import Cart from "../Cart/Cart"
 import { useState, useEffect, useLayoutEffect, useCallback, useRef, memo } from "react"
 import { Link } from "react-router-dom"
 import { useTranslation } from 'react-i18next'
+import { DEFAULT_LANG } from '../Header/Header'
 import './HeaderFixed.scss'
 
 import { groupTypes, types, products } from '../Header/Header'
@@ -49,7 +50,7 @@ const Header = ({ search, setValueSearch, localeLogos, accountInfos, dataSearch,
         if (localeLngRef.current) {
             const childrens = localeLngRef.current.children
             Array.from(childrens).map((children, index) => {
-                if (localStorage.getItem('lang') === children.alt) {
+                if (localStorage.getItem('lang') ?? DEFAULT_LANG === children.alt) {
                     setId(index)
                 }
             })
@@ -245,7 +246,7 @@ const Header = ({ search, setValueSearch, localeLogos, accountInfos, dataSearch,
                                     <i className="fa-regular fa-user"></i>
                                 </div>
 
-                                {isLogin || (showLogin && <Login onGetDataAuthor={handleAuthor} />)}
+                                {isLogin || (showLogin && <Login onGetDataAuthor={handleAuthor} fixedHeader={fixedHeader} />)}
 
                                 {showInfo &&
                                     <div
@@ -297,14 +298,19 @@ const Header = ({ search, setValueSearch, localeLogos, accountInfos, dataSearch,
                                             </svg>
                                         </span>
 
-                                        {JSON.parse(localStorage.getItem('cartLists')).length <= 9 ?
-                                            <span className="quanlity-product">
-                                                {JSON.parse(localStorage.getItem('cartLists')).length}
-                                            </span>
+                                        {JSON.parse(localStorage.getItem('cartLists')) ?
+
+                                            JSON.parse(localStorage.getItem('cartLists')).length <= 9 ?
+                                                <span span className="quanlity-product">
+                                                    {JSON.parse(localStorage.getItem('cartLists')).length}
+                                                </span> :
+                                                <span className="quanlity-product">
+                                                    9
+                                                    <span className="quanlity-product__plus" style={{ position: 'absolute', top: '-2px', right: '0' }}>+</span>
+                                                </span>
                                             :
                                             <span className="quanlity-product">
-                                                9
-                                                <span className="quanlity-product__plus" style={{ position: 'absolute', top: '-2px', right: '-2px' }}>+</span>
+                                                0
                                             </span>
                                         }
                                         <div

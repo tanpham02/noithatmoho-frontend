@@ -8,13 +8,12 @@ const OdenseCollection = ({ datas, dataTypes, filterCategories, filterPrices, fi
     const [expectedData, setExpectedData] = useState([])
 
     useEffect(() => {
-        
         const results = datas.filter((data, index) => {
-            const kitchenWare = dataTypes.find(type => type.id === 7)
-            if (kitchenWare.id === data['type_id']) {
+            if (data.name.toLowerCase().includes('odense')) {
                 return data
             }
         })
+        setDataKoges([...results])
         setDataKoges(results)
     }, [dataTypes, datas])
 

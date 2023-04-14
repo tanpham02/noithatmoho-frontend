@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import axios from 'axios'
 import './Login.scss'
 
-const Login = ({ onGetDataAuthor }) => {
+const Login = ({ onGetDataAuthor, fixedHeader }) => {
     const [emailOrPhonenumber, setEmailOrPhonenumber] = useState('')
     const [password, setPassWord] = useState('')
     const [datas, setDatas] = useState([])
@@ -109,7 +109,7 @@ const Login = ({ onGetDataAuthor }) => {
 
     return (
         <div
-            className="form-login"
+            className={`form-login ${fixedHeader && 'active'}`}
             onClick={(e) => e.stopPropagation()}
         >
             <form id="form-login">

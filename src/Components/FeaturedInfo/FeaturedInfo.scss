@@ -15,6 +15,7 @@
         & .featured__money {
             font-size: 30px;
             font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
         & .featured__money-rate {
@@ -35,8 +36,8 @@
 
         & .featured__sub {
             font-size: 15px;
-            color: gray;
-        }   
+            color: var(--border-btn);
+        }
     }
 
     &__title {

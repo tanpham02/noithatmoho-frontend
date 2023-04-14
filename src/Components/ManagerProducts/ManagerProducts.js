@@ -2,11 +2,13 @@ import './ManagerProducts.scss'
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import axios from 'axios'
 
 const ManagerProducts = () => {
     const [dataProducts, setDataProducts] = useState([])
+    const [search, setSearch] = useState('')
+    const [dataSearch, setDataSearch] = useState([])
 
     useEffect(() => {
         async function getData() {
@@ -18,15 +20,27 @@ const ManagerProducts = () => {
     }, [])
 
     const handleDelete = (id) => {
-        setDataProducts(dataProducts.filter((item) => item.id !== id));
+        async function deletePro() {
+            const res = await axios.delete(`http://localhost:9080/api/products/${id}`)
+            window.alert('Đã xóa sản phẩm thành công!')
+            window.location.reload()
+            return res
+        }
+        if (window.confirm('Bạn có chắc chắn muốn xóa sản phẩm này?') === true) {
+            deletePro()
+        }
     };
 
     const columns = [
-        { field: "id", headerName: "ID", width: 90 },
+        {
+            field: "id",
+            headerName: "ID",
+            width: 120
+        },
         {
             field: "name",
             headerName: "Tên",
-            width: 300,
+            width: 450,
             renderCell: (params) => {
                 return (
                     <div className="productListItem">
@@ -54,21 +68,20 @@ const ManagerProducts = () => {
                 );
             },
         },
-        { field: "quantity_stock", headerName: "Số lượng nhập vào", width: 180 },
         {
             field: "quantity_sold",
             headerName: "Số lượng đã bán",
-            width: 180,
+            width: 200,
         },
         {
             field: "prices",
             headerName: "Giá",
-            width: 160,
+            width: 200,
         },
         {
             field: "action",
-            headerName: "Action",
-            width: 150,
+            headerName: "Hành động",
+            width: 200,
             renderCell: (params) => {
                 return (
                     <>
@@ -87,15 +100,52 @@ const ManagerProducts = () => {
         },
     ];
 
+    useEffect(() => {
+        if (search.length) {
+            const dataSearch = dataProducts.filter(data => data.name.toLowerCase().includes(search.toLowerCase().trim()))
+            setDataSearch(dataSearch)
+            return
+        }
+        setDataSearch(dataProducts)
+        return
+    }, [dataProducts, search])
+
+
     return (
 
         <>
+            <div className='header-search'>
+                <input
+                    className="header-search__input"
+                    type='search'
+                    value={search}
+                    onChange={e => setSearch(e.target.value)}
+                />
+                <button
+                    className="btn-search"
+                    type="search"
+                >
+                    <i className="fa-solid fa-magnifying-glass"></i>
+
+                </button>
+            </div>
+
+            <h4 style={{
+                fontSize: '2rem',
+                color: 'var(--gray-color)',
+                opacity: '0.9',
+                marginLeft: '2rem',
+                fontWeight: '800',
+            }}
+            >
+                Quản lý sản phẩm
+            </h4 >
             <Link to="/manager-products/create-product"
                 style={{
                     margin: '0px 20px 20px 0px',
                     width: '6%',
                     position: 'relative',
-                    right: '-93.8%'
+                    right: '-92.9%',
                 }}>
                 <button className="productAddButton" style={{
                     backgroundColor: 'teal',
@@ -105,13 +155,15 @@ const ManagerProducts = () => {
                     fontWeight: '600',
                     borderRadius: '4px',
                     outline: 'none',
-                    border: 'none'
+                    border: 'none',
+                    cursor: 'pointer',
+                    textTransform: 'uppercase'
                 }}>Create</button>
             </Link >
 
             <div className="productList">
                 <DataGrid
-                    rows={dataProducts}
+                    rows={dataSearch}
                     disableSelectionOnClick
                     columns={columns}
                     pageSize={8}
@@ -122,4 +174,4 @@ const ManagerProducts = () => {
     )
 }
 
-export default ManagerProducts
+export default memo(ManagerProducts)

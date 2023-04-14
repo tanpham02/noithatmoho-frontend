@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, memo } from 'react'
 import axios from 'axios'
 import {
     CalendarToday,
@@ -10,19 +10,71 @@ import './DetailUser.scss'
 
 const DetailUser = () => {
     const [user, setUser] = useState({})
+    const [fullName, setFullName] = useState('')
+    const [email, setEmail] = useState('')
+    const [phoneNumber, setPhoneNumber] = useState('')
+    const [birthday, setBirthday] = useState('')
+    const [address, setAddress] = useState('')
+    const [isAdmin, setIsAdmin] = useState('')
 
     useEffect(() => {
         const id = window.location.pathname.split('/')[3]
         async function fetchData() {
             const res = await axios.get(`http://localhost:9080/api/users/${id}`)
             const datas = res.data
-            setUser(datas)
+            setUser({ ...datas })
         }
         fetchData()
 
     }, [window.location.pathname])
 
-    console.log(user)
+    useEffect(() => {
+        if (user) {
+            if (user.full_name) {
+                setFullName(user.full_name)
+            }
+            if (user.email) {
+                setEmail(user.email)
+            }
+            if (user.phone_number) {
+                setPhoneNumber(user.phone_number)
+            }
+            if (user.birthday) {
+                setBirthday(user.birthday)
+            }
+            if (user.address) {
+                setAddress(user.address)
+            }
+            if (String(user.is_admin)) {
+                setIsAdmin(String(user.is_admin))
+            }
+        }
+    }, [user])
+
+
+    const handleUpdateUser = (e) => {
+        e.preventDefault()
+
+        const dataUpdate = {
+            ...user,
+            full_name: fullName,
+            email,
+            phone_number: phoneNumber,
+            birthday,
+            address,
+            is_admin: isAdmin ? parseInt(isAdmin) : 0
+        }
+
+        console.log(dataUpdate)
+
+        async function updateUser() {
+            const res = await axios.put(`http://localhost:9080/api/users/${user.id}`, dataUpdate)
+            window.alert('Cập nhật người dùng thành công!')
+            window.location.reload()
+            return res
+        }
+        updateUser()
+    }
 
     return (
         <div className="user">
@@ -86,52 +138,79 @@ const DetailUser = () => {
                 </div>
                 <div className="userUpdate">
                     <span className="userUpdateTitle">Chỉnh sửa</span>
-                    <form className="userUpdateForm">
+                    <form className="userUpdateForm" onSubmit={handleUpdateUser}>
                         <div className="userUpdateLeft">
                             <div className="userUpdateItem">
                                 <label>Tên đầy đủ</label>
                                 <input
                                     type="text"
                                     name='name'
+                                    required
                                     placeholder={user.full_name}
                                     className="userUpdateInput"
+                                    value={fullName}
+                                    onChange={(e) => setFullName(e.target.value)}
                                 />
                             </div>
                             <div className="userUpdateItem">
                                 <label>Email</label>
                                 <input
                                     type="text"
+                                    required
                                     placeholder={user.email}
                                     name='email'
                                     className="userUpdateInput"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                 />
                             </div>
                             <div className="userUpdateItem">
                                 <label>Số điện thoại</label>
                                 <input
                                     type="text"
+                                    required
                                     placeholder={user.phone_number}
                                     name='phone'
                                     className="userUpdateInput"
+                                    value={phoneNumber}
+                                    onChange={(e) => setPhoneNumber(e.target.value)}
                                 />
                             </div>
                             <div className="userUpdateItem">
                                 <label>Ngày sinh</label>
                                 <input
                                     type="text"
+                                    required
                                     placeholder={user.birthday}
                                     name='birthday'
                                     className="userUpdateInput"
+                                    value={birthday}
+                                    onChange={(e) => setBirthday(e.target.value)}
                                 />
                             </div>
                             <div className="userUpdateItem">
                                 <label>Địa chỉ</label>
                                 <input
                                     type="text"
+                                    required
                                     placeholder={user.address}
                                     name='address'
                                     className="userUpdateInput"
+                                    value={address}
+                                    onChange={e => setAddress(e.target.value)}
                                 />
+                            </div>
+                            <div className="userUpdateItem">
+                                <label>Vai trò</label>
+                                <input
+                                    type="text"
+                                    placeholder={String(user.is_admin)}
+                                    name='role'
+                                    className="userUpdateInput"
+                                    value={String(isAdmin)}
+                                    onChange={e => setIsAdmin(e.target.value)}
+                                />
+                                <span className='isZero'>Có thể bỏ trống nếu là 0</span>
                             </div>
                         </div>
 
@@ -164,7 +243,7 @@ const DetailUser = () => {
                                     </div>
                                 }
                             </div>
-                            <button className="btn userUpdateButton">Update</button>
+                            <button type='submit' className="btn userUpdateButton">Update</button>
                         </div>
                     </form>
                 </div>
@@ -173,4 +252,4 @@ const DetailUser = () => {
     )
 }
 
-export default DetailUser
+export default memo(DetailUser)

@@ -8,14 +8,12 @@ const KoldingCollection = ({ datas, dataTypes, filterCategories, filterPrices, f
     const [expectedData, setExpectedData] = useState([])
 
     useEffect(() => {
-        
         const results = datas.filter((data, index) => {
-            const kitchenWare = dataTypes.find(type => type.id === 2)
-            if (kitchenWare.id === data['type_id']) {
+            if (data.name.toLowerCase().includes('kolding')) {
                 return data
             }
         })
-        setDataKoges(results)
+        setDataKoges([...results])
     }, [dataTypes, datas])
 
     const handleMouseEnter = (index) => {

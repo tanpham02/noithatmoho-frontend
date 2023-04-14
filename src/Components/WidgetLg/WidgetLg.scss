@@ -16,6 +16,9 @@
 
   &__th {
     text-align: left;
+    font-size: 1.45rem;
+    color: var(--dark);
+    font-weight: 600;
   }
 
   &__user {
@@ -34,7 +37,23 @@
 
   & .widget-lg__date,
   &__amount {
+    letter-spacing: 1px;
+    font-size: 1.25rem;
+    color: var(--gray-color);
+    font-weight: 600;
+    opacity: 0.9;
+  }
+
+  &__date {
     font-weight: 300;
+    letter-spacing: 1px;
+  }
+
+  &__name {
+    font-size: 1.25rem;
+    color: var(--gray-color);
+    font-weight: 600;
+    opacity: 0.9;
   }
 
 

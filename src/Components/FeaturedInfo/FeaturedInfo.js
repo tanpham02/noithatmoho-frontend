@@ -1,74 +1,98 @@
-import { useState, useEffect, useMemo } from "react";
-import axios from 'axios'
-import { ArrowDownward, ArrowUpward } from "@material-ui/icons"
+import { useMemo, memo, useState, useEffect } from "react";
 import './FeaturedInfo.scss'
 
-const  FeaturedInfo = () => {
-
-
-  const [userDatas, setUseData] = useState([])
-  useEffect(() => {
-    async function getData() {
-      const res = axios.get('http://localhost:9080/api/users')
-      const data = (await res).data
-      setUseData(data)
-    }
-    getData()
-  }, [])
-
-
-
-
+const FeaturedInfo = ({ userDatas }) => {
 
   const handleTotalRevenue = useMemo(() => {
     const totalRevenue = userDatas.reduce((total, next) => {
-      if (next.checkout) {
-        const totalCheckout = parseInt(next.checkout.split('; ')[6].split(',').join('').slice(0, -1))
-        return total + totalCheckout
+
+      const dateLocale = new Date().toLocaleDateString().split('/')
+      const localeDay = dateLocale[0] + '/' + dateLocale[2]
+
+      const dateLocaleDb = next?.checkout && next.checkout?.split('; ')[7]?.split('/')
+      const localeDayDb = next?.checkout && dateLocaleDb[0] + '/' + dateLocaleDb[2]
+
+
+      if (localeDayDb === localeDay) {
+        return total + parseFloat(next.transactions)
       }
       return total + 0
-
-
     }, 0)
     return totalRevenue
   }, [userDatas])
 
+  const handleTotalProfit = useMemo(() => {
+    const totalProfit = userDatas.reduce((total, next) => {
+
+      const dateLocale = new Date().toLocaleDateString().split('/')
+      const localeDay = dateLocale[0] + '/' + dateLocale[2]
+
+      const dateLocaleDb = next?.checkout && next.checkout?.split('; ')[7]?.split('/')
+      const localeDayDb = next?.checkout && dateLocaleDb[0] + '/' + dateLocaleDb[2]
+
+      if (localeDayDb === localeDay) {
+        return total + parseFloat(next.transactions)
+      }
+      return total + 0
+    }, 0)
+    return totalProfit - (totalProfit * (57 / 100))
+  }, [userDatas])
+
+
+  const handleTotalOrder = useMemo(() => {
+    const totalOrder = userDatas.reduce((total, next) => {
+      const dateLocale = new Date().toLocaleDateString().split('/')
+      const localeDay = dateLocale[0] + '/' + dateLocale[2]
+
+      const dateLocaleDb = next?.checkout && next.checkout?.split('; ')[7]?.split('/')
+      const localeDayDb = next?.checkout && dateLocaleDb[0] + '/' + dateLocaleDb[2]
+
+      if (localeDayDb === localeDay) {
+        return total + parseFloat(next.total_order)
+      }
+      return total + 0
+    }, 0)
+    return totalOrder
+  }, [userDatas])
 
 
   return (
     <div className="featured">
-      <div className="featured__item">
+      <div className="featured__item"
+        style={{
+          backgroundColor: 'teal'
+        }}
+      >
         <span className="featured__title">Doanh thu</span>
         <div className="featured__money-container">
           <span className="featured__money">{`VND ${handleTotalRevenue.toLocaleString('EN-VI')}`}</span>
-          <span className="featured__money-rate">
-            -11.4 <ArrowDownward className="featured-icon negative" />
-          </span>
         </div>
-        <span className="featured__sub">So sánh với tháng trước</span>
+        <span className="featured__sub">{`Tháng ${new Date().toLocaleDateString().split('/')[0]}`}</span>
       </div>
-      <div className="featured__item">
-        <span className="featured__title">Sales</span>
+      <div className="featured__item"
+        style={{
+          backgroundColor: 'var(--primary-color-orange)'
+        }}
+      >
+        <span className="featured__title">Đơn hàng</span>
         <div className="featured__money-container">
-          <span className="featured__money">$4,415</span>
-          <span className="featured__money-rate">
-            -1.4 <ArrowDownward className="featured-icon negative" />
-          </span>
+          <span className="featured__money">{handleTotalOrder}</span>
         </div>
-        <span className="featured__sub">Compared to last month</span>
+        <span className="featured__sub">{`Tháng ${new Date().toLocaleDateString().split('/')[0]}`}</span>
       </div>
-      <div className="featured__item">
-        <span className="featured__title">Cost</span>
+      <div className="featured__item"
+        style={{
+          backgroundColor: 'var(--primary-color-blue)'
+        }}
+      >
+        <span className="featured__title">Lợi nhuận</span>
         <div className="featured__money-container">
-          <span className="featured__money">$2,225</span>
-          <span className="featured__money-rate">
-            +2.4 <ArrowUpward className="featured-icon" />
-          </span>
+          <span className="featured__money">{`VND ${handleTotalProfit.toLocaleString('EN-VI')}`}</span>
         </div>
-        <span className="featured__sub">Compared to last month</span>
+        <span className="featured__sub">{`Tháng ${new Date().toLocaleDateString().split('/')[0]}`}</span>
       </div>
     </div>
   )
 }
 
-export default FeaturedInfo
+export default memo(FeaturedInfo)

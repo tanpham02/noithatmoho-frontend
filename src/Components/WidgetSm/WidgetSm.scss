@@ -1,49 +1,57 @@
-.widget-sm{
+.widget-sm {
     flex: 1;
     -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
     box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
     padding: 20px;
     margin-right: 20px;
 
-    &__title{
+    &__title {
         font-size: 22px;
         font-weight: 600;
     }
 
-    &__img{
+    &__img {
         width: 40px;
         height: 40px;
         border-radius: 50%;
         object-fit: cover;
     }
 
-    &__list{
+    &__list {
         margin: 0;
         padding: 0;
         list-style: none;
 
-        &-item{
+        &-item {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: space-around;
             margin: 20px 0px;
         }
     }
 
-    &__user{
+    &__user {
         display: flex;
         flex-direction: column;
+        flex-wrap: wrap;
+        margin: 0 15px;
     }
 
-    &__user-name{
+    &__user-name {
+        font-size: 1.25rem;
+        color: var(--gray-color);
         font-weight: 600;
+        opacity: 0.9;
+        min-width: 130px;
     }
 
-    &__user-title{
-        font-weight: 300;
+    &__user-title {
+        font-weight: 500;
+        font-size: 1.15rem;
+        opacity: 0.7;
     }
 
-    &__button{
+    &__button {
         display: flex;
         align-items: center;
         border: none;
@@ -52,9 +60,35 @@
         background-color: #eeeef7;
         color: #555;
         cursor: pointer;
+        position: relative;
+
+
+        &::after {
+            content: "";
+            position: absolute;
+            width: 15px;
+            height: 2px;
+            transform: rotate(-45deg);
+            background-color: #555555;
+            top: 14px;
+            left: 10px;
+        }
+
+        &.active {
+            &::after {
+                content: "";
+                position: absolute;
+                width: 0;
+                height: 0;
+                transform: rotate(-45deg);
+                background-color: #555555;
+                top: 14px;
+                left: 10px;
+            }
+        }
     }
 
-    &__icon{
+    &__icon {
         font-size: 16px !important;
         margin-right: 5px;
     }

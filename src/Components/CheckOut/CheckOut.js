@@ -1,6 +1,6 @@
-import { useState, useEffect, useMemo } from "react"
+import { useState, useEffect, useMemo, memo } from "react"
 import axios from 'axios'
-import { Link } from 'react-router-dom'
+import { Link, parsePath } from 'react-router-dom'
 import './CheckOut.scss'
 
 export const ID_USER = JSON.parse(localStorage.getItem('idUser'))
@@ -87,6 +87,8 @@ const CheckOut = ({ datas }) => {
     const [infoUser, setInfoUser] = useState({})
     const [selectedFile, setSelectedFile] = useState(null);
 
+
+    const [voucherDbs, setVoucherDbs] = useState([])
 
     useEffect(() => {
         async function getUsers() {
@@ -214,7 +216,19 @@ const CheckOut = ({ datas }) => {
 
 
     const handleUseVoucher = () => {
+
         const vouchersDb = infoUser.vouchers.split(', ')
+        vouchersDb.forEach(voucher => {
+            if (voucher === inputVoucher.trim()) {
+                console.log(voucher, inputVoucher)
+
+                // const index = vouchersDb.findIndex(vou => vou === (inputVoucher))
+                // if (index !== -1) {
+                //     vouchersDb.splice(index, 1)
+                //     setVoucherDbs([...vouchersDb].join(', '))
+                // }
+            }
+        })
         const output = vouchersDb.includes(inputVoucher.trim())
         if (output) {
             setNotVoucher(false)
@@ -255,19 +269,18 @@ const CheckOut = ({ datas }) => {
                     break;
 
             }
-            return
+
         } else {
             setNotVoucher(true)
-            return
         }
     }
+
 
     const handleSubmit = (e) => {
         if (name.length && address.length && phoneNum.length) {
             e.preventDefault()
             const cartStorage = JSON.parse(localStorage.getItem('cartLists'))
-            const vouchersDb = infoUser.vouchers.split(', ')
-            const index = vouchersDb.findIndex(vou => vou.includes(inputVoucher))
+
             const infoProducts = dataCheckOuts.map(data => {
                 return {
                     id: data.id,
@@ -275,46 +288,62 @@ const CheckOut = ({ datas }) => {
                     quantity: data.quantity,
                     prices: data.prices,
                     img: data.image_url,
+                    discount: data.discount ? data.discount : ''
                 }
             })
-            if (index > -1) {
-                vouchersDb.splice(index, 1)
-                const checkoutDatas = {
-                    ...infoUser,
-                    checkout: `${name}; ${phoneNum}; ${JSON.stringify(infoProducts)}; ${address}; ${delivery}; ${payment}; ${total}₫; ${new Date().toLocaleDateString()}`,
-                    vouchers: `${vouchersDb.join(', ')}`
-                }
 
-                axios.put(`http://localhost:9080/api/users/${ID_USER}`, checkoutDatas)
-                    .then(res => {
-                        dataCheckOuts.forEach(checkoutData => {
-                            datas.filter(data => {
-                                if (data.id === checkoutData.id) {
-                                    cartStorage.filter(cart => {
-                                        if (cart.id === data.id) {
-                                            const quantity_sold = data.quantity_sold + cart.quantity
-                                            const quantity_stock = data.quantity_stock - cart.quantity
-                                            const updatePro = {
-                                                ...data,
-                                                quantity_sold,
-                                                quantity_stock
-                                            }
-                                            axios.put(`http://localhost:9080/api/products/${data.id}`, updatePro)
-                                                .then(res => console.log(res.data))
-                                                .catch(err => console.log(err))
+            let totalOrder = infoUser?.total_order ? parseInt(infoUser.total_order) : 0
+
+            if (infoProducts) {
+                totalOrder += 1
+            }
+
+            const checkoutDatas = {
+                ...infoUser,
+                checkout: `${name}; ${phoneNum}; ${JSON.stringify(infoProducts)}; ${address}; ${delivery}; ${payment}; ${total}₫; ${new Date().toLocaleDateString()}`,
+                vouchers: `${voucherDbs || infoUser.vouchers}`,
+                total_order: String(totalOrder),
+                transactions: ''
+            }
+
+            const transactionDb = infoUser?.checkout ? JSON.parse(infoUser.checkout?.split('; ')[6]?.split(',').join('')?.slice(0, -1)) : 0
+            const transactionHandle = checkoutDatas?.checkout ? JSON.parse(checkoutDatas.checkout?.split('; ')[6]?.split(',').join('')?.slice(0, -1)) : 0
+
+            const checkoutMain = {
+                ...checkoutDatas,
+                transactions: String(Number(transactionDb) + Number(transactionHandle))
+            }
+
+            axios.put(`http://localhost:9080/api/users/${ID_USER}`, checkoutMain)
+                .then(res => {
+                    dataCheckOuts.forEach(checkoutData => {
+                        datas.filter(data => {
+                            if (data.id === checkoutData.id) {
+                                cartStorage.filter(cart => {
+                                    if (cart.id === data.id) {
+                                        const quantity_sold = data.quantity_sold + cart.quantity
+                                        const quantity_stock = data.quantity_stock - cart.quantity
+                                        const updatePro = {
+                                            ...data,
+                                            quantity_sold,
+                                            quantity_stock
                                         }
-                                    })
-                                }
-                            })
+                                        axios.put(`http://localhost:9080/api/products/${data.id}`, updatePro)
+                                            .then(res => console.log(res.data))
+                                            .catch(err => console.log(err))
+                                    }
+                                })
+                            }
                         })
                     })
-                    .catch(err => console.log(err))
+                })
+                .catch(err => console.log(err))
 
-                window.alert('Hoàn tất đơn hàng!')
-                localStorage.setItem('cartLists', JSON.stringify([]))
-                localStorage.setItem('isSuccessCheckout', JSON.stringify(false))
-                window.location.replace('/account')
-            }
+            window.alert('Hoàn tất đơn hàng!')
+            localStorage.setItem('cartLists', JSON.stringify([]))
+            localStorage.setItem('isSuccessCheckout', JSON.stringify(false))
+            window.location.replace('/account')
+
         } else {
             window.alert('Vui lòng nhập đầy đủ thông tin!')
         }
@@ -338,6 +367,8 @@ const CheckOut = ({ datas }) => {
             setSelectedFile(storedPath);
         }
     }, [infoUser]);
+
+
 
 
 
@@ -474,7 +505,10 @@ const CheckOut = ({ datas }) => {
                                 </div>
                             </div>
 
-                            <button type="submit" onClick={handleSubmit} className="btn btn-checkout">Hoàn tất đơn hàng</button>
+                            <button type="submit" style={{
+                                position: 'relative',
+                                right: '-371px'
+                            }} onClick={handleSubmit} className="btn btn-checkout">Hoàn tất đơn hàng</button>
                         </form>
                     </div>
                     <div className="grid__col-2-4 checkout-second">
@@ -483,7 +517,7 @@ const CheckOut = ({ datas }) => {
                                 <li key={index} className="checkout__cart-item">
                                     <div className='cart-item__wrap'>
                                         <div className="cart-item__img">
-                                            <img src={dataCheckout.image_url.split(',')[0]} alt={dataCheckout.name} />
+                                            <img src={dataCheckout.image_url.split(', ')[0]} alt={dataCheckout.name} />
                                             {carts.map((cartStorage, index) => {
                                                 if (dataCheckout.id === cartStorage.id) {
                                                     return (
@@ -591,4 +625,4 @@ const CheckOut = ({ datas }) => {
     )
 }
 
-export default CheckOut
+export default memo(CheckOut)

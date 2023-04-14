@@ -24,14 +24,14 @@
     margin-right: 20px;
   }
 
-  & .newUserItem>label {
+  & label {
     margin-bottom: 10px;
     font-size: 1.25rem;
     font-weight: 600;
     color: rgb(151, 150, 150);
   }
 
-  & .newUserItem>input {
+  & input {
     height: 20px;
     padding: 20px;
     border: 1.5px solid var(--border-color);
@@ -40,26 +40,28 @@
     transition: all ease-out 0.25s;
   }
 
-  & .newUserItem>input:focus {
+  & input:focus {
     box-shadow: 0 0 0 2px #338dbc !important;
   }
 
 
-  & .newUserItem>input[type="file"] {
-    outline: none;
-    border: none;
-    color: #fff;
-
+  & input[type="file"] {
+    outline: none !important;
+    border: none !important;
+    color: #fff !important;
   }
 
-  & .newUserItem>input[type="file"]:focus {
-    box-shadow: 0 0 0 2px #fff;
-    padding: 6px 0;
+  & input[type="file"]:focus {
+    box-shadow: 0 0 0 2px #fff !important;
+    width: 30%;
   }
 
-  & .newUserItem>input[type="file"]::-webkit-file-upload-button {
+  & input[type="file"]::-webkit-file-upload-button {
     border: 1px solid var(--border-color);
-
+    cursor: pointer;
+    font-size: 1.3rem;
+    color: gray;
+    font-weight: 700;
   }
 
   & .newUserGender>input {
@@ -84,7 +86,8 @@
     background-color: var(--primary-color-blue);
     color: white;
     padding: 7px 10px;
-    font-size: 1.6rem;
+    font-size: 1.5rem;
+    text-transform: uppercase;
     font-weight: 600;
     border-radius: 10px;
     margin-top: 30px;

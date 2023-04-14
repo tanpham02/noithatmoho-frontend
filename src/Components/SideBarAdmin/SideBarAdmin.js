@@ -7,6 +7,12 @@ import './SideBarAdmin.scss'
 import { Link } from "react-router-dom";
 
 const SideBarAdmin = ({ listPage }) => {
+    const [active, setActive] = useState(window.location.pathname)
+
+
+    const handleActive = (path) => {
+        setActive(path)
+    }
 
 
     return (
@@ -15,8 +21,12 @@ const SideBarAdmin = ({ listPage }) => {
                 <div className="sidebar__menu">
                     <h3 className="sidebar__title mb--10">Dashboard</h3>
                     <ul className="sidebar__list">
-                        <li className="sidebar__list-item active">
-                            <Link to="/admin" className="link">
+                        <li className={`sidebar__list-item ${active === '/admin' && 'active'}`}>
+                            <Link
+                                to="/admin"
+                                className="link"
+                                onClick={() => handleActive('/admin')}
+                            >
                                 <HouseOutlined className="sidebar-icon" />
                                 Trang Chủ
                             </Link>
@@ -27,8 +37,12 @@ const SideBarAdmin = ({ listPage }) => {
                     <h3 className="sidebar__title">Quản Lý</h3>
                     <ul className="sidebar__list">
                         {listPage.map((itemPage, index) => (
-                            <li className={`sidebar__list-item`}>
+                            <li
+                                key={index}
+                                className={`sidebar__list-item ${active === itemPage.path && 'active'}`}
+                            >
                                 <Link
+                                    onClick={() => handleActive(itemPage.path)}
                                     to={itemPage.path}
                                     className="link"
                                 >

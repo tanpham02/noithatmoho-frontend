@@ -1,20 +1,34 @@
 import { useState, useEffect, useCallback, memo } from "react"
 import { Link } from "react-router-dom"
 import VlineCollectionFilter from "./VlineCollectionFilter"
+import Pagination from '../Pagination/Pagination'
+import { PAGE_SIZE } from '../AllProducts/AllProducts'
 
 const VlineCollection = ({ datas, dataTypes, filterCategories, filterPrices, filterSort }) => {
     const [dataKoges, setDataKoges] = useState([])
     const [indexShowImg, setIndexShowImg] = useState(0)
     const [expectedData, setExpectedData] = useState([])
+    const [currentPageData, setCurrentPageData] = useState([])
+
+    const handlePageChange = useCallback((page) => {
+        const startIndex = (page - 1) * PAGE_SIZE
+        const endIndex = startIndex + PAGE_SIZE
+        setCurrentPageData(expectedData.slice(startIndex, endIndex))
+    }, [expectedData])
+
 
     useEffect(() => {
-        
+        handlePageChange(1)
+    }, [expectedData])
+
+
+    useEffect(() => {
         const results = datas.filter((data, index) => {
-            const kitchenWare = dataTypes.find(type => type.id === 5)
-            if (kitchenWare.id === data['type_id']) {
+            if (data.name.toLowerCase().includes('vline')) {
                 return data
             }
         })
+        setDataKoges([...results])
         setDataKoges(results)
     }, [dataTypes, datas])
 
@@ -45,7 +59,7 @@ const VlineCollection = ({ datas, dataTypes, filterCategories, filterPrices, fil
                         filterSort={filterSort}
                         onGetData={getDataExpected}
                     />
-                    {expectedData.map((data, index) => (
+                    {currentPageData.map((data, index) => (
                         <div
                             key={index}
                             className="grid__col-4 products px--16"
@@ -108,6 +122,7 @@ const VlineCollection = ({ datas, dataTypes, filterCategories, filterPrices, fil
                             </Link>
                         </div>
                     ))}
+                    <Pagination total={expectedData.length} onPageChange={handlePageChange} />
                 </div>
             </div>
         </main>

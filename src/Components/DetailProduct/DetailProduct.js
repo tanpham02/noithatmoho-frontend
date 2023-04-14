@@ -16,6 +16,8 @@ const DetailProduct = () => {
         return JSON.parse(localStorage.getItem('cartLists')) ?? []
     })
 
+    const [stock, setStock] = useState(false)
+
 
     useEffect(() => {
         const id = JSON.parse(localStorage.getItem('productDetail'))
@@ -27,8 +29,22 @@ const DetailProduct = () => {
         getData()
     }, [])
 
+    console.log(dataDetail)
 
-    useLayoutEffect(() => {
+    useEffect(() => {
+        dataDetail.forEach(data => {
+            if (data.quantity_stock < quantity) {
+                setStock(true)
+                return
+            } else {
+                setStock(false)
+                return
+            }
+        })
+    }, [dataDetail, quantity])
+
+
+    useEffect(() => {
         if (quantity <= 0) {
             setQuantity(1)
         }
@@ -44,17 +60,15 @@ const DetailProduct = () => {
     }, [quantity])
 
 
-
-
-    const handleAddCatLists = (id, quantity_remaining) => {
-        if (quantity_remaining === '0') {
+    const handleAddCatLists = (id, quantity_stock) => {
+        if (quantity_stock === 0) {
             window.alert('Sản phẩm tạm hết hàng. Vui lòng chọn sản phẩm khác!')
             return
         } else {
             setCartLists(prev => {
                 const x = cartLists.find(cart => {
                     if (cart.id === id) {
-                        const newQuantity = (cart.quantity += quantity)
+                        const newQuantity = (cart.quantity = parseInt(cart.quantity) + quantity)
                         return newQuantity
                     }
                 })
@@ -85,8 +99,8 @@ const DetailProduct = () => {
 
 
 
-    const handleBuyProduct = (id, quantity_remaining) => {
-        if (quantity_remaining === '0') {
+    const handleBuyProduct = (id, quantity_stock) => {
+        if (quantity_stock === 0) {
             window.alert('Sản phẩm tạm hết hàng. Vui lòng chọn sản phẩm khác!')
             return
         } else {
@@ -105,7 +119,7 @@ const DetailProduct = () => {
                             {dataDetail.map((data, index) => (
                                 <div key={index} className='product-detail__img'>
                                     <div className="product-detail__img-group">
-                                        {data.image_url.split(',').map((img, index) => (
+                                        {data.image_url.split(', ').map((img, index) => (
                                             <div
                                                 key={index}
                                                 className={`product-detail__img-content ${isACtive === index && 'active'}`}
@@ -126,7 +140,7 @@ const DetailProduct = () => {
                                             </span>
                                         }
                                         <img
-                                            src={data.image_url.split(',')[isACtive]}
+                                            src={data.image_url.split(', ')[isACtive]}
                                             alt={data.name}
                                         />
                                     </div>
@@ -174,12 +188,12 @@ const DetailProduct = () => {
 
                                     <div className="product-detail__prices">
                                         {
-                                            (data.quantity_remaining !== '0') && (data.discount &&
+                                            (data.quantity_stock !== 0) && (data.discount &&
                                                 <span className="product-detail__discount">
                                                     -{data.discount}
                                                 </span>)
                                         }
-                                        {(data.quantity_remaining !== '0') ? (data.discount ?
+                                        {(data.quantity_stock !== 0) ? (data.discount ?
                                             <>
                                                 <span className="product-detail__prices-new">
                                                     {data.discount ?
@@ -267,38 +281,67 @@ const DetailProduct = () => {
                                             <i onClick={() => setQuantity(quantity - 1)} className="fa-solid fa-minus"></i>
                                             <input
                                                 type='text'
-                                                value={quantity}
+                                                value={parseInt(quantity)}
                                                 min='1'
-                                                onChange={(e) => setQuantity(e.target.value)}
+                                                onChange={(e) => setQuantity(parseInt(e.target.value))}
                                             />
                                             <i onClick={() => setQuantity(quantity + 1)} className="fa-solid fa-plus"></i>
                                         </div>)
                                     }
+
+                                    {stock && <span className="errorMsg">Số lượng trong kho không đủ!</span>}
 
                                     {
                                         JSON.parse(localStorage.getItem('isAdmin')) !== 1 && <div className="product-detail__btn">
                                             {data.prices ?
                                                 <>
                                                     <button
-                                                        onClick={() => handleAddCatLists(data.id, data.quantity_remaining)}
+                                                        onClick={() => handleAddCatLists(data.id, data.quantity_stock)}
                                                         className="btn product-detail__btn-add-cart btn--color-prima-blue"
+                                                        disabled={stock}
                                                     >
                                                         Thêm vào giỏ
                                                     </button>
-                                                    <Link
-                                                        style={{
-                                                            textAlign: 'center',
-                                                            fontSize: '1.333rem'
-                                                        }}
-                                                        to={data.quantity_remaining !== '0' ?
-                                                            (`/checkout/${(JSON.parse(localStorage.getItem('fullNameAccount')))?.split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") || ''}  `) :
-                                                            '#'
-                                                        }
-                                                        onClick={() => handleBuyProduct(data.id, data.quantity_remaining)}
-                                                        className="btn product-detail__btn-add-cart btn--color-prima-orange"
-                                                    >
-                                                        Mua ngay
-                                                    </Link>
+                                                    {JSON.parse(localStorage.getItem('isLogin')) ?
+                                                        stock ? <Link
+                                                            to='#'
+                                                            style={{
+                                                                textAlign: 'center',
+                                                                fontSize: '1.333rem'
+                                                            }}
+                                                            onClick={(e) => e.preventDefault()}
+                                                            className="btn product-detail__btn-add-cart btn--color-prima-orange"
+                                                        >
+                                                            Mua ngay
+                                                        </Link> :
+                                                            <Link
+                                                                style={{
+                                                                    textAlign: 'center',
+                                                                    fontSize: '1.333rem'
+                                                                }}
+                                                                to={data.quantity_stock !== 0 ?
+                                                                    (`/checkout/${(JSON.parse(localStorage.getItem('fullNameAccount')))?.split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") || ''}  `) :
+                                                                    '#'
+                                                                }
+                                                                onClick={() => handleBuyProduct(data.id, data.quantity_stock)}
+                                                                className="btn product-detail__btn-add-cart btn--color-prima-orange"
+                                                            >
+                                                                Mua ngay
+                                                            </Link> :
+                                                        <Link
+                                                            style={{
+                                                                textAlign: 'center',
+                                                                fontSize: '1.333rem'
+                                                            }}
+                                                            onClick={(e) => {
+                                                                e.preventDefault(); window.alert('Vui lòng đăng nhập để trải nghiệm tốt hơn!')
+                                                            }}
+                                                            className="btn product-detail__btn-add-cart btn--color-prima-orange"
+                                                        >
+                                                            Mua ngay
+                                                        </Link>
+                                                    }
+
                                                 </> :
                                                 <button style={{ fontSize: '1.5rem', height: 50 }} className="btn product-detail__btn-add-cart btn--color-prima-blue">LIÊN HỆ ĐỂ NHẬN TƯ VẤN VÀ THIẾT KẾ MIỄN PHÍ</button>
                                             }

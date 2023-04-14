@@ -1,6 +1,7 @@
 .product-detail-admin {
     flex: 4;
     padding: 20px;
+    max-width: 99.1%;
 
     & .productTitle {
         display: inline-block;
@@ -119,7 +120,7 @@
         padding: 5px;
         border-bottom: 2px solid gray;
         transition: all ease-out 0.25s;
-        width: calc(100% + 100px);
+        width: calc(100% + 155px);
 
         &:focus {
             border-bottom: 2px solid var(--primary-color-blue);
@@ -148,6 +149,21 @@
     & .productUpload {
         display: flex;
         align-items: center;
+        flex-direction: column;
+        justify-content: center;
+
+        & input {
+            color: #fff;
+
+            &::-webkit-file-upload-button {
+                font-size: 1.3rem;
+                color: gray;
+                font-weight: 700;
+                border: none;
+                outline: none;
+                cursor: pointer;
+            }
+        }
     }
 
     & .productButton {
@@ -158,8 +174,10 @@
         color: white;
         font-weight: 600;
         cursor: pointer;
+        width: 50%;
         position: relative;
-        top: 240px;
-        right: 19px;
+        top: 225px;
+        right: -53px;
+        text-transform: uppercase;
     }
 }

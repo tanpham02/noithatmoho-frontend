@@ -115,13 +115,8 @@ input {
         font-size: 1.3rem;
         padding: 20px;
 
-        &__not {
-            font-size: 1.35rem;
-            color: var(--gray-color);
-            font-weight: 500;
-            display: block;
-        }
     }
+
 
     & .checkout__cart-lists {
         padding: 15px 0;
@@ -173,7 +168,15 @@ input {
     }
 }
 
-
+.products-bought__not {
+    margin-top: 70px;
+    font-size: 1.35rem;
+    color: var(--gray-color);
+    font-weight: 500;
+    display: block;
+    border: 12px solid #f7f7f7;
+    padding: 12px;
+}
 
 #form-account__avatar {
     color: transparent;
@@ -221,4 +224,15 @@ input {
         color: #fff;
         font-size: 80px;
     }
+}
+
+.btn.btn-checkout__cancel {
+    padding: 16px;
+    border: 1px solid var(--gray-color);
+    background-color: #fff;
+    color: var(--gray-color);
+    font-size: 1.45rem;
+    height: 48px;
+    position: absolute;
+    right: 400px;
 }

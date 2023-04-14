@@ -120,7 +120,7 @@
 
     & .userUpdateInput {
         border: none;
-        width: 250px;
+        width: 340px;
         height: 30px;
         outline: none;
         border-bottom: 2px solid gray;
@@ -162,6 +162,7 @@
         background-color: var(--primary-color-blue);
         color: white;
         font-weight: 600;
+        text-transform: uppercase;
     }
 
     & .MuiDataGrid-root.MuiDataGrid-cell--textLeft.MuiDataGrid-cell--withRenderer,
@@ -169,5 +170,14 @@
         justify-content: flex-start;
         border: none !important;
         outline: none !important;
+    }
+
+    & .isZero {
+        display: block;
+        margin-top: 5px;
+        font-size: 1.2rem;
+        font-weight: 500;
+        color: var(--primary-color-blue);
+        opacity: 0.9;
     }
 }

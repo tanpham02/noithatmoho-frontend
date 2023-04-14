@@ -2,11 +2,24 @@ import "./ManagerUsers.scss";
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import axios from 'axios'
 
 const ManagerUsers = () => {
     const [dataUsers, setDataUSers] = useState([])
+    const [search, setSearch] = useState('')
+    const [dataSearch, setDataSearch] = useState([])
+
+
+    useEffect(() => {
+        if (search.length) {
+            const dataSearch = dataUsers.filter(data => data.full_name.toLowerCase().includes(search.toLowerCase().trim()))
+            setDataSearch(dataSearch)
+            return
+        }
+        setDataSearch(dataUsers)
+        return
+    }, [dataUsers, search])
 
     useEffect(() => {
         async function getData() {
@@ -18,15 +31,27 @@ const ManagerUsers = () => {
     }, [])
 
     const handleDelete = (id) => {
-        setDataUSers(dataUsers.filter((item) => item.id !== id));
+        async function deleteUser() {
+            const res = await axios.delete(`http://localhost:9080/api/users/${id}`)
+            return res
+        }
+        if (window.confirm('Bạn có chắc chắn muốn xóa người dùng này?') === true) {
+            window.alert('Xoá người dùng thành công!')
+            window.location.reload()
+            deleteUser()
+        }
     };
 
     const columns = [
-        { field: "id", headerName: "ID", width: 90 },
+        {
+            field: "id",
+            headerName: "ID",
+            width: 120
+        },
         {
             field: "full_name",
             headerName: "Tên",
-            width: 160,
+            width: 200,
             renderCell: (params) => {
                 return (
                     <div className="userListUser">
@@ -54,34 +79,34 @@ const ManagerUsers = () => {
                 );
             },
         },
-        { field: "email", headerName: "Email", width: 230 },
         {
-            field: "phone_number",
-            headerName: "Số điện thoại",
-            width: 100,
-        },
-        {
-            field: "birthday",
-            headerName: "Ngày sinh",
-            width: 100,
+            field: "email",
+            headerName: "Email",
+            width: 265
         },
         {
             field: "address",
             headerName: "Địa chỉ",
-            width: 360,
+            width: 420,
         },
         {
             field: "action",
             headerName: "Hành động",
-            width: 100,
+            width: 180,
             renderCell: (params) => {
                 return (
                     <>
                         <Link to={`/manager-users/detail/${params.row.id}`}>
-                            <button className="userListEdit" style={{ backgroundColor: 'teal' }}>Edit</button>
+                            <button
+                                className="userListEdit"
+                            >
+                                Edit</button>
                         </Link>
                         <DeleteOutline
                             className="userListDelete"
+                            style={{
+                                fontSize: '2rem'
+                            }}
                             onClick={() => handleDelete(params.row.id)}
                         />
                     </>
@@ -90,14 +115,45 @@ const ManagerUsers = () => {
         },
     ];
 
+
+
     return (
         <>
-            <Link to="/manager-products/create-product"
+            <div className='header-search'>
+                <input
+                    className="header-search__input"
+                    type='search'
+                    value={search}
+                    onChange={e => setSearch(e.target.value)}
+                />
+                <button
+                    className="btn-search"
+                    type="search"
+                >
+                    <i className="fa-solid fa-magnifying-glass"></i>
+
+                </button>
+            </div>
+
+
+            <h4 style={{
+                fontSize: '2rem',
+                color: 'var(--gray-color)',
+                opacity: '0.9',
+                marginLeft: '2rem',
+                fontWeight: '800',
+            }}
+            >
+                Quản lý người dùng
+            </h4 >
+
+
+            <Link to="/manager-users/create-user"
                 style={{
                     margin: '0px 20px 20px 0px',
                     width: '6%',
                     position: 'relative',
-                    right: '-93.8%'
+                    right: '-92.9%',
                 }}>
                 <button className="userAddButton" style={{
                     backgroundColor: 'teal',
@@ -107,13 +163,16 @@ const ManagerUsers = () => {
                     fontWeight: '600',
                     borderRadius: '4px',
                     outline: 'none',
-                    border: 'none'
+                    border: 'none',
+                    cursor: 'pointer',
+                    textTransform: 'uppercase'
                 }}>Create</button>
             </Link >
+
             <div className="userList">
 
                 <DataGrid
-                    rows={dataUsers}
+                    rows={dataSearch}
                     disableSelectionOnClick
                     columns={columns}
                     pageSize={8}
@@ -124,4 +183,4 @@ const ManagerUsers = () => {
     );
 }
 
-export default ManagerUsers
+export default memo(ManagerUsers)

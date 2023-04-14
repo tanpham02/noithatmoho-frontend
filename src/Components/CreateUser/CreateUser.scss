@@ -61,6 +61,7 @@
 
   & .newUserButton {
     width: 200px;
+    height: 47px;
     border: none;
     outline: none;
     background-color: var(--primary-color-blue);
@@ -71,5 +72,14 @@
     border-radius: 10px;
     margin-top: 30px;
     cursor: pointer;
+  }
+
+  & .isZero {
+    display: block;
+    padding-top: 5px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--primary-color-blue);
+    opacity: 0.9;
   }
 }

@@ -11,8 +11,10 @@ const SofaTable = ({ datas, dataTypes, filterCategories, filterPrices, filterSor
         
         const results = datas.filter((data, index) => {
             const kitchenWare = dataTypes.find(type => type.id === 9)
-            if (kitchenWare.id === data['type_id']) {
-                return data
+            if(kitchenWare) {
+                if (kitchenWare.id === data['type_id']) {
+                    return data
+                }
             }
         })
         setDataKoges(results)

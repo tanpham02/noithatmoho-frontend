@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import './Header.scss'
 import HeaderFixed from "../HeaderFixed/HeaderFixed"
 import axios from "axios"
+export const DEFAULT_LANG = 'vi';
 
 export const groupTypes = [
     {
@@ -368,7 +369,7 @@ const Header = ({ localeLogos, accountInfos }) => {
         if (localeLngRef.current) {
             const childrens = localeLngRef.current.children
             Array.from(childrens).map((children, index) => {
-                if (localStorage.getItem('lang') === children.alt) {
+                if ((localStorage.getItem('lang') ?? DEFAULT_LANG) === children.alt) {
                     setId(index)
                 }
             })
@@ -481,8 +482,6 @@ const Header = ({ localeLogos, accountInfos }) => {
     const handleGetValueSearch = useCallback((value) => {
         valueSearch(value)
     }, [])
-
-
 
 
 
@@ -636,14 +635,19 @@ const Header = ({ localeLogos, accountInfos }) => {
                                                 </svg>
                                             </span>
 
-                                            {JSON.parse(localStorage.getItem('cartLists')).length <= 9 ?
-                                                <span className="quanlity-product">
-                                                    {JSON.parse(localStorage.getItem('cartLists')).length}
-                                                </span>
+                                            {JSON.parse(localStorage.getItem('cartLists')) ?
+
+                                                JSON.parse(localStorage.getItem('cartLists')).length <= 9 ?
+                                                    <span span className="quanlity-product">
+                                                        {JSON.parse(localStorage.getItem('cartLists')).length}
+                                                    </span> :
+                                                    <span className="quanlity-product">
+                                                        9
+                                                        <span className="quanlity-product__plus" style={{ position: 'absolute', top: '-2px', right: '0' }}>+</span>
+                                                    </span>
                                                 :
                                                 <span className="quanlity-product">
-                                                    9
-                                                    <span className="quanlity-product__plus" style={{ position: 'absolute', top: '-2px', right: '0' }}>+</span>
+                                                    0
                                                 </span>
                                             }
                                             <span className="moho-cart__title">{t('Cart')}</span>

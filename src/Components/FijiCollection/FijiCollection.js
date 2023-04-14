@@ -8,14 +8,12 @@ const FijiCollection = ({ datas, dataTypes, filterCategories, filterPrices, filt
     const [expectedData, setExpectedData] = useState([])
 
     useEffect(() => {
-        
         const results = datas.filter((data, index) => {
-            const kitchenWare = dataTypes.find(type => type.id === 3)
-            if (kitchenWare.id === data['type_id']) {
+            if (data.name.toLowerCase().includes('fiji')) {
                 return data
             }
         })
-        setDataKoges(results)
+        setDataKoges([...results])
     }, [dataTypes, datas])
 
     const handleMouseEnter = (index) => {

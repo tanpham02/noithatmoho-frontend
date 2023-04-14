@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, memo } from "react"
 import { Link } from "react-router-dom"
 import './Home.scss'
 const Home = ({ datas, dataGroupTypes, dataTypes }) => {
@@ -31,16 +31,18 @@ const Home = ({ datas, dataGroupTypes, dataTypes }) => {
 
     useEffect(() => {
         const idDataGroup = dataGroupTypes.find(dataGroup => dataGroup.id === 6)
-        const listIds = dataTypes
-            .filter(dataType => {
-                if (idDataGroup.id === dataType['group_type_id']) {
-                    return dataType
-                }
-            })
-            .map(ids => ids.id)
-
-        const dataDecor = datas.filter(data => listIds.includes(data['type_id']))
-        setDataDecors(dataDecor)
+        if(idDataGroup) {
+            const listIds = dataTypes
+                .filter(dataType => {
+                    if (idDataGroup?.id === dataType['group_type_id']) {
+                        return dataType
+                    }
+                })
+                .map(ids => ids.id)
+    
+            const dataDecor = datas.filter(data => listIds.includes(data['type_id']))
+            setDataDecors(dataDecor)
+        }
 
     }, [dataGroupTypes, dataTypes, datas])
 
@@ -303,5 +305,5 @@ const Home = ({ datas, dataGroupTypes, dataTypes }) => {
     )
 }
 
-export default Home;
+export default memo(Home)
 

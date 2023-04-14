@@ -200,9 +200,9 @@
 
                 & .cart__total-price-vnd.alignment--position {
                     position: absolute;
-                    top: 9.5px;
+                    top: 11.5px;
                     right: 1.3px;
-                    font-size: 1.1rem;
+                    font-size: 1.15rem;
                     font-weight: 600;
                 }
             }
@@ -279,6 +279,7 @@
         position: absolute;
         top: 17px;
         right: 6px;
+        color: var(--gray-color);
         display: block;
     }
 

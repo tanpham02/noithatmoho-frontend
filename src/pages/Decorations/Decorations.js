@@ -10,6 +10,7 @@ const filters = {
       'Chậu',
       'Bình',
       'Cây',
+      'Hoa',
       'Chăn',
       'Ga',
       'Gối',
