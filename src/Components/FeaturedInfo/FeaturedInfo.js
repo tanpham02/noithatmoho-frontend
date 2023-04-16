@@ -21,7 +21,6 @@ const FeaturedInfo = ({ userDatas, currentTheme, THEME_DARK }) => {
   }, [userDatas])
 
 
-
   const handleTotalProfit = useMemo(() => {
     const totalProfit = userDatas.reduce((total, next) => {
 

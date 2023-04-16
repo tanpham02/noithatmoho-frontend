@@ -16,6 +16,7 @@ const MalagaCollecion = ({ datas, dataTypes, filterCategories, filterPrices, fil
         setDataKoges([...results])
     }, [dataTypes, datas])
 
+
     const handleMouseEnter = (index) => {
         setIndexShowImg(index)
     }

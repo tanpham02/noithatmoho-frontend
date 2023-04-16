@@ -344,11 +344,11 @@ const Header = ({ localeLogos, accountInfos }) => {
 
 
 
-    function handleLanguage(e) {
+    const handleLanguage = useCallback((e) => {
         i18n.changeLanguage(e.target.alt)
         localStorage.setItem('lang', e.target.alt)
         window.location.reload()
-    }
+    }, [])
 
 
     const handleClickOption = (index) => {
@@ -691,6 +691,7 @@ const Header = ({ localeLogos, accountInfos }) => {
                 setValueSearch={valueSearch}
                 onDetailPro={handleDetailPro}
                 dataSearch={dataSearch}
+                onLanguage={handleLanguage}
             />
 
         </>

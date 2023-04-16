@@ -2,13 +2,19 @@ import "./ManagerUsers.scss";
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-import { useState, useEffect, memo } from "react";
+import { useState, useEffect, memo, useContext } from "react";
 import axios from 'axios'
+import { themeProvider } from '../../context/ProviderTheme/ProviderTheme'
+import { THEME_DARK } from "../../reducers/actions";
 
 const ManagerUsers = () => {
     const [dataUsers, setDataUSers] = useState([])
     const [search, setSearch] = useState('')
     const [dataSearch, setDataSearch] = useState([])
+    const themePage = useContext(themeProvider)
+    const [state, dispatch] = themePage
+    const { currentTheme } = state
+    console.log(currentTheme)
 
     useEffect(() => {
         if (search.length) {

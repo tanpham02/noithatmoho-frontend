@@ -111,6 +111,7 @@ const ManagerProducts = () => {
     }, [dataProducts, search])
 
 
+
     return (
 
         <>

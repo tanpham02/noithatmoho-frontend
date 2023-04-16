@@ -332,7 +332,6 @@ const CheckOut = ({ datas }) => {
 
                                     await axios.put(`http://localhost:9080/api/products/${checkoutData.id}`, updatePro)
                                         .then(res => {
-                                            window.alert('Hoàn tất đơn hàng!')
                                             localStorage.setItem('cartLists', JSON.stringify([]))
                                             localStorage.setItem('isSuccessCheckout', JSON.stringify(false))
                                             window.location.replace('/account')
@@ -342,12 +341,9 @@ const CheckOut = ({ datas }) => {
                             }
                         })
                     })
-                }
-
-                )
+                    window.alert('Hoàn tất đơn hàng!')
+                })
                 .catch(err => console.log(err))
-
-
 
         } else {
             window.alert('Vui lòng nhập đầy đủ thông tin!')

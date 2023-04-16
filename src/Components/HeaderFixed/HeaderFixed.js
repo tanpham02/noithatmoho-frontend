@@ -4,16 +4,14 @@ import Cart from "../Cart/Cart"
 import { useState, useEffect, useLayoutEffect, useCallback, useRef, memo } from "react"
 import { Link } from "react-router-dom"
 import { useTranslation } from 'react-i18next'
-import { DEFAULT_LANG } from '../Header/Header'
 import './HeaderFixed.scss'
 
-import { groupTypes, types, products } from '../Header/Header'
+import { groupTypes, types, products, DEFAULT_LANG } from '../Header/Header'
 
-const Header = ({ search, setValueSearch, localeLogos, accountInfos, dataSearch, onGetValueSearch, onDetailPro }) => {
-    const { t, i18n } = useTranslation(['header'])
+const HeaderFixed = ({ onLanguage, search, setValueSearch, localeLogos, accountInfos, dataSearch, onGetValueSearch, onDetailPro }) => {
+    const { t } = useTranslation()
     const [showLogin, setShowLogin] = useState(false)
     const [showCart, setShowCart] = useState(false)
-    const [id, setId] = useState()
     const [isLogin, setIsLogin] = useState(false)
     const [highlight, sethighLight] = useState(0)
     const [showInfo, setShowInfo] = useState(false)
@@ -21,17 +19,8 @@ const Header = ({ search, setValueSearch, localeLogos, accountInfos, dataSearch,
     const [author, setAuthor] = useState([])
     const [activeSearch, setActiveSearch] = useState(false)
     const [fixedHeader, setFixedHeader] = useState(false)
-    const localeLngRef = useRef()
     const inputSearchRef = useRef()
-
-
-
-    function handleLanguage(e) {
-        i18n.changeLanguage(e.target.alt)
-        localStorage.setItem('lang', e.target.alt)
-        window.location.reload()
-    }
-
+    const [currentLang, setCurrentLang] = useState('')
 
     const handleClickOption = (index) => {
         sethighLight(index)
@@ -44,18 +33,6 @@ const Header = ({ search, setValueSearch, localeLogos, accountInfos, dataSearch,
         }
     }
 
-
-    // localeLngRef.current will be refference DOM element before component render when use hook useEffect, useLayoutEffect
-    useLayoutEffect(() => {
-        if (localeLngRef.current) {
-            const childrens = localeLngRef.current.children
-            Array.from(childrens).map((children, index) => {
-                if (localStorage.getItem('lang') ?? DEFAULT_LANG === children.alt) {
-                    setId(index)
-                }
-            })
-        }
-    }, [])
 
     useEffect(() => {
         const fullnameStorage = localStorage.getItem('fullNameAccount')
@@ -165,6 +142,12 @@ const Header = ({ search, setValueSearch, localeLogos, accountInfos, dataSearch,
             inputSearchRef.current.focus()
         }
     }, [activeSearch])
+
+    useEffect(() => {
+        if (localStorage?.getItem('lang') ?? DEFAULT_LANG) {
+            setCurrentLang(localStorage?.getItem('lang') ?? DEFAULT_LANG)
+        }
+    }, [localStorage.getItem('lang')])
 
 
     return (
@@ -337,8 +320,7 @@ const Header = ({ search, setValueSearch, localeLogos, accountInfos, dataSearch,
 
                             <div
                                 className='locale-language'
-                                ref={localeLngRef}
-                                onClick={handleLanguage}
+                                onClick={onLanguage}
                             >
                                 {localeLogos.map((localeLogo, index) => (
                                     <img
@@ -346,7 +328,7 @@ const Header = ({ search, setValueSearch, localeLogos, accountInfos, dataSearch,
                                         style={{ ...localeLogo.style }}
                                         src={localeLogo.url}
                                         alt={localeLogo.alt}
-                                        className={`${id === index ? '' : 'active'}`}
+                                        className={`${currentLang === localeLogo.alt ? '' : 'active'}`}
                                     />
                                 ))}
 
@@ -360,4 +342,4 @@ const Header = ({ search, setValueSearch, localeLogos, accountInfos, dataSearch,
     )
 }
 
-export default memo(Header)
+export default memo(HeaderFixed)

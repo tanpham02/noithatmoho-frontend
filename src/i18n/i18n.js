@@ -18,7 +18,7 @@ i18n.use(initReactI18next).init({
     },
   },
 
-  lng: localStorage.getItem('lang') , // lang khởi tạo là vi
+  lng: localStorage.getItem('lang') ?? 'vi' , // lang khởi tạo là vi
   fallbackLng: 'vi', // nếu không handle được thì mặc định nó sẽ lấy lang vi
   ns: ['header', 'navigation'] // namespace
 });
