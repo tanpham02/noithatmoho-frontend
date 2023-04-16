@@ -12,6 +12,10 @@
     font-size: 2rem;
     font-weight: 600;
     color: var(--gray-color);
+
+    &.active {
+      color: #bcbcbc;
+    }
   }
 
 }

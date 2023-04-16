@@ -1,13 +1,31 @@
+.wrapper-theme {
+    background-color: #fff;
+
+    &.theme-dark {
+        background-color: black !important;
+
+        & .top-bar__wrapper {
+            background-color: black !important;
+
+        }
+    }
+}
+
 .container-admin {
     display: flex;
-    margin-top: 30px;
+    padding-top: 30px;
     flex-direction: row;
+
+    &.active {
+        background-color: #000 !important;
+    }
 }
 
 .home-admin {
     flex: 4;
     display: flex;
     flex-direction: column;
+    padding-bottom: 50px;
 }
 
 .home-widgets {

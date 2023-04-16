@@ -29,7 +29,6 @@ const DetailProduct = () => {
         getData()
     }, [])
 
-    console.log(dataDetail)
 
     useEffect(() => {
         dataDetail.forEach(data => {

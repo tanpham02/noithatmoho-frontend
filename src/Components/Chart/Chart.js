@@ -15,11 +15,11 @@ import {
 
 import { userData, productData } from "../../dummyData"
 
-function Chart() {
+function Chart({THEME_DARK, currentTheme}) {
   return (
     <div className="chart">
       <div>
-        <h3 className="chartTitle">Phân tích doanh số bán hàng</h3>
+        <h3 className={`chartTitle ${currentTheme === THEME_DARK && 'active'}`}>Phân tích doanh số bán hàng</h3>
         <BarChart
           width={550}
           height={400}
@@ -43,7 +43,7 @@ function Chart() {
       <div>
         <h3
           style={{ marginLeft: 53 }}
-          className="chartTitle"
+          className={`chartTitle ${currentTheme === THEME_DARK && 'active'}`}
         >
           Phân tích tổng số lượng khách hàng đăng kí, đơn hàng và giao dịch
         </h3>

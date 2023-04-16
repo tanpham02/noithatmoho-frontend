@@ -3,7 +3,7 @@ import "./WidgetSm.scss";
 import { Visibility } from "@material-ui/icons";
 import axios from 'axios';
 
-const WidgetSm = () => {
+const WidgetSm = ({ currentTheme, THEME_DARK }) => {
   const [userDatas, setUserData] = useState([])
   const [display, setDisplay] = useState(false)
 
@@ -22,9 +22,9 @@ const WidgetSm = () => {
 
 
   return (
-    <div className="widget-sm">
-      <span className="widget-sm__title">Thành viên</span>
-      <ul className="widget-sm__list">
+    <div className={`widget-sm ${currentTheme === THEME_DARK && 'active'}`}>
+      <span className={`widget-sm__title ${currentTheme === THEME_DARK && 'active'}`}>Thành viên</span>
+      <ul className={`widget-sm__list`}>
         {userDatas.map((user, index) => (
           user.is_admin === 1 && (<li key={index} className="widget-sm__list-item">
             <img
@@ -32,7 +32,7 @@ const WidgetSm = () => {
               alt={user.full_name}
               className="widget-sm__img"
             />
-            <div className="widget-sm__user">
+            <div className={`widget-sm__user ${currentTheme === THEME_DARK && 'active'}`}>
               <span
                 className="widget-sm__user-name"
               >

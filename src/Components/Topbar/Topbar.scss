@@ -6,6 +6,14 @@
   top: 0;
   z-index: 999;
 
+  &.active {
+    background-color: #000 !important;
+
+    & .logo {
+      filter: brightness(1.5);
+    }
+  }
+
   &__wrapper {
     height: 100%;
     padding: 0px 20px;
@@ -15,12 +23,88 @@
   }
 
   & .logo {
-    font-weight: 800  ;
+    font-weight: 800;
     font-size: 3.2rem;
     color: var(--primary-color-blue);
     cursor: pointer;
   }
+
+  & .top-left {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    & .theme-dark-light {
+      border: 3px solid var(--primary-color-blue);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-radius: 20px;
+      cursor: pointer;
+
+
+      &.active {
+        & i {
+          color: #FDB813;
+        }
+
+
+      }
+
+
+      & i {
+        font-size: 2rem;
+        padding: 3px 8px;
+        color: #92928f;
+
+
+        &.fa-moon {
+          &.active {
+            display: inline-block;
+            position: relative;
+
+            &::after {
+              content: '';
+              position: absolute;
+              top: -1.3px;
+              right: -0.6px;
+              width: 30px;
+              height: 30px;
+              border-radius: 50%;
+              background-color: var(--primary-color-blue);
+              animation: themeToLeft ease-out 0.25s;
+            }
+
+          }
+        }
+
+        &.active {
+          display: inline-block;
+          position: relative;
+
+          &::after {
+            content: '';
+            position: absolute;
+            top: -1.5px;
+            right: 7px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: var(--primary-color-blue);
+            animation: themeToRight ease-out 0.25s;
+
+          }
+
+        }
+      }
+    }
+
+  }
 }
+
+
 
 
 .MuiSvgIcon-root {
@@ -29,8 +113,24 @@
 }
 
 
+@keyframes themeToRight {
+  0% {
+    right: -31px;
+  }
 
+  100% {
+    transform: 7px;
 
+  }
+}
 
+@keyframes themeToLeft {
+  0% {
+    right: 37.4px;
+  }
 
+  100% {
+    transform: -0.6px;
 
+  }
+}

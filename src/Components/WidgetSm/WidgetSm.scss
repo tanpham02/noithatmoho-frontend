@@ -5,9 +5,18 @@
     padding: 20px;
     margin-right: 20px;
 
+    &.active {
+        border: 1px solid var(--border-btn);
+        border-radius: 14px;
+    }
+
     &__title {
         font-size: 22px;
         font-weight: 600;
+
+        &.active {
+            color: #bcbcbc;
+        }
     }
 
     &__img {
@@ -15,6 +24,7 @@
         height: 40px;
         border-radius: 50%;
         object-fit: cover;
+        border: 1px solid var(--border-color);
     }
 
     &__list {
@@ -35,6 +45,22 @@
         flex-direction: column;
         flex-wrap: wrap;
         margin: 0 15px;
+
+        &.active {
+
+            & .widget-sm__user-name {
+                font-size: 1.25rem;
+                color: var(--gray-color);
+                font-weight: 600;
+                opacity: 0.9;
+                min-width: 130px;
+                filter: brightness(3.8);
+            }
+
+            & .widget-sm__user-title {
+                color: var(--border-btn);
+            }
+        }
     }
 
     &__user-name {

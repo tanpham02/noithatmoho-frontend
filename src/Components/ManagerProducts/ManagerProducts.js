@@ -35,7 +35,7 @@ const ManagerProducts = () => {
         {
             field: "id",
             headerName: "ID",
-            width: 120
+            width: 100
         },
         {
             field: "name",
@@ -114,7 +114,7 @@ const ManagerProducts = () => {
     return (
 
         <>
-            <div className='header-search'>
+            <div className='header-search manager'>
                 <input
                     className="header-search__input"
                     type='search'

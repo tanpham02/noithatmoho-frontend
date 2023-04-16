@@ -110,13 +110,13 @@
 
 }
 
-.header-search {
+.header-search.manager {
     width: 20%;
     height: 42px;
     margin-right: 4px;
     position: fixed;
-    right: 41px;
-    top: 7px;
+    top: 6px;
+    right: 126px;
     z-index: 999;
 
 
@@ -155,4 +155,6 @@
             text-align: center;
         }
     }
+
+
 }

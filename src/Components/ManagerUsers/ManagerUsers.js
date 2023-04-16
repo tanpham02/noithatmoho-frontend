@@ -10,7 +10,6 @@ const ManagerUsers = () => {
     const [search, setSearch] = useState('')
     const [dataSearch, setDataSearch] = useState([])
 
-
     useEffect(() => {
         if (search.length) {
             const dataSearch = dataUsers.filter(data => data.full_name.toLowerCase().includes(search.toLowerCase().trim()))
@@ -46,7 +45,7 @@ const ManagerUsers = () => {
         {
             field: "id",
             headerName: "ID",
-            width: 120
+            width: 100
         },
         {
             field: "full_name",
@@ -119,7 +118,7 @@ const ManagerUsers = () => {
 
     return (
         <>
-            <div className='header-search'>
+            <div className='header-search manager'>
                 <input
                     className="header-search__input"
                     type='search'

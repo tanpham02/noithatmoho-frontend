@@ -38,10 +38,15 @@
             font-size: 15px;
             color: var(--border-btn);
         }
+
     }
 
     &__title {
         font-size: 20px;
+
+        &.active {
+            color: var(--border-btn);
+        }
     }
 
     &__money-container {

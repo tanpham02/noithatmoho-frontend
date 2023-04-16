@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef } from "react"
+import { useState, useEffect, useMemo, useRef, useContext } from "react"
 import { Link, json } from "react-router-dom"
 import axios from "axios"
 import './Account.scss'
@@ -17,10 +17,6 @@ const Account = ({ accountInfos, onReload }) => {
     const [avatar, setAvatar] = useState()
 
     const [products, setProducts] = useState([])
-    const timerCancelId = useRef()
-    const [hiddenBtnCancel, setHiddenBtnCancel] = useState(false)
-
-
 
 
     useEffect(() => {
@@ -42,8 +38,6 @@ const Account = ({ accountInfos, onReload }) => {
         }
         fetchDataPros()
     }, [])
-
-
 
     useEffect(() => {
         if (dataUser.email) {
@@ -95,12 +89,9 @@ const Account = ({ accountInfos, onReload }) => {
         // window.location.reload()
     }
 
-
     useEffect(() => {
         onReload(isUpdate)
     }, [isUpdate])
-
-
 
     const handleFileChange = (event) => {
         const file = event.target.files[0]
@@ -114,15 +105,12 @@ const Account = ({ accountInfos, onReload }) => {
         }
     }
 
-
     useEffect(() => {
         const fileData = dataUser.avatar
         if (fileData) {
             setSelectedFile(fileData)
         }
     }, [dataUser])
-
-
 
     useEffect(() => {
         if (dataUser.full_name !== undefined) {
@@ -134,8 +122,6 @@ const Account = ({ accountInfos, onReload }) => {
             return
         }
     }, [dataUser.full_name, isUpdate])
-
-
 
     const handleClickOption = (index) => {
         if (index === 2) {
@@ -158,8 +144,8 @@ const Account = ({ accountInfos, onReload }) => {
             const dateLocale = new Date().toLocaleDateString().split('/')
             const localeDay = dateLocale[0] + '/' + dateLocale[2]
 
-            const dateLocaleDb = dataUserCheckout?.checkout && dataUserCheckout.checkout?.split('; ')[7]?.split('/')
-            const localeDayDb = dataUserCheckout?.checkout && dateLocaleDb[0] + '/' + dateLocaleDb[2]
+            const dateLocaleDb = dataUserCheckout?.total_order && dataUserCheckout.total_order?.split(', ')[1].split('/')
+            const localeDayDb = dataUserCheckout?.total_order && dateLocaleDb[0] + '/' + dateLocaleDb[2]
 
             if (localeDayDb === localeDay) {
                 async function updateProBought() {
@@ -177,72 +163,77 @@ const Account = ({ accountInfos, onReload }) => {
     }
 
 
+    console.log(dataUserCheckout?.product_boughts && JSON.parse((dataUserCheckout?.product_boughts)).filter(data => {
+        if (data.id === data.id) {
+            return false
+        }
+    }))
+
+
+    const uniqueProductBoughts = useMemo(() => {
+        if (dataUserCheckout?.product_boughts) {
+            const dataUnique = Array.from(new Set(JSON.parse(dataUserCheckout?.product_boughts)
+                .map(item => item.id)))
+                .map(id => {
+                    return JSON.parse(dataUserCheckout?.product_boughts).find(item => item.id === id);
+                });
+            return dataUnique
+        }
+
+    }, [dataUserCheckout])
+
+
+
+
+
+
+
     const handleCancelCheckout = (e) => {
-        if (hiddenBtnCancel) {
-            window.alert('Không thể hủy đơn hàng này. Người bán đã gói hàng và chuyển giao cho đơn vị vận chuyển!')
-            window.location.replace('/pages/chinh-sach-doi-tra')
-        } else {
+        let totalOrder = dataUserCheckout?.total_order ? parseInt(dataUserCheckout.total_order) - 1 : 0
 
-            async function cancelCheckout() {
-                let totalOrder = dataUserCheckout?.total_order ? parseInt(dataUserCheckout.total_order) - 1 : 0
+        const totalAfterOrder = JSON.parse(dataUserCheckout.checkout?.split('; ')[6]?.split(',').join('')?.slice(0, -1))
 
-                const totalAfterOrder = JSON.parse(dataUserCheckout.checkout?.split('; ')[6]?.split(',').join('')?.slice(0, -1))
+        const transactions = dataUserCheckout?.transactions ?
+            String(Number(dataUserCheckout?.transactions) - Number(totalAfterOrder)) :
+            ''
 
-                const transactions = dataUserCheckout?.transactions ?
-                    String(Number(dataUserCheckout?.transactions) - Number(totalAfterOrder)) :
-                    ''
-                const res = await axios.put(`http://localhost:9080/api/users/${ID_USER}`, {
-                    ...dataUserCheckout,
-                    checkout: '',
-                    total_order: String(totalOrder),
-                    transactions: transactions
+        const cancelCheckoutData = {
+            ...dataUserCheckout,
+            checkout: '',
+            total_order: `${totalOrder}, ${dataUserCheckout.checkout.split('; ')[7]}`,
+            transactions
+        }
 
-                }).then(res => {
-                    return dataUserCheckout?.checkout && JSON.parse(dataUserCheckout.checkout?.split('; ')[2]).forEach(checkoutData => {
-                        products.filter(data => {
-                            if (data.id === checkoutData.id) {
-                                if (checkoutData.id === data.id) {
-                                    const quantity_sold = data.quantity_sold - checkoutData.quantity
-                                    const quantity_stock = data.quantity_stock + checkoutData.quantity
-                                    const updatePro = {
-                                        ...data,
-                                        quantity_sold,
-                                        quantity_stock
-                                    }
-                                    axios.put(`http://localhost:9080/api/products/${data.id}`, updatePro)
-                                        .then(res => console.log(res.data))
-                                        .catch(err => console.log(err))
+        async function cancelCheckout() {
+            const res = await axios.put(`http://localhost:9080/api/users/${ID_USER}`, cancelCheckoutData).then(res => {
+                return dataUserCheckout?.checkout && JSON.parse(dataUserCheckout.checkout?.split('; ')[2]).forEach(checkoutData => {
+                    products.filter(async data => {
+                        if (data.id === checkoutData.id) {
+                            if (checkoutData.id === data.id) {
+                                const quantity_sold = data.quantity_sold && data.quantity_sold !== 0 ?
+                                    data.quantity_sold - checkoutData.quantity : 0
+                                const quantity_stock = data.quantity_stock + checkoutData.quantity
+                                const updatePro = {
+                                    ...data,
+                                    quantity_sold,
+                                    quantity_stock
                                 }
+                                await axios.put(`http://localhost:9080/api/products/${data.id}`, updatePro)
+                                    .then(res => console.log(res.data))
+                                    .catch(err => console.log(err))
                             }
-                        })
+                        }
                     })
                 })
-                window.location.reload()
-                return res.data
-            }
+            })
+            window.location.reload()
+            return res.data
+        }
+
+        if (window.confirm('Bạn có chắc chắn muốn hủy đơn hàng này?') === true) {
             cancelCheckout()
         }
-
     }
-
-
-    useEffect(() => {
-        setHiddenBtnCancel(JSON.parse(localStorage.getItem('cancelCheckout')))
-    }, [])
-
-
-    useEffect(() => {
-        if (dataUserCheckout.checkout) {
-            timerCancelId.current = setTimeout(() => {
-                localStorage.setItem('cancelCheckout', JSON.stringify(true))
-                setHiddenBtnCancel(true)
-                return
-            }, 5000)
-        }
-
-        return () => clearTimeout(timerCancelId)
-    }, [dataUserCheckout, dataUser])
-
 
     useEffect(() => {
         setIsSuccessCheckout(JSON.parse(localStorage.getItem('isSuccessCheckout')))
@@ -566,7 +557,7 @@ const Account = ({ accountInfos, onReload }) => {
                                         <>
                                             <span className="products-bought__heading">Sản phẩm đã mua</span>
                                             <ul className="checkout__cart-lists border-last-child">
-                                                {JSON.parse(dataUserCheckout?.product_boughts).map((bought, index) => (
+                                                {uniqueProductBoughts.map((bought, index) => (
                                                     <li key={index} className="checkout__cart-item">
                                                         <div className='cart-item__wrap'>
                                                             <div className="cart-item__img">

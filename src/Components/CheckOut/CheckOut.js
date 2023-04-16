@@ -218,19 +218,18 @@ const CheckOut = ({ datas }) => {
     const handleUseVoucher = () => {
 
         const vouchersDb = infoUser.vouchers.split(', ')
-        vouchersDb.forEach(voucher => {
-            if (voucher === inputVoucher.trim()) {
-                console.log(voucher, inputVoucher)
 
-                // const index = vouchersDb.findIndex(vou => vou === (inputVoucher))
-                // if (index !== -1) {
-                //     vouchersDb.splice(index, 1)
-                //     setVoucherDbs([...vouchersDb].join(', '))
-                // }
-            }
-        })
         const output = vouchersDb.includes(inputVoucher.trim())
-        if (output) {
+        if (output && inputVoucher.length) {
+            vouchersDb.forEach(voucher => {
+                if (voucher === inputVoucher.trim()) {
+                    const index = vouchersDb.findIndex(vou => vou === (inputVoucher))
+                    if (index !== -1) {
+                        vouchersDb.splice(index, 1)
+                        setVoucherDbs([...vouchersDb].join(', '))
+                    }
+                }
+            })
             setNotVoucher(false)
             const subTotal = dataCheckOuts.reduce((result, next) => {
                 if (next?.discount) {
@@ -301,12 +300,13 @@ const CheckOut = ({ datas }) => {
             const checkoutDatas = {
                 ...infoUser,
                 checkout: `${name}; ${phoneNum}; ${JSON.stringify(infoProducts)}; ${address}; ${delivery}; ${payment}; ${total}₫; ${new Date().toLocaleDateString()}`,
-                vouchers: `${voucherDbs || infoUser.vouchers}`,
-                total_order: String(totalOrder),
-                transactions: ''
+                vouchers: `${inputVoucher ? voucherDbs : infoUser.vouchers}`,
+                total_order: `${totalOrder}, ${new Date().toLocaleDateString()}`,
+                transactions: infoUser.transactions ? infoUser.transactions : ''
             }
 
-            const transactionDb = infoUser?.checkout ? JSON.parse(infoUser.checkout?.split('; ')[6]?.split(',').join('')?.slice(0, -1)) : 0
+
+            const transactionDb = infoUser?.transactions ? infoUser.transactions : 0
             const transactionHandle = checkoutDatas?.checkout ? JSON.parse(checkoutDatas.checkout?.split('; ')[6]?.split(',').join('')?.slice(0, -1)) : 0
 
             const checkoutMain = {
@@ -315,34 +315,39 @@ const CheckOut = ({ datas }) => {
             }
 
             axios.put(`http://localhost:9080/api/users/${ID_USER}`, checkoutMain)
-                .then(res => {
-                    dataCheckOuts.forEach(checkoutData => {
-                        datas.filter(data => {
+                .then(async res => {
+                    const result = await dataCheckOuts.forEach(checkoutData => {
+                        datas.filter(async (data) => {
                             if (data.id === checkoutData.id) {
-                                cartStorage.filter(cart => {
-                                    if (cart.id === data.id) {
-                                        const quantity_sold = data.quantity_sold + cart.quantity
-                                        const quantity_stock = data.quantity_stock - cart.quantity
-                                        const updatePro = {
-                                            ...data,
-                                            quantity_sold,
-                                            quantity_stock
-                                        }
-                                        axios.put(`http://localhost:9080/api/products/${data.id}`, updatePro)
-                                            .then(res => console.log(res.data))
-                                            .catch(err => console.log(err))
+                                if (checkoutData.id === data.id) {
+                                    const quantity_sold = await data.quantity_sold + checkoutData.quantity
+                                    const quantity_stock = await data.quantity_stock && data.quantity_stock !== 0 ?
+                                        data.quantity_stock - checkoutData.quantity :
+                                        0
+                                    const updatePro = {
+                                        ...data,
+                                        quantity_sold,
+                                        quantity_stock
                                     }
-                                })
+
+                                    await axios.put(`http://localhost:9080/api/products/${checkoutData.id}`, updatePro)
+                                        .then(res => {
+                                            window.alert('Hoàn tất đơn hàng!')
+                                            localStorage.setItem('cartLists', JSON.stringify([]))
+                                            localStorage.setItem('isSuccessCheckout', JSON.stringify(false))
+                                            window.location.replace('/account')
+                                        })
+                                        .catch(err => console.log(err))
+                                }
                             }
                         })
                     })
-                })
+                }
+
+                )
                 .catch(err => console.log(err))
 
-            window.alert('Hoàn tất đơn hàng!')
-            localStorage.setItem('cartLists', JSON.stringify([]))
-            localStorage.setItem('isSuccessCheckout', JSON.stringify(false))
-            window.location.replace('/account')
+
 
         } else {
             window.alert('Vui lòng nhập đầy đủ thông tin!')

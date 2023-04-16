@@ -7,14 +7,18 @@ import './i18n/i18n.js'
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import ProviderTheme from './context/ProviderTheme/ProviderTheme';
+
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
-  <Router>
-    <App />
-  </Router>
+  <ProviderTheme>
+    <Router>
+      <App />
+    </Router>
+  </ProviderTheme>
   // </React.StrictMode>   
 );
 

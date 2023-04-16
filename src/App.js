@@ -76,8 +76,8 @@ import {
   PermIdentity,
   Storefront,
   StoreRounded
-
 } from "@material-ui/icons"
+
 
 const localeLogos = [
   {
@@ -333,7 +333,9 @@ function App() {
         />
         <Route
           path='/account'
-          element={<AccountPage accountInfos={accountInfos} localeLogos={localeLogos} bannerServices={bannerServices} />}
+          element={
+            <AccountPage accountInfos={accountInfos} localeLogos={localeLogos} bannerServices={bannerServices} />
+          }
         />
         <Route
           path='/account/addresses'
