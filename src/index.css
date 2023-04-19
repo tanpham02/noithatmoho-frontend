@@ -235,6 +235,18 @@ ul {
     }
 }
 
+@keyframes FadeScaleDown {
+    0% {
+        opacity: 1;
+        transform: scale(100%);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(0);
+    }
+}
+
 @keyframes FadeInToLeft {
     0% {
         transform: translateX(30px);

@@ -7,6 +7,8 @@
         align-items: center;
     }
 
+
+
     & .productListImg {
         width: 32px;
         height: 32px;
@@ -30,76 +32,6 @@
         cursor: pointer;
     }
 
-
-    & .MuiDataGrid-window {
-        font-size: 1.2rem !important;
-    }
-
-    & .MuiDataGrid-main .MuiDataGrid-columnsContainer {
-        font-weight: 700 !important;
-        color: var(--gray-color);
-        font-size: 1.20rem;
-    }
-
-    & .MuiDataGrid-main .MuiDataGrid-overlay {
-        font-weight: 700 !important;
-        color: var(--gray-color);
-        font-size: 1.2rem;
-    }
-
-    & .MuiDataGrid-root .MuiDataGrid-columnHeaderTitle {
-        overflow: hidden;
-        font-weight: 700 !important;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        color: var(--gray-color);
-        font-size: 1.5rem;
-        opacity: 0.85;
-    }
-
-    .MuiDataGrid-root .MuiDataGrid-cell--textLeft {
-        font-size: 1.4rem !important;
-        color: #000;
-    }
-
-    .MuiDataGrid-root .MuiDataGrid-cell {
-        font-size: 1.4rem !important;
-
-    }
-
-    & .MuiDataGrid-root .MuiDataGrid-window {
-        left: 0;
-        right: 0;
-        bottom: 0;
-        position: absolute;
-        overflow-x: auto;
-        font-size: 1.2rem;
-        color: var(--gray-color);
-    }
-
-    & .MuiDataGrid-root .MuiDataGrid-columnHeader:focus,
-    & .MuiDataGrid-root .MuiDataGrid-cell:focus {
-        outline: none !important;
-    }
-
-    & .MuiDataGrid-root .MuiDataGrid-footerContainer {
-        font-size: 1.3rem;
-    }
-
-
-    & .MuiTypography-root.MuiTablePagination-caption.makeStyles-caption-2.MuiTypography-body2.MuiTypography-colorInherit {
-        font-size: 1.4rem !important;
-    }
-
-    & .MuiTablePagination-actions {
-        font-size: 1.3erm;
-    }
-
-    & .MuiSvgIcon-root.productListDelete {
-        font-size: 2.3rem !important;
-    }
-
-
     & .productListEdit {
         font-size: 1.2rem !important;
         background-color: teal;
@@ -108,6 +40,122 @@
     }
 
 
+}
+
+.MuiDataGrid-window {
+    font-size: 1.2rem !important;
+}
+
+.MuiDataGrid-main .MuiDataGrid-columnsContainer {
+    font-weight: 700 !important;
+    color: var(--gray-color);
+    font-size: 1.20rem;
+}
+
+.MuiDataGrid-main .MuiDataGrid-overlay {
+    font-weight: 700 !important;
+    color: var(--gray-color);
+    font-size: 1.2rem;
+}
+
+
+.MuiDataGrid-root .MuiDataGrid-cell--textLeft {
+    font-size: 1.4rem !important;
+    color: #000;
+
+    &.active {
+        color: var(--border) !important;
+    }
+}
+
+
+.MuiDataGrid-root .MuiDataGrid-window {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    overflow-x: auto;
+    font-size: 1.2rem;
+    color: var(--gray-color);
+}
+
+.MuiDataGrid-root .MuiDataGrid-columnHeader:focus,
+.MuiDataGrid-root .MuiDataGrid-cell:focus {
+    outline: none !important;
+}
+
+.MuiDataGrid-root .MuiDataGrid-footerContainer {
+    font-size: 1.3rem;
+}
+
+
+.MuiTablePagination-caption {
+    font-size: 1.4rem !important;
+    font-weight: 600 !important;
+    opacity: 0.85;
+    color: var(--gray-color);
+
+    &.active {
+        color: #c7c7c7 !important;
+        filter: brightness(3) !important;
+    }
+}
+
+.MuiIconButton-root {
+    color: var(--gray-color) !important;
+    font-size: 2.1rem !important;
+
+
+    &.Mui-disabled {
+        opacity: 0.6;
+    }
+
+    &.active {
+        color: #fff !important;
+        opacity: 1.5;
+        font-size: 2.1rem !important;
+
+    }
+
+    &.active {
+        color: #fff !important;
+        opacity: 1.5;
+        font-size: 2.1rem !important;
+
+        &.Mui-disabled {
+            opacity: 0.6;
+        }
+    }
+}
+
+.MuiTablePagination-actions {
+    font-size: 1.3erm;
+}
+
+.MuiSvgIcon-root.productListDelete {
+    font-size: 2.3rem !important;
+}
+
+.MuiDataGrid-root .MuiDataGrid-columnHeaderTitle {
+    overflow: hidden;
+    font-weight: 700 !important;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: var(--gray-color);
+    font-size: 1.5rem;
+    opacity: 0.85;
+
+    &.active {
+        color: #c7c7c7 !important;
+        filter: brightness(3);
+    }
+}
+
+.manager-user__title {
+    &.active {
+        color: #bcbcbc !important;
+        filter: brightness(1.3);
+    }
 }
 
 .header-search.manager {

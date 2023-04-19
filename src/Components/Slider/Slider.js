@@ -44,16 +44,15 @@ const Slider = ({ sliders }) => {
         className={`slider__image active `}
         style={{
           backgroundImage: `url(${sliders[currentIndex].url})`,
-          transition: 'all linear 1.5s',
-          transitionDuration: '1s'
+          transition: 'all linear 0.8s',
+          transitionDelay: '0.8s'
         }}></div>
 
       <div
         className='slider__prev'
         onClick={handlePrevSlide}
         style={{
-          transition: 'all linear 1.5s',
-          transitionDelay: '1s',
+          transition: 'all linear 0.8s',
         }}
       >
         <i className="fa-solid fa-arrow-left"></i>
@@ -62,8 +61,7 @@ const Slider = ({ sliders }) => {
       <div
         className='slider__next'
         style={{
-          transition: 'all linear 1.5s',
-          transitionDelay: '1s',
+          transition: 'all linear 0.8s',
         }}
         onClick={handleNextSlide}
       >
@@ -77,8 +75,7 @@ const Slider = ({ sliders }) => {
             key={index}
             onClick={() => handleWitchSlider(index)}
             style={{
-              transition: 'all linear 1.5s',
-              transitionDelay: '1s',
+              transition: 'all linear 0.8s',
             }}
           >
           </span>

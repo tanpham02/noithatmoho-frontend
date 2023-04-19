@@ -59,7 +59,7 @@ const Home = ({ datas, dataGroupTypes, dataTypes }) => {
                             <h2 className="products__title px--16 discount-home__heading">Ưu Đãi Giới Hạn</h2>
                             <Link to='/collections/uu-dai' className="seen-more">Xem thêm</Link>
                         </div>
-                        {dataDiscount.slice(0, -2).map((data, index) => (
+                        {dataDiscount.slice(0, 8).map((data, index) => (
                             <div
                                 key={index}
                                 className="grid__col-4 products px--16"

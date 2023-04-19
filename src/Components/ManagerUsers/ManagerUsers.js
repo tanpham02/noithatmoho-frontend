@@ -2,7 +2,7 @@ import "./ManagerUsers.scss";
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-import { useState, useEffect, memo, useContext } from "react";
+import { useState, useEffect, memo, useContext, useLayoutEffect } from "react";
 import axios from 'axios'
 import { themeProvider } from '../../context/ProviderTheme/ProviderTheme'
 import { THEME_DARK } from "../../reducers/actions";
@@ -12,9 +12,8 @@ const ManagerUsers = () => {
     const [search, setSearch] = useState('')
     const [dataSearch, setDataSearch] = useState([])
     const themePage = useContext(themeProvider)
-    const [state, dispatch] = themePage
+    const [state] = themePage
     const { currentTheme } = state
-    console.log(currentTheme)
 
     useEffect(() => {
         if (search.length) {
@@ -45,13 +44,64 @@ const ManagerUsers = () => {
             window.location.reload()
             deleteUser()
         }
-    };
+    }
+
+
+    useEffect(() => {
+        const muiContainer = document.querySelectorAll('.MuiDataGrid-root .MuiDataGrid-columnsContainer .MuiDataGrid-columnHeaderTitle')
+        if (currentTheme === THEME_DARK) {
+            muiContainer && muiContainer.forEach(cell => cell.classList.add('active'))
+        } else {
+            muiContainer && muiContainer.forEach(cell => cell.classList.remove('active'))
+        }
+    })
+
+
+    useEffect(() => {
+        const muiConCell = document.querySelectorAll('.MuiDataGrid-cell')
+        currentTheme && muiConCell?.forEach(cell => {
+            if (currentTheme === THEME_DARK) {
+                cell.classList.add('active')
+                console.log('Active')
+            } else {
+                console.log(currentTheme === THEME_DARK)
+                cell.classList.remove('active')
+                console.log('nonActive')
+            }
+        })
+    }, [])
+
+
+    useEffect(() => {
+        const muiConBtn = document.querySelectorAll('.MuiIconButton-root')
+        muiConBtn && muiConBtn.forEach(cell => {
+            if (currentTheme === THEME_DARK) {
+                cell.classList.add('active')
+                return
+            } else {
+                cell.classList.remove('active')
+                return
+            }
+        })
+    })
+
+
+    useEffect(() => {
+        const muiPagination = document.querySelector('.MuiTablePagination-caption')
+        if (currentTheme === THEME_DARK) {
+            muiPagination?.classList.add('active')
+            return
+        } else {
+            muiPagination?.classList.remove('active')
+            return
+        }
+    })
 
     const columns = [
         {
             field: "id",
             headerName: "ID",
-            width: 100
+            width: 95
         },
         {
             field: "full_name",
@@ -122,6 +172,8 @@ const ManagerUsers = () => {
 
 
 
+
+
     return (
         <>
             <div className='header-search manager'>
@@ -140,7 +192,6 @@ const ManagerUsers = () => {
                 </button>
             </div>
 
-
             <h4 style={{
                 fontSize: '2rem',
                 color: 'var(--gray-color)',
@@ -148,6 +199,7 @@ const ManagerUsers = () => {
                 marginLeft: '2rem',
                 fontWeight: '800',
             }}
+                className={`manager-user__title ${currentTheme === THEME_DARK && 'active'}`}
             >
                 Quản lý người dùng
             </h4 >

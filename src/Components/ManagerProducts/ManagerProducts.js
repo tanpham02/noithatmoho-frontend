@@ -2,13 +2,18 @@ import './ManagerProducts.scss'
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-import { useState, useEffect, memo } from "react";
+import { useState, useEffect, memo, useContext } from "react";
 import axios from 'axios'
+import { themeProvider } from '../../context/ProviderTheme/ProviderTheme'
+import { THEME_DARK } from '../../reducers/actions'
 
 const ManagerProducts = () => {
     const [dataProducts, setDataProducts] = useState([])
     const [search, setSearch] = useState('')
     const [dataSearch, setDataSearch] = useState([])
+    const themePage = useContext(themeProvider)
+    const [state] = themePage
+    const { currentTheme } = state
 
     useEffect(() => {
         async function getData() {
@@ -35,7 +40,7 @@ const ManagerProducts = () => {
         {
             field: "id",
             headerName: "ID",
-            width: 100
+            width: 110
         },
         {
             field: "name",
@@ -71,17 +76,17 @@ const ManagerProducts = () => {
         {
             field: "quantity_sold",
             headerName: "Số lượng đã bán",
-            width: 200,
+            width: 220,
         },
         {
             field: "prices",
             headerName: "Giá",
-            width: 200,
+            width: 150,
         },
         {
             field: "action",
             headerName: "Hành động",
-            width: 200,
+            width: 180,
             renderCell: (params) => {
                 return (
                     <>
@@ -112,6 +117,76 @@ const ManagerProducts = () => {
 
 
 
+
+
+
+    useEffect(() => {
+        const muiContainer = document.querySelectorAll('.MuiDataGrid-root .MuiDataGrid-columnsContainer .MuiDataGrid-columnHeaderTitle')
+        if (currentTheme === THEME_DARK) {
+            muiContainer && muiContainer.forEach(cell => cell.classList.add('active'))
+        } else {
+            muiContainer && muiContainer.forEach(cell => cell.classList.remove('active'))
+        }
+    })
+
+
+    useEffect(() => {
+        const muiConCell = document.querySelectorAll('.MuiDataGrid-cell')
+        currentTheme && muiConCell?.forEach(cell => {
+            if (currentTheme === THEME_DARK) {
+                cell.classList.add('active')
+            } else {
+                cell.classList.remove('active')
+            }
+        })
+    })
+
+
+    useEffect(() => {
+        addActiveBtn()
+    }, [])
+    async function addActiveBtn() {
+        const muiConBtn = document.querySelectorAll('.MuiIconButton-root')
+        muiConBtn && muiConBtn.forEach(btn => {
+            if (currentTheme === THEME_DARK) {
+                btn.classList.add('active')
+                return
+            } else {
+                btn.classList.remove('active')
+                return
+            }
+        })
+    }
+
+
+    useEffect(() => {
+        addActiveBtnDis()
+    }, [])
+    async function addActiveBtnDis() {
+        const btnDisabled = document.querySelectorAll('.MuiIconButton-root.Mui-disabled')
+        btnDisabled && btnDisabled.forEach(btnDis => {
+            if (currentTheme === THEME_DARK) {
+                btnDis.classList.add('active')
+                return
+            } else {
+                btnDis.classList.remove('active')
+                return
+            }
+        })
+    }
+
+    useEffect(() => {
+        const muiPagination = document.querySelector('.MuiTablePagination-caption')
+        if (currentTheme === THEME_DARK) {
+            muiPagination?.classList.add('active')
+            return
+        } else {
+            muiPagination?.classList.remove('active')
+            return
+        }
+    })
+
+
     return (
 
         <>
@@ -138,6 +213,7 @@ const ManagerProducts = () => {
                 marginLeft: '2rem',
                 fontWeight: '800',
             }}
+                className={`manager-user__title ${currentTheme === THEME_DARK && 'active'}`}
             >
                 Quản lý sản phẩm
             </h4 >

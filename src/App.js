@@ -317,7 +317,7 @@ function App() {
         window.location.pathname.includes('/manager-products')) {
         setShowChat(false)
       }
-    }, 1000)
+    }, 10000)
 
 
     return () => clearTimeout(timerId.current)
