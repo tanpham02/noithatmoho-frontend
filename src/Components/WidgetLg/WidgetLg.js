@@ -25,7 +25,7 @@ const WidgetLg = ({ currentTheme, THEME_DARK }) => {
           <th className="widget-lg__th">Tổng giá trị đơn hàng (VND)</th>
         </tr>
 
-        {userDatas.length && userDatas.map((user, index) =>
+        {userDatas && userDatas.map((user, index) =>
           (user.is_admin === 0 && user?.checkout) && (
             <tr className={`widget-lg__tr ${currentTheme === THEME_DARK && 'active'}`} key={index}>
               <td className="widget-lg__user">
