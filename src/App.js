@@ -62,7 +62,7 @@ import BlanketPage from './pages/Blanket/Blanket'
 import TreeFlowersPage from './pages/TreeFlowers/TreeFlowers'
 import ChairPadCushionPage from './pages/ChairPadCushion/ChairPadCushion'
 import KitchenwarePage from './pages/Kitchenware/Kitchenware'
-import CheckoutPage from './pages/CheckOut/CheckOut'
+import CheckOutPage from './pages/CheckOut/CheckOut'
 import BestSellerPage from './pages/BestSeller/BestSeller'
 import AdminHome from './pages/AdminHome/AdminHome'
 import ManagerUsersPage from './pages/ManagerUsers/ManagerUsers'
@@ -71,7 +71,6 @@ import DetailUserPage from './pages/DetailUser/DetailUser'
 import CreateUserPage from './pages/CreateUser/CreateUser'
 import CreateProductPage from './pages/CreateProduct/CreateProduct'
 import DetailProductAdminPage from './pages/DetailProductAdmin/DetailProductAdmin'
-
 import {
   PermIdentity,
   Storefront,
@@ -662,7 +661,7 @@ function App() {
         />
         <Route
           path='/checkout/:username'
-          element={<CheckoutPage datas={datas} />}
+          element={<CheckOutPage datas={datas} />}
         />
         <Route
           path='/admin'

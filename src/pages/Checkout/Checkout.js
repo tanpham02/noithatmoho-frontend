@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 
 import CheckOut from "../../Components/CheckOut/CheckOut"
-const CheckoutPage = ({ datas }) => {
+const CheckOutPage = ({ datas }) => {
 
     useEffect(() => {
         document.title= 'Nội Thất MOHO - Thanh toán đơn hàng'
@@ -14,4 +14,4 @@ const CheckoutPage = ({ datas }) => {
     return <CheckOut datas={datas} />
 }
 
-export default CheckoutPage
+export default CheckOutPage

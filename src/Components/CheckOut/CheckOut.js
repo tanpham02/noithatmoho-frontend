@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, memo } from "react"
 import axios from 'axios'
-import { Link, parsePath } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import './CheckOut.scss'
 
 export const ID_USER = JSON.parse(localStorage.getItem('idUser'))
