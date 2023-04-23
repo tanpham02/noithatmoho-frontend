@@ -1,20 +1,19 @@
 .goto-top {
+    -webkit-animation: FadeIn .2s linear;
+    animation: FadeIn .2s linear;
     background-color: #fff;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
     border: 1px solid var(--border-color);
-    position: fixed;
-    bottom: 50px;
-    right: 50px;
-    box-shadow: 1px 0px 15px rgb(0 0 0 / 10%);
-    animation: FadeIn linear 0.2s;
+    border-radius: 50%;
+    bottom: 22px;
+    box-shadow: 1px 0 15px rgba(0, 0, 0, 0.1);
     cursor: pointer;
+    height: 60px;
+    position: fixed;
+    left: 22px;
+    width: 60px;
 
     &__icon {
         color: var(--gray-color);
         font-size: 27px;
     }
 }
-
-
