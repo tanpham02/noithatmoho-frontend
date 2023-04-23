@@ -1,7 +1,7 @@
 import Navigation from "../Navigation/Navigation"
 import Login from "../Login/Login"
 import Cart from "../Cart/Cart"
-import { useState, useEffect, useLayoutEffect, useCallback, useRef, memo } from "react"
+import { useState, useEffect, useCallback, useRef, memo } from "react"
 import { Link } from "react-router-dom"
 import { useTranslation } from 'react-i18next'
 import './HeaderFixed.scss'

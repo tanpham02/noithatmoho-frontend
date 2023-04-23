@@ -37,7 +37,7 @@ const CreateProduct = () => {
 
     useEffect(() => {
         async function getDataType() {
-            const res = await axios.get('http://localhost:9080/api/types')
+            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/types')
             const datas = await res.data
             setDataType(datas)
         }
@@ -46,7 +46,7 @@ const CreateProduct = () => {
 
     useEffect(() => {
         async function getDataGroupType() {
-            const res = await axios.get('http://localhost:9080/api/groupTypes')
+            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/groupTypes')
             const datas = await res.data
             setDataGroupType(datas)
         }
@@ -85,7 +85,7 @@ const CreateProduct = () => {
         }
 
         async function createProduct() {
-            const res = await axios.post('http://localhost:9080/api/products', createPro)
+            const res = await axios.post('https://noithatmoho-backend.up.railway.app/api/products', createPro)
             window.alert('Thêm mới sản phẩm thành công!')
             window.location.replace('/manager-products')
             return res

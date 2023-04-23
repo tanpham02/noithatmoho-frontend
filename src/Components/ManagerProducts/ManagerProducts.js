@@ -17,7 +17,7 @@ const ManagerProducts = () => {
 
     useEffect(() => {
         async function getData() {
-            const res = await axios.get('http://localhost:9080/api/products')
+            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/products')
             const datas = await res.data
             setDataProducts(datas)
         }
@@ -26,7 +26,7 @@ const ManagerProducts = () => {
 
     const handleDelete = (id) => {
         async function deletePro() {
-            const res = await axios.delete(`http://localhost:9080/api/products/${id}`)
+            const res = await axios.delete(`https://noithatmoho-backend.up.railway.app/api/products/${id}`)
             window.alert('Đã xóa sản phẩm thành công!')
             window.location.reload()
             return res

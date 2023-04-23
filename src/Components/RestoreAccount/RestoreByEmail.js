@@ -19,7 +19,7 @@ const RestoreByEmail = () => {
 
     useEffect(() => {
         async function fetchData() {
-            const res = await axios.get('http://localhost:9080/api/users')
+            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/users')
             const data = await res.data
             setDatas(data)
         }
@@ -37,12 +37,12 @@ const RestoreByEmail = () => {
                 output.find(id => {
                     setUser(id)
                     setId(id.id)
-                    axios.post(`http://localhost:9080/api/sendOTPRestoreAccountByMail`, {
+                    axios.post(`https://noithatmoho-backend.up.railway.app/api/sendOTPRestoreAccountByMail`, {
                         email
                     })
                         .then((res) => {
                             setResOtp(String(res.data))
-                            return axios.put(`http://localhost:9080/api/users/${id.id}`,
+                            return axios.put(`https://noithatmoho-backend.up.railway.app/api/users/${id.id}`,
                                 {
                                     ...id,
                                     otp: res.data
@@ -82,7 +82,7 @@ const RestoreByEmail = () => {
     const handleUpdateNewPassW = (e) => {
         if (newPassWord) {
             e.preventDefault()
-            axios.put(`http://localhost:9080/api/users/${id}`,
+            axios.put(`https://noithatmoho-backend.up.railway.app/api/users/${id}`,
                 {
                     ...user,
                     password: newPassWord,

@@ -271,7 +271,7 @@ function App() {
 
   useEffect(() => {
     async function getDataProducts() {
-      const res = await axios.get('http://localhost:9080/api/products');
+      const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/products');
       setDatas([...res.data])
     }
     getDataProducts()
@@ -280,7 +280,7 @@ function App() {
 
   useEffect(() => {
     async function getDataGroupTypes() {
-      const res = await axios.get('http://localhost:9080/api/groupTypes')
+      const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/groupTypes')
       setDataGroupTypes([...res.data])
     }
     getDataGroupTypes()
@@ -288,7 +288,7 @@ function App() {
 
   useEffect(() => {
     async function getDataTypes() {
-      const res = await axios.get('http://localhost:9080/api/types')
+      const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/types')
       setDataTypes([...res.data])
     }
     getDataTypes()
@@ -317,7 +317,7 @@ function App() {
         window.location.pathname.includes('/manager-products')) {
         setShowChat(false)
       }
-    }, 10000)
+    }, 1000)
 
 
     return () => clearTimeout(timerId.current)

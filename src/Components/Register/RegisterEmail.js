@@ -48,7 +48,7 @@ const RegisterEmail = () => {
                                 vouchers: 'MOHO500K, MOHO50K, MOHO300K, MOHO200K, MOHO100K'
                             }
                             function createdUser() {
-                                axios.post('http://localhost:9080/api/users', newValues)
+                                axios.post('https://noithatmoho-backend.up.railway.app/api/users', newValues)
                                     .then(res => console.log(res.data))
                                 window.alert('Đăng kí thành công!')
                                 window.location.replace('/')
@@ -65,7 +65,7 @@ const RegisterEmail = () => {
 
     useEffect(() => {
         async function registerMail() {
-            const res = await axios.get('http://localhost:9080/api/users')
+            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/users')
             const dataUsers = await res.data
             setDatas([...dataUsers])
         }

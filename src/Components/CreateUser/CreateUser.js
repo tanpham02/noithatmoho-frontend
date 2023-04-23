@@ -27,7 +27,7 @@ const CreateUser = () => {
         }
 
         async function createUser() {
-            const res = await axios.post('http://localhost:9080/api/users', dataUser)
+            const res = await axios.post('https://noithatmoho-backend.up.railway.app/api/users', dataUser)
             window.alert('Thêm người dùng thành công')
             window.location.replace('/manager-users')
             return res

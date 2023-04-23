@@ -2,7 +2,7 @@ import "./ManagerUsers.scss";
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-import { useState, useEffect, memo, useContext, useLayoutEffect } from "react";
+import { useState, useEffect, memo, useContext } from "react";
 import axios from 'axios'
 import { themeProvider } from '../../context/ProviderTheme/ProviderTheme'
 import { THEME_DARK } from "../../reducers/actions";
@@ -27,7 +27,7 @@ const ManagerUsers = () => {
 
     useEffect(() => {
         async function getData() {
-            const res = await axios.get('http://localhost:9080/api/users')
+            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/users')
             const datas = await res.data
             setDataUSers(datas)
         }
@@ -36,7 +36,7 @@ const ManagerUsers = () => {
 
     const handleDelete = (id) => {
         async function deleteUser() {
-            const res = await axios.delete(`http://localhost:9080/api/users/${id}`)
+            const res = await axios.delete(`https://noithatmoho-backend.up.railway.app/api/users/${id}`)
             return res
         }
         if (window.confirm('Bạn có chắc chắn muốn xóa người dùng này?') === true) {

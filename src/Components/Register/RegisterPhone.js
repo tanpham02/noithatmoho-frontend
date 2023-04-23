@@ -28,7 +28,7 @@ const RegisterPhone = () => {
 
     useEffect(() => {
         async function fetchData() {
-            const res = await axios('http://localhost:9080/api/users')
+            const res = await axios('https://noithatmoho-backend.up.railway.app/api/users')
             const output = await res.data
             setDatas([...output])
         }
@@ -91,7 +91,7 @@ const RegisterPhone = () => {
         if (handleValidataPhone) {
             if (phoneNumber !== '' && !flag) {
                 setShowInput(true)
-                axios.post('http://localhost:9080/api/send-otp', {
+                axios.post('https://noithatmoho-backend.up.railway.app/api/send-otp', {
                     phone_number: `+84${phoneNumber.slice(1)}`,
                     vouchers: 'MOHO500K, MOHO50K, MOHO300K, MOHO200K, MOHO100K'
                 })
@@ -157,7 +157,7 @@ const RegisterPhone = () => {
         const regexPassW = /(?=.{8,})/
         if (regexPassW.test(passwordByPhone)) {
             e.preventDefault()
-            axios.post('http://localhost:9080/api/register', {
+            axios.post('https://noithatmoho-backend.up.railway.app/api/register', {
                 password: passwordByPhone
             })
             window.alert('Đăng kí thành công!')

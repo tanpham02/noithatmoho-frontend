@@ -18,7 +18,7 @@ const Cart = () => {
 
     useEffect(() => {
         async function fetchData() {
-            const res = await axios.get('http://localhost:9080/api/products')
+            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/products')
             const data = await res.data
             setDatas(data)
         }
