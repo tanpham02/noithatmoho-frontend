@@ -694,7 +694,7 @@ function App() {
         />
       </Routes>
       {gotoTop && <GoToTop />}
-      {showChat && <Chat />}
+      {/* {showChat && <Chat />} */}
     </div>
   );
 }
