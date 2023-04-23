@@ -71,7 +71,7 @@ const Chat = () => {
                             <button className="btn chat-main__btn">Start chat</button>
                             <div className="chat-main__text">
                                 <img
-                                    src="https://z-p3-scontent.fsgn13-3.fna.fbcdn.net/v/t39.8562-6/120009688_325579128711709_1736249742330805861_n.png?_nc_cat=1&amp;ccb=1-7&amp;_nc_sid=6825c5&amp;_nc_ohc=bwzBftFbw58AX-VgJZ2&amp;_nc_ht=z-p3-scontent.fsgn13-3.fna&amp;oh=00_AfD4eGn_2pkcQbpJJuWtit3R8qRvHiSBd09JGilq8gFz5Q&amp;oe=64445B3D"
+                                    src="/assets/img/chat/messager.png"
                                     alt="Messenger" />
                                 <span className="chat-main__text-footer">Powered by Messenger</span>
                             </div>
