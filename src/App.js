@@ -310,8 +310,13 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if (window.location.pathname.includes('/admin') || window.location.pathname.includes('/manager-users') ||
-      window.location.pathname.includes('/manager-products')) {
+    if (window.location.pathname.includes('/admin') ||
+      window.location.pathname.includes('/manager-users') ||
+      window.location.pathname.includes('/manager-users/detail') ||
+      window.location.pathname.includes('/manager-users/create-user') ||
+      window.location.pathname.includes('/manager-products') ||
+      window.location.pathname.includes('/manager-products/create-product') ||
+      window.location.pathname.includes('/manager-products/detail')) {
       document.querySelector('.fb_reset')?.classList.add('hidden')
     }
   }, [window.location.pathname])
