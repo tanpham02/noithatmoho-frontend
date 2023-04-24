@@ -318,6 +318,8 @@ function App() {
       window.location.pathname.includes('/manager-products/create-product') ||
       window.location.pathname.includes('/manager-products/detail')) {
       document.querySelector('.fb_reset')?.classList.add('hidden')
+    } else {
+      document.querySelector('.fb_reset')?.classList.remove('hidden')
     }
   }, [window.location.pathname])
 

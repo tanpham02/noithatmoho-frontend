@@ -193,8 +193,9 @@ const CreateProduct = () => {
                             placeholder="Giá sản phẩm"
                             value={pricePro}
                             onChange={e => setPricePro(e.target.value)}
+                            onInput={() => setRegexPrice(false)}
                         />
-                        {regexPrice && <span className='errorMsg'>Giá yêu cầu phải là số!</span>}
+                        {regexPrice && <span className='errorMsg'>Giá sản phẩm yêu cầu phải là số!</span>}
                     </div>
                     <div className="newUserItem">
                         <label>Giảm giá</label>
@@ -216,6 +217,7 @@ const CreateProduct = () => {
                             placeholder="Số lượng"
                             value={quantityStock}
                             onChange={e => setQuantityStock(e.target.value)}
+                            onInput={() => setRegexAmount(false)}
                         />
                         {regexAmount && <span className='errorMsg'>Số lượng yêu cầu phải là số!</span>}
                     </div>

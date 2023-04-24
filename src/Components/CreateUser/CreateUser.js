@@ -12,6 +12,9 @@ const CreateUser = () => {
     const [address, setAddress] = useState('')
     const [isAdmin, setAdmin] = useState('')
 
+    const [regexPass, setRegexPass] = useState(false)
+    const [regexPhone, setRegexPhone] = useState(false)
+
 
     const handleCreateUser = (e) => {
         e.preventDefault()
@@ -33,8 +36,25 @@ const CreateUser = () => {
             return res
         }
         createUser()
-    }
 
+        const regexNumber = /[0-9]/
+        const regexP = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/
+        if (regexNumber.test(phoneNumber) && regexP.test(passWord)) {
+            setRegexPass(false)
+            setRegexPhone(false)
+            createUser()
+        }
+
+        if (regexNumber.test(phoneNumber) && regexP.test(passWord) === false) {
+            setRegexPass(true)
+            return
+        }
+
+        if (regexP.test(passWord) && regexNumber.test(phoneNumber) === false) {
+            setRegexPhone(true)
+            return
+        }
+    }
 
 
     return (
@@ -72,7 +92,9 @@ const CreateUser = () => {
                         required
                         value={passWord}
                         onChange={(e) => setPassWord(e.target.value)}
+                        onInput={() => setRegexPass(false)}
                     />
+                    {regexPass && <span className='errorMes'>Mật khẩu phải từ 8 ký tự, ít nhất 1 chữ cái thường, 1 chữ cái hoa, 1 chữ số, 1 kí tự đặc biệt</span>}
                 </div>
                 <div className="newUserItem">
                     <label>Số điện thoại</label>
@@ -83,7 +105,9 @@ const CreateUser = () => {
                         required
                         value={phoneNumber}
                         onChange={(e) => setPhoneNumber(e.target.value)}
+                        onInput={() => setRegexPhone(false)}
                     />
+                    {regexPhone && <span className='errorMsg'>Số điện thoại phải là chữ số</span>}
                 </div>
                 <div className="newUserItem">
                     <label>Ngày sinh</label>
