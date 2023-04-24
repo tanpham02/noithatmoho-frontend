@@ -99,7 +99,7 @@ const CreateProduct = () => {
         if (regexNumber.test(quantityStock) === false && regexNumber.test(pricePro) === false) {
             setRegexPrice(true)
             setRegexAmount(true)
-            createProduct()
+            return            
         }
 
         if (regexNumber.test(quantityStock) && regexNumber.test(pricePro) === false) {
