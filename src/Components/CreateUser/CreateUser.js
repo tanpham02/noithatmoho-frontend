@@ -35,17 +35,10 @@ const CreateUser = () => {
             window.location.replace('/manager-users')
             return res
         }
-        createUser()
 
         const regexNumber = /[0-9]/
         const regexP = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/
 
-        if (regexNumber.test(phoneNumber) && regexP.test(passWord)) {
-            setRegexPass(false)
-            setRegexPhone(false)
-            createUser()
-            return
-        }
 
         if (regexP.test(passWord) === false) {
             setRegexPass(true)
@@ -56,6 +49,15 @@ const CreateUser = () => {
             setRegexPhone(true)
             return
         }
+
+        if (regexNumber.test(phoneNumber) && regexP.test(passWord)) {
+            setRegexPass(false)
+            setRegexPhone(false)
+            createUser()
+            return
+        }
+
+        
 
 
 
