@@ -89,19 +89,24 @@ const CreateProduct = () => {
             window.location.replace('/manager-products')
             return res
         }
+        const regexNumber = /[^0-9]/
 
-        if (!regexAmount) {
+        if (!regexNumber.test(quantityStock)) {
             setRegexAmount(true)
             return
         }
-        if (!regexPrice) {
+        if (!regexNumber.test(pricePro)) {
             setRegexPrice(true)
             return
         }
-        if (regexAmount && regexPrice) {
+        if (regexNumber.test(quantityStock) && regexNumber.test(pricePro)) {
+            setRegexAmount(false)
+            setRegexPrice(false)
             createProduct()
+            return
         }
     }
+
 
 
 
