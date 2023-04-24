@@ -91,24 +91,23 @@ const CreateProduct = () => {
         }
         const regexNumber = /[^0-9]/
 
-        if (regexNumber.test(quantityStock)) {
+        if (regexNumber.test(quantityStock) && regexNumber.test(pricePro)) {
             setRegexAmount(false)
-            createProduct()
-            return
-        }
-        if (regexNumber.test(pricePro)) {
             setRegexPrice(false)
             createProduct()
             return
         }
-        if (regexNumber.test(quantityStock) && regexNumber.test(pricePro)) {
-            setRegexAmount(true)
+
+        if (regexNumber.test(quantityStock) && regexNumber.test(pricePro) === false) {
             setRegexPrice(true)
             return
         }
+
+        if (regexNumber.test(pricePro) && regexNumber.test(quantityStock) === false) {
+            setRegexAmount(true)
+            return
+        }
     }
-
-
 
 
     return (

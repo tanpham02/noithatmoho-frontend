@@ -201,7 +201,7 @@ ul {
 }
 
 
-.fb-root.hidden {
+.fb_reset.hidden {
     display: none !important;
     visibility: hidden !important;
 }
