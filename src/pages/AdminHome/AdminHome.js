@@ -2,8 +2,6 @@ import { useEffect } from "react"
 import Admin from "../../Components/Admin/Admin"
 import { useTranslation } from 'react-i18next'
 
-
-
 const AdminHome = ({ listPage }) => {
     const { t } = useTranslation(['header'])
 

@@ -13,14 +13,13 @@ const CreateProduct = () => {
     const [discountPro, setDiscountPro] = useState('')
     const [quantityStock, setQuantityStock] = useState('')
     const [size, setSize] = useState('')
-
     const [dataType, setDataType] = useState([])
     const [dataGroupType, setDataGroupType] = useState([])
-
-
     const [subCategorys, setSubCategorys] = useState([])
-
     const [typeId, setTypeId] = useState(null)
+
+    const [regexPrice, setRegexPrice] = useState(false)
+    const [regexAmount, setRegexAmount] = useState(false)
 
 
     const handleChangeImg = (e) => {
@@ -90,7 +89,18 @@ const CreateProduct = () => {
             window.location.replace('/manager-products')
             return res
         }
-        createProduct()
+
+        if (!regexAmount) {
+            setRegexAmount(true)
+            return
+        }
+        if (!regexPrice) {
+            setRegexPrice(true)
+            return
+        }
+        if (regexAmount && regexPrice) {
+            createProduct()
+        }
     }
 
 
@@ -180,6 +190,7 @@ const CreateProduct = () => {
                             value={pricePro}
                             onChange={e => setPricePro(e.target.value)}
                         />
+                        {regexPrice && <span className='errorMsg'>Giá yêu cầu phải là số!</span>}
                     </div>
                     <div className="newUserItem">
                         <label>Giảm giá</label>
@@ -202,6 +213,7 @@ const CreateProduct = () => {
                             value={quantityStock}
                             onChange={e => setQuantityStock(e.target.value)}
                         />
+                        {regexAmount && <span className='errorMsg'>Số lượng yêu cầu phải là số!</span>}
                     </div>
                     <div className="newUserItem">
                         <label>Kích thước</label>

@@ -35,7 +35,7 @@ const FeaturedInfo = ({ userDatas, currentTheme, THEME_DARK }) => {
       }
       return total + 0
     }, 0)
-    return totalProfit - (totalProfit * (55 / 100))
+    return totalProfit - (totalProfit * (55 / 100)) // thuế, phí dịch vụ, nhân viên,...
   }, [userDatas])
 
 
