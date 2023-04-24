@@ -39,19 +39,21 @@ const CreateUser = () => {
 
         const regexNumber = /[0-9]/
         const regexP = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/
-        if (regexNumber.test(phoneNumber) && regexP.test(passWord)) {
-            setRegexPass(false)
-            setRegexPhone(false)
-            createUser()
-        }
-
-        if (regexNumber.test(phoneNumber) && regexP.test(passWord) === false) {
+        if (regexP.test(passWord) === false) {
             setRegexPass(true)
             return
         }
 
-        if (regexP.test(passWord) && regexNumber.test(phoneNumber) === false) {
+        if (regexNumber.test(phoneNumber) === false) {
             setRegexPhone(true)
+            return
+        }
+
+
+        if (regexNumber.test(phoneNumber) && regexP.test(passWord)) {
+            setRegexPass(false)
+            setRegexPhone(false)
+            createUser()
             return
         }
     }
