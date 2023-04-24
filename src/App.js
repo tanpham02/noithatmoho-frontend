@@ -310,16 +310,10 @@ function App() {
   }, [])
 
   useEffect(() => {
-    timerId.current = setTimeout(() => {
-      setShowChat(true)
-      if (window.location.pathname.includes('/admin') || window.location.pathname.includes('/manager-users') ||
-        window.location.pathname.includes('/manager-products')) {
-        setShowChat(false)
-      }
-    }, 1000)
-
-
-    return () => clearTimeout(timerId.current)
+    if (window.location.pathname.includes('/admin') || window.location.pathname.includes('/manager-users') ||
+      window.location.pathname.includes('/manager-products')) {
+      document.getElementById('fb-root').classList.add('hidden')
+    }
   }, [window.location.pathname])
 
 

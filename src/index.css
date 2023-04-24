@@ -201,6 +201,11 @@ ul {
 }
 
 
+.fb-root.hidden {
+    display: none !important;
+    visibility: hidden !important;
+}
+
 
 /* KeyFrame Animation */
 @keyframes RotateIcon {
