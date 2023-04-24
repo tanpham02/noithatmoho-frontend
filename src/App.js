@@ -312,7 +312,7 @@ function App() {
   useEffect(() => {
     if (window.location.pathname.includes('/admin') || window.location.pathname.includes('/manager-users') ||
       window.location.pathname.includes('/manager-products')) {
-      document.querySelector('.fb_reset').classList.add('hidden')
+      document.querySelector('.fb_reset')?.classList.add('hidden')
     }
   }, [window.location.pathname])
 
