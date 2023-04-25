@@ -49,7 +49,7 @@ const CreateUser = () => {
             return res
         }
 
-        const regexNumber = /[0-9]/
+        const regexNumber = /^\d+$/
         const regexP = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/
 
         dataUsers?.find(user => {
@@ -131,7 +131,7 @@ const CreateUser = () => {
                         onChange={(e) => setPassWord(e.target.value)}
                         onInput={() => setRegexPass(false)}
                     />
-                    {regexPass && <span className='errorMsg'>Mật khẩu phải từ 8 ký tự, ít nhất 1 chữ cái thường, 1 chữ cái hoa, 1 chữ số và 1 kí tự đặc biệt</span>}
+                    {regexPass && <span className='errorMsg'>Mật khẩu phải từ 8 ký tự, chứa ít nhất 1 chữ thường, 1 chữ hoa, 1 số và 1 kí tự đặc biệt</span>}
                 </div>
                 <div className="newUserItem">
                     <label>Số điện thoại</label>
