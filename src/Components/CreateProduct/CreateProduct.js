@@ -1,4 +1,5 @@
 import { useState, useEffect, memo } from 'react'
+import Loading from '../Loading/Loading'
 import axios from 'axios'
 import './CreateProduct.scss'
 
@@ -20,6 +21,8 @@ const CreateProduct = () => {
 
     const [regexPrice, setRegexPrice] = useState(false)
     const [regexAmount, setRegexAmount] = useState(false)
+
+    const [isLoading, setIsLoading] = useState(false)
 
 
     const handleChangeImg = (e) => {
@@ -86,9 +89,17 @@ const CreateProduct = () => {
 
         async function createProduct() {
             const res = await axios.post('https://noithatmoho-backend.up.railway.app/api/products', createPro)
-            window.alert('Thêm mới sản phẩm thành công!')
-            window.location.replace('/manager-products')
-            return res
+            try {
+                if (res.status === 202) {
+                    setIsLoading(true)
+                } else {
+                    window.alert('Thêm mới sản phẩm thành công!')
+                    window.location.replace('/manager-products')
+                    return res.data
+                }
+            } catch (error) {
+                return error
+            }
         }
 
         const regexNumber = /^\d+$/
@@ -100,7 +111,7 @@ const CreateProduct = () => {
         if (regexNumber.test(quantityStock) === false && regexNumber.test(pricePro) === false) {
             setRegexPrice(true)
             setRegexAmount(true)
-            return            
+            return
         }
 
         if (regexNumber.test(quantityStock) && regexNumber.test(pricePro) === false) {
