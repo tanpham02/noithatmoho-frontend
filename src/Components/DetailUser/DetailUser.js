@@ -7,6 +7,7 @@ import {
     PhoneAndroid
 } from "@material-ui/icons";
 import './DetailUser.scss'
+import Loading from '../Loading/Loading';
 
 const DetailUser = () => {
     const [user, setUser] = useState({})
@@ -16,6 +17,8 @@ const DetailUser = () => {
     const [birthday, setBirthday] = useState('')
     const [address, setAddress] = useState('')
     const [isAdmin, setIsAdmin] = useState('')
+
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         const id = window.location.pathname.split('/')[3]
@@ -66,9 +69,11 @@ const DetailUser = () => {
         }
 
 
+
+        setIsLoading(true)
         async function updateUser() {
             const res = await axios.put(`https://noithatmoho-backend.up.railway.app/api/users/${user.id}`, dataUpdate)
-            window.alert('Cập nhật người dùng thành công!')
+            setIsLoading(false)
             window.location.reload()
             return res
         }

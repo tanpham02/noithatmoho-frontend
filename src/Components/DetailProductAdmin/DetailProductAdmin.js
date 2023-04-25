@@ -1,5 +1,6 @@
 import { useState, useEffect, memo } from 'react'
 import axios from 'axios'
+import Loading from '../Loading/Loading'
 import './DetailProductAdmin.scss'
 
 const DetailProductAdmin = () => {
@@ -14,6 +15,8 @@ const DetailProductAdmin = () => {
     const [listImgs, setListImgs] = useState([])
     const [listAvatar, setListAvatar] = useState()
     const [size, setSize] = useState('')
+
+    const [isLoading, setIsLoading] = useState(false)
 
 
     const handleChangeImg = (e) => {
@@ -81,11 +84,12 @@ const DetailProductAdmin = () => {
             size: size ? size : product.size
         }
 
+        setIsLoading(true)
         async function updatePro() {
-            const res = axios.put(`https://noithatmoho-backend.up.railway.app/api/products/${product.id}`, updateData)
-            window.alert('Cập nhật sản phẩm thành công!')
+            const res = await axios.put(`https://noithatmoho-backend.up.railway.app/api/products/${product.id}`, updateData)
+            setIsLoading(false)
             window.location.reload()
-            return res
+            return res.data
         }
         if (window.confirm('Bạn có chắc chắn muốn cập nhật sản phẩm này?') === true) {
             updatePro()
@@ -341,7 +345,7 @@ const DetailProductAdmin = () => {
                                 </div>
                             }
 
-                            <button type='submit' className="btn productButton">Update</button>
+                            <button type='submit' className="btn productButton">{isLoading ? <Loading /> : 'Update'}</button>
                         </div>
                     </div>
                 </form>

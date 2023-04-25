@@ -48,7 +48,6 @@ const CreateUser = () => {
         async function createUser() {
             const res = await axios.post('https://noithatmoho-backend.up.railway.app/api/users', dataUser)
             setIsLoading(false)
-            window.alert('Thêm người dùng thành công')
             window.location.replace('/manager-users')
             return res.data
         }

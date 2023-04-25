@@ -66,10 +66,6 @@ const CreateProduct = () => {
         }
     }, [categoryPro, dataGroupType, dataType])
 
-    useEffect(() => {
-        subCategorys?.forEach(cate => setSubCategory(cate.name))
-    }, [subCategorys])
-
 
     useEffect(() => {
         const outputType = dataType.find(type => type.name.toLowerCase().includes(subCategory.toLowerCase()))
@@ -94,7 +90,6 @@ const CreateProduct = () => {
         async function createProduct() {
             const res = await axios.post('https://noithatmoho-backend.up.railway.app/api/products', createPro)
             setIsLoading(false)
-            window.alert('Thêm mới sản phẩm thành công!')
             window.location.replace('/manager-products')
             return res.data
         }
