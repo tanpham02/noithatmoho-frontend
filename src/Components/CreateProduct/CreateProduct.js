@@ -249,7 +249,7 @@ const CreateProduct = () => {
                             onChange={e => setSize(e.target.value)}
                         />
                     </div>
-                    <button type='submit' className="btn newUserButton">Create</button>
+                    <button type='submit' className="btn newUserButton">{isLoading ? <Loading /> : 'Create'}</button>
                 </form>
 
 
