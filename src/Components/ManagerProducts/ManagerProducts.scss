@@ -129,10 +129,9 @@
 }
 
 .MuiCircularProgress-root.MuiCircularProgress-colorPrimary.MuiCircularProgress-indeterminate {
-    position: relative;
-    right: -50%;
+    position: absolute;
+    right: 37%;
     top: 50%;
-    transform: translate(50%, -50%);
 }
 
 .MuiTablePagination-actions {
