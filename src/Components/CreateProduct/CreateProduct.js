@@ -59,6 +59,7 @@ const CreateProduct = () => {
             if (outputGroupType) {
                 const matchId = dataType.filter(type => type['group_type_id'] === outputGroupType.id)
                 setSubCategorys(matchId)
+                matchId?.forEach(async subCa => setSubCategory(subCa.name))
             }
         }
     }, [categoryPro, dataGroupType, dataType])
@@ -90,7 +91,7 @@ const CreateProduct = () => {
             return res
         }
 
-        const regexNumber = /[0-9]/
+        const regexNumber = /^\d+$/
         if (regexNumber.test(quantityStock) && regexNumber.test(pricePro)) {
             setRegexPrice(false)
             setRegexAmount(false)
@@ -200,7 +201,7 @@ const CreateProduct = () => {
                             onChange={e => setPricePro(e.target.value)}
                             onInput={() => setRegexPrice(false)}
                         />
-                        {regexPrice && <span className='errorMsg'>Giá sản phẩm yêu cầu phải là số!</span>}
+                        {regexPrice && <span className='errorMsg'>Giá sản phẩm yêu cầu phải là số</span>}
                     </div>
                     <div className="newUserItem">
                         <label>Giảm giá</label>
@@ -224,7 +225,7 @@ const CreateProduct = () => {
                             onChange={e => setQuantityStock(e.target.value)}
                             onInput={() => setRegexAmount(false)}
                         />
-                        {regexAmount && <span className='errorMsg'>Số lượng yêu cầu phải là số!</span>}
+                        {regexAmount && <span className='errorMsg'>Số lượng yêu cầu phải là số</span>}
                     </div>
                     <div className="newUserItem">
                         <label>Kích thước</label>
