@@ -90,7 +90,7 @@ const CreateProduct = () => {
         async function createProduct() {
             const res = await axios.post('https://noithatmoho-backend.up.railway.app/api/products', createPro)
             try {
-                if (res.status === 202) {
+                if (res.status === 'pending' || 202) {
                     setIsLoading(true)
                 } else {
                     window.alert('Thêm mới sản phẩm thành công!')
