@@ -87,6 +87,10 @@ const CreateUser = () => {
         }
     }
 
+    const handleInputPhoneNumber = () => {
+        setRegexPhone(false)
+        setExistPhone(false)
+    }
 
     return (
         <div className="newUser">
@@ -112,6 +116,7 @@ const CreateUser = () => {
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        onInput={() => setExistEmail(false)}
                     />
                     {existEmail && <span className='errorMsg'>Email đã được sử dụng</span>}
                 </div>
@@ -137,7 +142,7 @@ const CreateUser = () => {
                         required
                         value={phoneNumber}
                         onChange={(e) => setPhoneNumber(e.target.value)}
-                        onInput={() => setRegexPhone(false)}
+                        onInput={handleInputPhoneNumber}
                     />
                     {regexPhone && <span className='errorMsg'>Số điện thoại phải là chữ số</span>}
                     {existPhone && <span className='errorMsg'>Số điện thoại đã được sử dụng</span>}
