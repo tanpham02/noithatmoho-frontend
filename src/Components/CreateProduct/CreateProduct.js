@@ -96,7 +96,7 @@ const CreateProduct = () => {
             setIsLoading(false)
             window.alert('Thêm mới sản phẩm thành công!')
             window.location.replace('/manager-products')
-            return res
+            return res.data
         }
 
         const regexNumber = /^\d+$/

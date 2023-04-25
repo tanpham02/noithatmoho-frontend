@@ -10,7 +10,7 @@ const KogeCollection = ({ datas, dataTypes, filterCategories, filterPrices, filt
     useEffect(() => {
         const kitchenWare = dataTypes.find(type => type.id === 1)
         const results = datas.filter((data, index) => {
-            if (data.name.toLowerCase().includes('koge')  && kitchenWare?.id === data['type_id']) {
+            if (data.name.toLowerCase().includes('koge') || kitchenWare?.id === data['type_id']) {
                 return data
             }
         })
