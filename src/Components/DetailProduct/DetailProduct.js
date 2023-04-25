@@ -40,7 +40,7 @@ const DetailProduct = () => {
                 return
             }
         })
-    }, [dataDetail, quantity])
+    }, [quantity])
 
 
     useEffect(() => {
