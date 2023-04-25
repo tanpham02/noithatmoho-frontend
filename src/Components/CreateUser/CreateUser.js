@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import Loading from '../Loading/Loading'
 import './CreateUser.scss'
 
 const CreateUser = () => {
@@ -18,6 +19,7 @@ const CreateUser = () => {
     const [existPhone, setExistPhone] = useState(false)
     const [existEmail, setExistEmail] = useState(false)
     const [dataUsers, setDataUsers] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         async function fetchData() {
@@ -44,9 +46,17 @@ const CreateUser = () => {
 
         async function createUser() {
             const res = await axios.post('https://noithatmoho-backend.up.railway.app/api/users', dataUser)
-            window.alert('Thêm người dùng thành công')
-            window.location.replace('/manager-users')
-            return res
+            try {
+                if (res.status === 202) {
+                    setIsLoading(true)
+                } else {
+                    window.alert('Thêm người dùng thành công')
+                    window.location.replace('/manager-users')
+                    return res.data
+                }
+            } catch (err) {
+                return err
+            }
         }
 
         const regexNumber = /^\d+$/
@@ -180,7 +190,7 @@ const CreateUser = () => {
                     />
                     <span className='isZero'>Có thể bỏ trống nếu là 0</span>
                 </div>
-                <button type='submit' className="btn newUserButton">Create</button>
+                <button type='submit' className="btn newUserButton">{isLoading ? <Loading /> : 'Create'}</button>
             </form>
         </div>
     )

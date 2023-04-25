@@ -11,6 +11,7 @@ const ManagerUsers = () => {
     const [dataUsers, setDataUSers] = useState([])
     const [search, setSearch] = useState('')
     const [dataSearch, setDataSearch] = useState([])
+
     const themePage = useContext(themeProvider)
     const [state] = themePage
     const { currentTheme } = state
