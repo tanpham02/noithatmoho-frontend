@@ -23,8 +23,9 @@ const VlineCollection = ({ datas, dataTypes, filterCategories, filterPrices, fil
 
 
     useEffect(() => {
+        const kitchenWare = dataTypes.find(type => type.id === 5)
         const results = datas.filter((data, index) => {
-            if (data.name.toLowerCase().includes('vline')) {
+            if (data.name.toLowerCase().includes('vline') || kitchenWare?.id === data['type_id']) {
                 return data
             }
         })

@@ -8,8 +8,9 @@ const HobroCollection = ({ datas, dataTypes, filterCategories, filterPrices, fil
     const [expectedData, setExpectedData] = useState([])
 
     useEffect(() => {
+        const kitchenWare = dataTypes.find(type => type.id === 6)
         const results = datas.filter((data, index) => {
-            if (data.name.toLowerCase().includes('hobro')) {
+            if (data.name.toLowerCase().includes('hobro') || kitchenWare?.id === data['type_id']) {
                 return data
             }
         })

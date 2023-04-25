@@ -8,8 +8,9 @@ const FijiCollection = ({ datas, dataTypes, filterCategories, filterPrices, filt
     const [expectedData, setExpectedData] = useState([])
 
     useEffect(() => {
+        const kitchenWare = dataTypes.find(type => type.id === 3)
         const results = datas.filter((data, index) => {
-            if (data.name.toLowerCase().includes('fiji')) {
+            if (data.name.toLowerCase().includes('fiji') || kitchenWare?.id === data['type_id']) {
                 return data
             }
         })
