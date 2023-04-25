@@ -88,15 +88,13 @@ const CreateProduct = () => {
         }
 
         async function createProduct() {
+            setIsLoading(true)
             const res = await axios.post('https://noithatmoho-backend.up.railway.app/api/products', createPro)
             try {
-                if (res.status === 202 || (await res.json()).status === 'pending') {
-                    setIsLoading(true)
-                } else {
-                    window.alert('Thêm mới sản phẩm thành công!')
-                    window.location.replace('/manager-products')
-                    return res.data
-                }
+                window.alert('Thêm mới sản phẩm thành công!')
+                window.location.replace('/manager-products')
+                setIsLoading(false)
+                return res.data
             } catch (error) {
                 return error
             }

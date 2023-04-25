@@ -257,6 +257,6 @@ const ManagerProducts = () => {
             }
         </>
     )
-}
+}   
 
 export default memo(ManagerProducts)

@@ -128,6 +128,13 @@
     }
 }
 
+.MuiCircularProgress-root.MuiCircularProgress-colorPrimary.MuiCircularProgress-indeterminate {
+    position: relative;
+    right: -50%;
+    top: 50%;
+    transform: translate(50%, -50%);
+}
+
 .MuiTablePagination-actions {
     font-size: 1.3erm;
 }

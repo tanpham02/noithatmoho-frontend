@@ -6,11 +6,13 @@ import { useState, useEffect, memo, useContext } from "react";
 import axios from 'axios'
 import { themeProvider } from '../../context/ProviderTheme/ProviderTheme'
 import { THEME_DARK } from "../../reducers/actions";
+import { CircularProgress } from "@material-ui/core";
 
 const ManagerUsers = () => {
     const [dataUsers, setDataUSers] = useState([])
     const [search, setSearch] = useState('')
     const [dataSearch, setDataSearch] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
 
     const themePage = useContext(themeProvider)
     const [state] = themePage
@@ -27,10 +29,12 @@ const ManagerUsers = () => {
     }, [dataUsers, search])
 
     useEffect(() => {
+        setIsLoading(true)
         async function getData() {
             const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/users')
             const datas = await res.data
             setDataUSers(datas)
+            setIsLoading(false)
         }
         getData()
     }, [])
@@ -228,14 +232,16 @@ const ManagerUsers = () => {
             </Link >
 
             <div className="userList">
-
-                <DataGrid
-                    rows={dataSearch}
-                    disableSelectionOnClick
-                    columns={columns}
-                    pageSize={8}
-                // checkboxSelection
-                />
+                {isLoading ?
+                    <CircularProgress /> :
+                    <DataGrid
+                        rows={dataSearch}
+                        disableSelectionOnClick
+                        columns={columns}
+                        pageSize={8}
+                    // checkboxSelection
+                    />
+                }
             </div>
         </>
     );
