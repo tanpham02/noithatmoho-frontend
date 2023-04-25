@@ -30,8 +30,6 @@ const OdenseCollection = ({ datas, dataTypes, filterCategories, filterPrices, fi
         setExpectedData(data)
     }, [])
 
-
-
     return (
         <main className="container product-lists">
             <img className="img-page" src="/assets/img/img-page/collection_odense.png" alt="ODENSE Collection" />
