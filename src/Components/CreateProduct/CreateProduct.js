@@ -62,10 +62,13 @@ const CreateProduct = () => {
             if (outputGroupType) {
                 const matchId = dataType.filter(type => type['group_type_id'] === outputGroupType.id)
                 setSubCategorys(matchId)
-                matchId?.forEach(async subCa => setSubCategory(subCa.name))
             }
         }
     }, [categoryPro, dataGroupType, dataType])
+
+    useEffect(() => {
+        subCategorys?.forEach(cate => setSubCategory(cate.name))
+    }, [subCategorys])
 
 
     useEffect(() => {
