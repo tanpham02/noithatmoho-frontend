@@ -26,13 +26,13 @@ const ManagerProducts = () => {
 
     const handleDelete = (id) => {
         async function deletePro() {
-            const res = await axios.delete(`https://noithatmoho-backend.up.railway.app/api/products/${id}`)
+            await axios.delete(`https://noithatmoho-backend.up.railway.app/api/products/${id}`)
             window.alert('Đã xóa sản phẩm thành công!')
             window.location.reload()
-            return res
         }
         if (window.confirm('Bạn có chắc chắn muốn xóa sản phẩm này?') === true) {
             deletePro()
+            return
         }
     };
 

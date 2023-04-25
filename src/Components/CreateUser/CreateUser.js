@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import axios from 'axios'
 import './CreateUser.scss'
 
@@ -14,6 +14,19 @@ const CreateUser = () => {
 
     const [regexPass, setRegexPass] = useState(false)
     const [regexPhone, setRegexPhone] = useState(false)
+
+    const [existPhone, setExistPhone] = useState(false)
+    const [existEmail, setExistEmail] = useState(false)
+    const [dataUsers, setDataUsers] = useState([])
+
+    useEffect(() => {
+        async function fetchData() {
+            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/users')
+            const datas = await res.data
+            setDataUsers(datas)
+        }
+        fetchData()
+    }, [])
 
 
     const handleCreateUser = (e) => {
@@ -39,6 +52,17 @@ const CreateUser = () => {
         const regexNumber = /[0-9]/
         const regexP = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/
 
+        dataUsers?.find(user => {
+            if (user.email === email.trim()) {
+                setExistEmail(true)
+            }
+            if (user.phone_number === phoneNumber.trim()) {
+                setExistPhone(true)
+            }
+            return user
+        })
+
+
         if (regexNumber.test(phoneNumber) === false && regexP.test(passWord) === false) {
             setRegexPass(true)
             setRegexPhone(true)
@@ -55,18 +79,12 @@ const CreateUser = () => {
             return
         }
 
-
         if (regexNumber.test(phoneNumber) && regexP.test(passWord)) {
             setRegexPass(false)
             setRegexPhone(false)
             createUser()
             return
         }
-
-
-
-
-
     }
 
 
@@ -95,6 +113,7 @@ const CreateUser = () => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
+                    {existEmail && <span className='errorMsg'>Email đã được sử dụng</span>}
                 </div>
                 <div className="newUserItem">
                     <label>Mật khẩu</label>
@@ -121,6 +140,7 @@ const CreateUser = () => {
                         onInput={() => setRegexPhone(false)}
                     />
                     {regexPhone && <span className='errorMsg'>Số điện thoại phải là chữ số</span>}
+                    {existPhone && <span className='errorMsg'>Số điện thoại đã được sử dụng</span>}
                 </div>
                 <div className="newUserItem">
                     <label>Ngày sinh</label>
