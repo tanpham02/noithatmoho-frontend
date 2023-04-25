@@ -65,7 +65,6 @@ const DetailUser = () => {
             is_admin: isAdmin ? parseInt(isAdmin) : 0
         }
 
-        console.log(dataUpdate)
 
         async function updateUser() {
             const res = await axios.put(`https://noithatmoho-backend.up.railway.app/api/users/${user.id}`, dataUpdate)

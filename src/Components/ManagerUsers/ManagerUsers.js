@@ -37,11 +37,11 @@ const ManagerUsers = () => {
     const handleDelete = (id) => {
         async function deleteUser() {
             const res = await axios.delete(`https://noithatmoho-backend.up.railway.app/api/users/${id}`)
+            window.alert('Xoá người dùng thành công!')
+            window.location.reload()
             return res
         }
         if (window.confirm('Bạn có chắc chắn muốn xóa người dùng này?') === true) {
-            window.alert('Xoá người dùng thành công!')
-            window.location.reload()
             deleteUser()
         }
     }
