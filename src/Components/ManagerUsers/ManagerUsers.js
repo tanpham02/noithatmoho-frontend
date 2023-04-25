@@ -6,7 +6,7 @@ import { useState, useEffect, memo, useContext } from "react";
 import axios from 'axios'
 import { themeProvider } from '../../context/ProviderTheme/ProviderTheme'
 import { THEME_DARK } from "../../reducers/actions";
-import { CircularProgress } from "@material-ui/core";
+import Loading from "../Loading/Loading";
 
 const ManagerUsers = () => {
     const [dataUsers, setDataUSers] = useState([])
@@ -233,7 +233,7 @@ const ManagerUsers = () => {
 
             <div className="userList">
                 {isLoading ?
-                    <CircularProgress /> :
+                    <Loading /> :
                     <DataGrid
                         rows={dataSearch}
                         disableSelectionOnClick

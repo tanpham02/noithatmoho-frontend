@@ -6,7 +6,7 @@ import { useState, useEffect, memo, useContext } from "react";
 import axios from 'axios'
 import { themeProvider } from '../../context/ProviderTheme/ProviderTheme'
 import { THEME_DARK } from '../../reducers/actions'
-import { CircularProgress } from '@material-ui/core';
+import Loading from '../Loading/Loading';
 
 const ManagerProducts = () => {
     const [dataProducts, setDataProducts] = useState([])
@@ -244,7 +244,7 @@ const ManagerProducts = () => {
             </Link >
 
             {isLoading ?
-                <CircularProgress /> :
+                <Loading /> :
                 <div className="productList">
                     <DataGrid
                         rows={dataSearch}
