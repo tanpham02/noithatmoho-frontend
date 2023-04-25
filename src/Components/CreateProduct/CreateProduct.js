@@ -87,17 +87,13 @@ const CreateProduct = () => {
             type_id: typeId.id
         }
 
+        setIsLoading(true)
         async function createProduct() {
-            setIsLoading(true)
             const res = await axios.post('https://noithatmoho-backend.up.railway.app/api/products', createPro)
-            try {
-                window.alert('Thêm mới sản phẩm thành công!')
-                window.location.replace('/manager-products')
-                setIsLoading(false)
-                return res.data
-            } catch (error) {
-                return error
-            }
+            setIsLoading(false)
+            // window.alert('Thêm mới sản phẩm thành công!')
+            // window.location.replace('/manager-products')
+            return res
         }
 
         const regexNumber = /^\d+$/

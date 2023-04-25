@@ -44,19 +44,13 @@ const CreateUser = () => {
             is_admin: isAdmin ? parseInt(isAdmin) : 0
         }
 
+        setIsLoading(true)
         async function createUser() {
             const res = await axios.post('https://noithatmoho-backend.up.railway.app/api/users', dataUser)
-            try {
-                if (res.status === 202) {
-                    setIsLoading(true)
-                } else {
-                    window.alert('Thêm người dùng thành công')
-                    window.location.replace('/manager-users')
-                    return res.data
-                }
-            } catch (err) {
-                return err
-            }
+            setIsLoading(false)
+            window.alert('Thêm người dùng thành công')
+            window.location.replace('/manager-users')
+            return res.data
         }
 
         const regexNumber = /^\d+$/
