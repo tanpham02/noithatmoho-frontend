@@ -92,7 +92,7 @@ const CheckOut = ({ datas }) => {
 
     useEffect(() => {
         async function getUsers() {
-            const res = await axios.get(`https://noithatmoho-backend.up.railway.app/api/users/${ID_USER}`)
+            const res = await axios.get(`http://localhost:9080/api/users/${ID_USER}`)
             const users = await res.data
             setInfoUser(users)
         }
@@ -314,7 +314,7 @@ const CheckOut = ({ datas }) => {
                 transactions: String(Number(transactionDb) + Number(transactionHandle))
             }
 
-            axios.put(`https://noithatmoho-backend.up.railway.app/api/users/${ID_USER}`, checkoutMain)
+            axios.put(`http://localhost:9080/api/users/${ID_USER}`, checkoutMain)
                 .then(async res => {
                     const result = await dataCheckOuts.forEach(checkoutData => {
                         datas.filter(async (data) => {
@@ -330,7 +330,7 @@ const CheckOut = ({ datas }) => {
                                         quantity_stock
                                     }
 
-                                    await axios.put(`https://noithatmoho-backend.up.railway.app/api/products/${checkoutData.id}`, updatePro)
+                                    await axios.put(`http://localhost:9080/api/products/${checkoutData.id}`, updatePro)
                                         .then(res => {
                                             localStorage.setItem('cartLists', JSON.stringify([]))
                                             localStorage.setItem('isSuccessCheckout', JSON.stringify(false))

@@ -1,5 +1,4 @@
 import { useState, useEffect, memo } from 'react'
-import Loading from '../Loading/Loading'
 import axios from 'axios'
 import './CreateProduct.scss'
 
@@ -39,7 +38,7 @@ const CreateProduct = () => {
 
     useEffect(() => {
         async function getDataType() {
-            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/types')
+            const res = await axios.get('http://localhost:9080/api/types')
             const datas = await res.data
             setDataType(datas)
         }
@@ -48,7 +47,7 @@ const CreateProduct = () => {
 
     useEffect(() => {
         async function getDataGroupType() {
-            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/groupTypes')
+            const res = await axios.get('http://localhost:9080/api/groupTypes')
             const datas = await res.data
             setDataGroupType(datas)
         }
@@ -88,7 +87,7 @@ const CreateProduct = () => {
 
         setIsLoading(true)
         async function createProduct() {
-            const res = await axios.post('https://noithatmoho-backend.up.railway.app/api/products', createPro)
+            const res = await axios.post('http://localhost:9080/api/products', createPro)
             setIsLoading(false)
             window.location.replace('/manager-products')
             return res.data
@@ -103,16 +102,19 @@ const CreateProduct = () => {
         if (regexNumber.test(quantityStock) === false && regexNumber.test(pricePro) === false) {
             setRegexPrice(true)
             setRegexAmount(true)
+            setIsLoading(false)
             return
         }
 
         if (regexNumber.test(quantityStock) && regexNumber.test(pricePro) === false) {
             setRegexPrice(true)
+            setIsLoading(false)
             return
         }
 
         if (regexNumber.test(pricePro) && regexNumber.test(quantityStock) === false) {
             setRegexAmount(true)
+            setIsLoading(false)
             return
         }
     }
@@ -241,7 +243,15 @@ const CreateProduct = () => {
                             onChange={e => setSize(e.target.value)}
                         />
                     </div>
-                    <button type='submit' className="btn newUserButton">{isLoading ? <Loading /> : 'Create'}</button>
+                    <button
+                        type='submit'
+                        className="btn newUserButton"
+                    >
+                        {isLoading ?
+                            <div class="admin-product-lds-dual-ring"></div> :
+                            'Create'
+                        }
+                    </button>
                 </form>
 
 

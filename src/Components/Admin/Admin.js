@@ -16,15 +16,17 @@ const Admin = ({ listPage }) => {
 
     const [userDatas, setUserData] = useState([])
     const themePage = useContext(themeProvider)
-
     const [state, dispatch] = themePage
     const { currentTheme } = state
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
+        setIsLoading(true)
         async function getData() {
-            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/users')
+            const res = await axios.get('http://localhost:9080/api/users')
             const data = await res.data
             setUserData(data)
+            setIsLoading(false)
         }
         getData()
     }, [])
@@ -32,18 +34,23 @@ const Admin = ({ listPage }) => {
 
     return (
         <div className={`wrapper-theme ${currentTheme === THEME_DARK && 'theme-dark'}`}>
-            <Topbar currentTheme={currentTheme} dispatch={dispatch} />
-            <div className={`container-admin ${currentTheme === THEME_DARK && 'active'}`}>
-                <SideBarAdmin listPage={listPage} />
-                <div className='home-admin'>
-                    <FeaturedInfo userDatas={userDatas} currentTheme={currentTheme} THEME_DARK={THEME_DARK} />
-                    <Chart currentTheme={currentTheme} THEME_DARK={THEME_DARK} />
-                    <div className='home-widgets'>
-                        <WidgetSm currentTheme={currentTheme} THEME_DARK={THEME_DARK} />
-                        <WidgetLg currentTheme={currentTheme} THEME_DARK={THEME_DARK} />
+            {isLoading ?
+                <div class="lds-ring"><div></div><div></div><div></div><div></div></div> :
+                <>
+                    <Topbar currentTheme={currentTheme} dispatch={dispatch} />
+                    <div className={`container-admin ${currentTheme === THEME_DARK && 'active'}`}>
+                        <SideBarAdmin listPage={listPage} />
+                        <div className='home-admin'>
+                            <FeaturedInfo userDatas={userDatas} currentTheme={currentTheme} THEME_DARK={THEME_DARK} />
+                            <Chart currentTheme={currentTheme} THEME_DARK={THEME_DARK} />
+                            <div className='home-widgets'>
+                                <WidgetSm currentTheme={currentTheme} THEME_DARK={THEME_DARK} />
+                                <WidgetLg currentTheme={currentTheme} THEME_DARK={THEME_DARK} />
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                </>
+            }
         </div>
     )
 }

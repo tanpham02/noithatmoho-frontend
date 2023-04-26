@@ -1,12 +1,11 @@
-import "./ManagerUsers.scss";
-import { DataGrid } from "@material-ui/data-grid";
-import { DeleteOutline } from "@material-ui/icons";
-import { Link } from "react-router-dom";
-import { useState, useEffect, memo, useContext } from "react";
+import "./ManagerUsers.scss"
+import { DataGrid } from "@material-ui/data-grid"
+import { DeleteOutline } from "@material-ui/icons"
+import { Link } from "react-router-dom"
+import { useState, useEffect, memo, useContext } from "react"
 import axios from 'axios'
 import { themeProvider } from '../../context/ProviderTheme/ProviderTheme'
-import { THEME_DARK } from "../../reducers/actions";
-import { CircularProgress } from "@material-ui/core";
+import { THEME_DARK } from "../../reducers/actions"
 
 const ManagerUsers = () => {
     const [dataUsers, setDataUSers] = useState([])
@@ -31,7 +30,7 @@ const ManagerUsers = () => {
     useEffect(() => {
         setIsLoading(true)
         async function getData() {
-            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/users')
+            const res = await axios.get('http://localhost:9080/api/users')
             const datas = await res.data
             setDataUSers(datas)
             setIsLoading(false)
@@ -41,7 +40,7 @@ const ManagerUsers = () => {
 
     const handleDelete = (id) => {
         async function deleteUser() {
-            await axios.delete(`https://noithatmoho-backend.up.railway.app/api/users/${id}`)
+            await axios.delete(`http://localhost:9080/api/users/${id}`)
             window.alert('Xoá người dùng thành công!')
             window.location.reload()
         }
@@ -136,7 +135,7 @@ const ManagerUsers = () => {
                         }
                         {params.row.full_name}
                     </div >
-                );
+                )
             },
         },
         {
@@ -170,10 +169,10 @@ const ManagerUsers = () => {
                             onClick={() => handleDelete(params.row.id)}
                         />
                     </>
-                );
+                )
             },
         },
-    ];
+    ]
 
 
 
@@ -187,6 +186,8 @@ const ManagerUsers = () => {
                     type='search'
                     value={search}
                     onChange={e => setSearch(e.target.value)}
+                    placeholder="Tìm kiếm..."
+                    name="name"
                 />
                 <button
                     className="btn-search"
@@ -233,7 +234,7 @@ const ManagerUsers = () => {
 
             <div className="userList">
                 {isLoading ?
-                    <CircularProgress /> :
+                    <div class="users-lds-ring"><div></div><div></div><div></div><div></div></div> :
                     <DataGrid
                         rows={dataSearch}
                         disableSelectionOnClick
@@ -244,7 +245,7 @@ const ManagerUsers = () => {
                 }
             </div>
         </>
-    );
+    )
 }
 
 export default memo(ManagerUsers)

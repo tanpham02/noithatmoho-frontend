@@ -16,6 +16,8 @@ const RegisterPhone = () => {
     const [existPhone, setExistPhone] = useState(false)
     const [passwordByPhone, setPasswordByPhone] = useState('')
 
+    const [isLoading, setIsLoading] = useState(false)
+
     const handlePhoneNumberChange = (e) => {
         setExistPhone(false)
 
@@ -28,7 +30,7 @@ const RegisterPhone = () => {
 
     useEffect(() => {
         async function fetchData() {
-            const res = await axios('https://noithatmoho-backend.up.railway.app/api/users')
+            const res = await axios('http://localhost:9080/api/users')
             const output = await res.data
             setDatas([...output])
         }
@@ -91,7 +93,7 @@ const RegisterPhone = () => {
         if (handleValidataPhone) {
             if (phoneNumber !== '' && !flag) {
                 setShowInput(true)
-                axios.post('https://noithatmoho-backend.up.railway.app/api/send-otp', {
+                axios.post('http://localhost:9080/api/send-otp', {
                     phone_number: `+84${phoneNumber.slice(1)}`,
                     vouchers: 'MOHO500K, MOHO50K, MOHO300K, MOHO200K, MOHO100K'
                 })
@@ -154,14 +156,16 @@ const RegisterPhone = () => {
 
     const handleReisterWithPhone = (e) => {
 
+        setIsLoading(true)
         const regexPassW = /(?=.{8,})/
         if (regexPassW.test(passwordByPhone)) {
             e.preventDefault()
-            axios.post('https://noithatmoho-backend.up.railway.app/api/register', {
+            axios.post('http://localhost:9080/api/register', {
                 password: passwordByPhone
             })
+            setIsLoading(false)
             window.alert('Đăng kí thành công!')
-            window.location.replace('/')
+            // window.location.replace('/')
         } else {
 
         }
@@ -254,7 +258,10 @@ const RegisterPhone = () => {
                 </button>)}
 
                 {PhonePassW && (<button className="btn btn-register__phone my--22" onClick={handleReisterWithPhone}>
-                    ĐĂNG KÝ
+                    {isLoading ?
+                        <span class="loader">Loading</span> :
+                        'ĐĂNG KÝ'
+                    }
                 </button>)}
             </form>
         </>

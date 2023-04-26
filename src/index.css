@@ -275,3 +275,40 @@ ul {
         opacity: 1;
     }
 }
+
+
+@keyframes lds-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+@keyframes lds-dual-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+@keyframes animloader {
+    0% {
+        box-shadow: 10px 0 rgba(255, 255, 255, 0), 20px 0 rgba(255, 255, 255, 0);
+    }
+
+    50% {
+        box-shadow: 10px 0 currentColor, 20px 0 rgba(255, 255, 255, 0);
+    }
+
+    100% {
+        box-shadow: 10px 0 currentColor, 20px 0 currentColor;
+    }
+}

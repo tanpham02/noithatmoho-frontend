@@ -14,7 +14,7 @@ const DetailProductPage = ({ accountInfos, localeLogos, bannerServices, sliders,
 
     useEffect(() => {
         async function getData() {
-            const res = await axios.get(`https://noithatmoho-backend.up.railway.app/api/products/${id}`)
+            const res = await axios.get(`http://localhost:9080/api/products/${id}`)
             const data = await res.data
             document.title = data.name
         }

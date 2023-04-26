@@ -1,6 +1,5 @@
 import { useState, useEffect, memo } from 'react'
 import axios from 'axios'
-import Loading from '../Loading/Loading'
 import './DetailProductAdmin.scss'
 
 const DetailProductAdmin = () => {
@@ -38,7 +37,7 @@ const DetailProductAdmin = () => {
     useEffect(() => {
         const id = window.location.pathname.split('/')[3]
         async function fetchData() {
-            const res = await axios.get(`https://noithatmoho-backend.up.railway.app/api/products/${id}`)
+            const res = await axios.get(`http://localhost:9080/api/products/${id}`)
             const datas = res.data
             setProduct(datas)
         }
@@ -86,13 +85,16 @@ const DetailProductAdmin = () => {
 
         setIsLoading(true)
         async function updatePro() {
-            const res = await axios.put(`https://noithatmoho-backend.up.railway.app/api/products/${product.id}`, updateData)
+            const res = await axios.put(`http://localhost:9080/api/products/${product.id}`, updateData)
             setIsLoading(false)
             window.location.reload()
             return res.data
         }
         if (window.confirm('Bạn có chắc chắn muốn cập nhật sản phẩm này?') === true) {
             updatePro()
+        } else {
+            setIsLoading(false)
+            return
         }
     }
 
@@ -345,7 +347,15 @@ const DetailProductAdmin = () => {
                                 </div>
                             }
 
-                            <button type='submit' className="btn productButton">{isLoading ? <Loading /> : 'Update'}</button>
+                            <button
+                                type='submit'
+                                className="btn productButton"
+                            >
+                                {isLoading ?
+                                    <div class="admin-product-lds-dual-ring"></div> :
+                                    'Update'
+                                }
+                            </button>
                         </div>
                     </div>
                 </form>

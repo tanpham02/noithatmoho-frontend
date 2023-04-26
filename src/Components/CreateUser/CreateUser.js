@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, memo } from 'react'
 import axios from 'axios'
-import Loading from '../Loading/Loading'
 import './CreateUser.scss'
 
 const CreateUser = () => {
@@ -23,7 +22,7 @@ const CreateUser = () => {
 
     useEffect(() => {
         async function fetchData() {
-            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/users')
+            const res = await axios.get('http://localhost:9080/api/users')
             const datas = await res.data
             setDataUsers(datas)
         }
@@ -46,7 +45,7 @@ const CreateUser = () => {
 
         setIsLoading(true)
         async function createUser() {
-            const res = await axios.post('https://noithatmoho-backend.up.railway.app/api/users', dataUser)
+            const res = await axios.post('http://localhost:9080/api/users', dataUser)
             setIsLoading(false)
             window.location.replace('/manager-users')
             return res.data
@@ -58,9 +57,11 @@ const CreateUser = () => {
         dataUsers?.find(user => {
             if (user.email === email.trim()) {
                 setExistEmail(true)
+                setIsLoading(false)
             }
             if (user.phone_number === phoneNumber.trim()) {
                 setExistPhone(true)
+                setIsLoading(false)
             }
             return user
         })
@@ -68,17 +69,20 @@ const CreateUser = () => {
 
         if (regexNumber.test(phoneNumber) === false && regexP.test(passWord) === false) {
             setRegexPass(true)
+            setIsLoading(false)
             setRegexPhone(true)
             return
         }
 
         if (regexP.test(passWord) === false) {
             setRegexPass(true)
+            setIsLoading(false)
             return
         }
 
         if (regexNumber.test(phoneNumber) === false) {
             setRegexPhone(true)
+            setIsLoading(false)
             return
         }
 
@@ -94,6 +98,7 @@ const CreateUser = () => {
         setRegexPhone(false)
         setExistPhone(false)
     }
+
 
     return (
         <div className="newUser">
@@ -147,8 +152,10 @@ const CreateUser = () => {
                         onChange={(e) => setPhoneNumber(e.target.value)}
                         onInput={handleInputPhoneNumber}
                     />
-                    {regexPhone && <span className='errorMsg'>Số điện thoại phải là chữ số</span>}
-                    {existPhone && <span className='errorMsg'>Số điện thoại đã được sử dụng</span>}
+                    {regexPhone ?
+                        <span className='errorMsg'>Số điện thoại phải là chữ số</span> :
+                        existPhone && <span className='errorMsg'>Số điện thoại đã được sử dụng</span>
+                    }
                 </div>
                 <div className="newUserItem">
                     <label>Ngày sinh</label>
@@ -183,11 +190,19 @@ const CreateUser = () => {
                     />
                     <span className='isZero'>Có thể bỏ trống nếu là 0</span>
                 </div>
-                <button type='submit' className="btn newUserButton">{isLoading ? <Loading /> : 'Create'}</button>
+                <button
+                    type='submit'
+                    className="btn newUserButton"
+                >
+                    {isLoading ?
+                        <div className="admin-product-lds-dual-ring"></div> :
+                        'Create'
+                    }
+                </button>
             </form>
         </div>
     )
 
 }
 
-export default CreateUser
+export default memo(CreateUser)

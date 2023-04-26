@@ -7,7 +7,6 @@ import {
     PhoneAndroid
 } from "@material-ui/icons";
 import './DetailUser.scss'
-import Loading from '../Loading/Loading';
 
 const DetailUser = () => {
     const [user, setUser] = useState({})
@@ -20,10 +19,11 @@ const DetailUser = () => {
 
     const [isLoading, setIsLoading] = useState(false)
 
+
     useEffect(() => {
         const id = window.location.pathname.split('/')[3]
         async function fetchData() {
-            const res = await axios.get(`https://noithatmoho-backend.up.railway.app/api/users/${id}`)
+            const res = await axios.get(`http://localhost:9080/api/users/${id}`)
             const datas = res.data
             setUser({ ...datas })
         }
@@ -68,16 +68,21 @@ const DetailUser = () => {
             is_admin: isAdmin ? parseInt(isAdmin) : 0
         }
 
-
-
         setIsLoading(true)
         async function updateUser() {
-            const res = await axios.put(`https://noithatmoho-backend.up.railway.app/api/users/${user.id}`, dataUpdate)
+            const res = await axios.put(`http://localhost:9080/api/users/${user.id}`, dataUpdate)
             setIsLoading(false)
             window.location.reload()
             return res
         }
-        updateUser()
+        if(window.confirm(`Bạn có chắc chắn muốn cập nhật thông tin của ${fullName}?`) === true) {
+            updateUser()
+            return
+        } else {
+            setIsLoading(false)
+            return
+        }
+        
     }
 
     return (
@@ -247,7 +252,15 @@ const DetailUser = () => {
                                     </div>
                                 }
                             </div>
-                            <button type='submit' className="btn userUpdateButton">Update</button>
+                            <button
+                                type='submit'
+                                className="btn userUpdateButton"
+                            >
+                                {isLoading ?
+                                    <div class="admin-product-lds-dual-ring"></div> :
+                                    'Update'
+                                }
+                            </button>
                         </div>
                     </form>
                 </div>

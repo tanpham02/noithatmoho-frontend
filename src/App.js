@@ -271,7 +271,7 @@ function App() {
   useEffect(() => {
     document.querySelector('.fb-reset')?.classList?.add('hidden')
     async function getDataProducts() {
-      const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/products')
+      const res = await axios.get('http://localhost:9080/api/products')
       setDatas([...res.data])
       document.querySelector('.fb-reset')?.classList?.remove('hidden')
     }
@@ -281,7 +281,7 @@ function App() {
 
   useEffect(() => {
     async function getDataGroupTypes() {
-      const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/groupTypes')
+      const res = await axios.get('http://localhost:9080/api/groupTypes')
       setDataGroupTypes([...res.data])
     }
     getDataGroupTypes()
@@ -289,7 +289,7 @@ function App() {
 
   useEffect(() => {
     async function getDataTypes() {
-      const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/types')
+      const res = await axios.get('http://localhost:9080/api/types')
       setDataTypes([...res.data])
     }
     getDataTypes()

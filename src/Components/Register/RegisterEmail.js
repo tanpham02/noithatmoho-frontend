@@ -8,6 +8,9 @@ const RegisterEmail = () => {
 
     const [datas, setDatas] = useState([])
     const [errorEmail, setErrorEmail] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
+
+
     const formik = useFormik({
         initialValues: {
             firstName: '',
@@ -21,7 +24,7 @@ const RegisterEmail = () => {
             firstName: Yup.string().required('Required').matches(/[a-zA-Z]/, 'Phải là chữ cái').min(2, 'Họ phải lớn hơn 2 ký tự'),
             lastName: Yup.string().required('Required').matches(/[a-zA-Z]/, 'Phải là chữ cái').min(4, 'Tên phải lớn hơn 4 ký tự'),
             email: Yup.string().required('Required').matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, 'Vui lòng nhập email hợp lệ'),
-            password: Yup.string().required('Required').matches(/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/, 'Mật khẩu phải từ 8 ký tự, ít nhất 1 chữ cái thường, 1 chữ cái hoa, 1 chữ số, 1 kí tự đặc biệt'),
+            password: Yup.string().required('Required').matches(/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/, 'Mật khẩu phải từ 8 ký tự, ít nhất 1 chữ cái thường, 1 chữ cái hoa, 1 chữ số và 1 kí tự đặc biệt'),
             // phoneNumber: Yup.string()
             // .required('Required')
             // .matches(
@@ -47,9 +50,12 @@ const RegisterEmail = () => {
                                 password: formik.values.password,
                                 vouchers: 'MOHO500K, MOHO50K, MOHO300K, MOHO200K, MOHO100K'
                             }
-                            function createdUser() {
-                                axios.post('https://noithatmoho-backend.up.railway.app/api/users', newValues)
+
+                            setIsLoading(true)
+                            async function createdUser() {
+                                await axios.post('http://localhost:9080/api/users', newValues)
                                     .then(res => console.log(res.data))
+                                setIsLoading(false)
                                 window.alert('Đăng kí thành công!')
                                 window.location.replace('/')
                             }
@@ -65,7 +71,7 @@ const RegisterEmail = () => {
 
     useEffect(() => {
         async function registerMail() {
-            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/users')
+            const res = await axios.get('http://localhost:9080/api/users')
             const dataUsers = await res.data
             setDatas([...dataUsers])
         }
@@ -176,7 +182,16 @@ const RegisterEmail = () => {
                 và <Link to="https://policies.google.com/terms">Điều khoản dịch vụ</Link> của Google.
             </div>
 
-            <button type="submit" className="btn btn-register my--22" >ĐĂNG KÝ</button>
+            <button
+                type="submit"
+                className="btn btn-register my--22"
+            >
+                {isLoading ?
+                    <span class="loader">Loading</span> :
+                    'ĐĂNG KÝ'
+                }
+
+            </button>
         </form>
     )
 }

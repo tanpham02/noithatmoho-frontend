@@ -6,7 +6,7 @@ import { useState, useEffect, memo, useContext } from "react";
 import axios from 'axios'
 import { themeProvider } from '../../context/ProviderTheme/ProviderTheme'
 import { THEME_DARK } from '../../reducers/actions'
-import { CircularProgress } from '@material-ui/core';
+
 
 const ManagerProducts = () => {
     const [dataProducts, setDataProducts] = useState([])
@@ -21,7 +21,7 @@ const ManagerProducts = () => {
     useEffect(() => {
         setIsLoading(true)
         async function getData() {
-            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/products')
+            const res = await axios.get('http://localhost:9080/api/products')
             const datas = await res.data
             setDataProducts(datas)
             setIsLoading(false)
@@ -31,7 +31,7 @@ const ManagerProducts = () => {
 
     const handleDelete = (id) => {
         async function deletePro() {
-            await axios.delete(`https://noithatmoho-backend.up.railway.app/api/products/${id}`)
+            await axios.delete(`http://localhost:9080/api/products/${id}`)
             window.alert('Đã xóa sản phẩm thành công!')
             window.location.reload()
         }
@@ -201,6 +201,8 @@ const ManagerProducts = () => {
                     type='search'
                     value={search}
                     onChange={e => setSearch(e.target.value)}
+                    placeholder="Tìm kiếm..."
+                    name='name-product'
                 />
                 <button
                     className="btn-search"
@@ -244,7 +246,7 @@ const ManagerProducts = () => {
             </Link >
 
             {isLoading ?
-                <CircularProgress /> :
+                <div class="products-lds-ring"><div></div><div></div><div></div><div></div></div> :
                 <div className="productList">
                     <DataGrid
                         rows={dataSearch}

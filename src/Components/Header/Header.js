@@ -464,7 +464,7 @@ const Header = ({ localeLogos, accountInfos }) => {
 
     useEffect(() => {
         async function getData() {
-            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/products')
+            const res = await axios.get('http://localhost:9080/api/products')
             const datas = await res.data
             const results = datas.filter(data => {
                 if (data.name.toLowerCase().includes(search.trim().toLowerCase())) {
@@ -535,7 +535,7 @@ const Header = ({ localeLogos, accountInfos }) => {
                                                     <div className="item-search__content">
                                                         <h3 className="item-search__name">{data.name}</h3>
                                                         {data.prices === 0 ?
-                                                            <span className="item-search__prices">{`Giá dự kiến chỉ từ ${parseInt(30000000).toLocaleString('EN-VI')}`}
+                                                            <span className="item-search__prices">{`Giá dự kiến chỉ từ ${parseInt(90800000).toLocaleString('EN-VI')}`}
                                                                 <span className="VND">₫</span>
                                                             </span>
                                                             : <span className="item-search__prices">{parseInt(data.prices).toLocaleString('EN')}

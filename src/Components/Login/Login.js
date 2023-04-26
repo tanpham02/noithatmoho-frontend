@@ -11,9 +11,11 @@ const Login = ({ onGetDataAuthor, fixedHeader }) => {
     const [dataLogins, setDataLogins] = useState([])
     const [isLogin, setisLogin] = useState(false)
 
+    const [isLoading, setIsLoading] = useState(false)
+
     useEffect(() => {
         async function fetchData() {
-            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/users')
+            const res = await axios.get('http://localhost:9080/api/users')
             const data = await res.data
             setDatas([...data])
         }
@@ -78,14 +80,11 @@ const Login = ({ onGetDataAuthor, fixedHeader }) => {
                         setDataLogins([dataLogin])
                         setisLogin(true)
 
+                        setIsLoading(true)
                         async function LoginData() {
-                            const res = await axios.post('https://noithatmoho-backend.up.railway.app/api/login', dataLogin)
-                            try {
-                                // window.alert(res.data)
-                                window.location.replace('/')
-                            } catch (err) {
-                                console.log(err)
-                            }
+                            await axios.post('http://localhost:9080/api/login', dataLogin)
+                            window.location.replace('/')
+                            setIsLoading(false)
                         }
                         LoginData()
                         return data
@@ -162,7 +161,10 @@ const Login = ({ onGetDataAuthor, fixedHeader }) => {
                     type='submit'
                     onClick={handleSubmit}
                 >
-                    Đăng nhập
+                    {isLoading ?
+                        <span class="loader">Loading</span> :
+                        'Đăng nhập'
+                    }
                 </button>
             </form>
 

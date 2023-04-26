@@ -6,6 +6,7 @@ const Home = ({ datas, dataGroupTypes, dataTypes }) => {
     const [dataDiscount, setDataDiscount] = useState([])
     const [dataBestSeller, setDataBestSeller] = useState([])
     const [dataDecors, setDataDecors] = useState([])
+    
     const handleMouseEnter = (index) => {
         setIndexShowImg(index)
     }

@@ -138,6 +138,19 @@
     transition: all ease-out 0.25s;
 }
 
+.btn-register,
+.btn-register__phone {
+    &:hover {
+        & .loader {
+            color: var(--gray-color);
+
+            &::after {
+                background: var(--gray-color);
+            }
+        }
+    }
+}
+
 .back-home {
     font-size: 1.4rem;
 }
@@ -183,4 +196,27 @@
 
 .form-group.input-otp {
     margin-bottom: 0;
+}
+
+.loader {
+    color: #FFF;
+    display: inline-block;
+    position: relative;
+    text-transform: capitalize;
+    font-size: 1.4rem;
+    border-radius: 2px;
+    box-sizing: border-box;
+
+    &::after {
+        content: "";
+        width: 3px;
+        height: 3px;
+        background: currentColor;
+        position: absolute;
+        bottom: 4px;
+        right: -7px;
+        border-radius: 2px;
+        box-sizing: border-box;
+        animation: animloader 1s linear infinite;
+    }
 }
