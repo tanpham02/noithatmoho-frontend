@@ -74,9 +74,9 @@ import DetailProductAdminPage from './pages/DetailProductAdmin/DetailProductAdmi
 import {
   PermIdentity,
   Storefront,
-  StoreRounded,
-  CircularProgress
+  StoreRounded
 } from "@material-ui/icons"
+import { CircularProgress } from '@material-ui/core'
 
 
 const localeLogos = [
