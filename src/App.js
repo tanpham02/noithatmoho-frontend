@@ -26,7 +26,6 @@ import AccountAddressPage from './pages/AccountAddress/AccountAddress'
 import DecorationsPage from './pages/Decorations/Decorations'
 import KogeCollectionPage from './pages/KogeColection/KogeCollection'
 import GoToTop from './Components/GoToTop/GoToTop'
-import Chat from './Components/Chat/Chat'
 import KoldingCollectionPage from './pages/KoldingCollection/KoldingCollection'
 import FijiCollectionPage from './pages/FijiCollection/FijiCollection'
 import FynCollectionPage from './pages/FynCollection/FynCollection'
@@ -76,7 +75,6 @@ import {
   Storefront,
   StoreRounded
 } from "@material-ui/icons"
-import { CircularProgress } from '@material-ui/core'
 
 
 const localeLogos = [
@@ -330,8 +328,6 @@ function App() {
 
   return (
     <div className="App">
-      <CircularProgress /> :
-
       <Routes>
         <Route
           path='/'
