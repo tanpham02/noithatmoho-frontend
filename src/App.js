@@ -75,7 +75,8 @@ import Loading from './Components/Loading/Loading'
 import {
   PermIdentity,
   Storefront,
-  StoreRounded
+  StoreRounded,
+  CircularProgress
 } from "@material-ui/icons"
 
 
@@ -272,11 +273,11 @@ function App() {
 
   useEffect(() => {
     setIsLoading(true)
-  }, [])
+  })
 
   useEffect(() => {
     async function getDataProducts() {
-      const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/products');
+      const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/products')
       setDatas([...res.data])
       setIsLoading(false)
     }
@@ -335,7 +336,7 @@ function App() {
     <div className="App">
       <Routes>
         {isLoading ?
-          <Loading /> :
+          <CircularProgress /> :
           <Route
             path='/'
             element={<HomePage datas={datas} dataGroupTypes={dataGroupTypes} dataTypes={dataTypes} accountInfos={accountInfos} localeLogos={localeLogos} bannerServices={bannerServices} sliders={sliders} customers={customers} />}
