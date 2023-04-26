@@ -13,6 +13,7 @@ const DiscountFilter = ({ onGetData, filterCategories, filterPrices, filterSort 
     const [sort, setSort] = useState('Tăng Dần')
     const [filterValues, setFilterValues] = useState([])
 
+
     useEffect(() => {
         async function fetchData() {
             const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/products')

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import DiscountFilter from "./DiscountFilter"
 import { PAGE_SIZE } from "../AllProducts/AllProducts"
 import Pagination from "../Pagination/Pagination"
+import { CircularProgress } from "@material-ui/core"
 
 const Discount = ({ filterPrices, filterCategories, filterSort }) => {
 
@@ -48,70 +49,73 @@ const Discount = ({ filterPrices, filterCategories, filterSort }) => {
             filterSort={filterSort}
             onGetData={getDataExpected}
           />
-          {currentPageData.map((data, index) => (
-            <div
-              key={index}
-              className="grid__col-4 products px--16"
-              onMouseEnter={() => handleMouseEnter(index)}
-              onMouseLeave={() => handleMouseLeave(index)}
-              onClick={() => localStorage.setItem('productDetail', JSON.stringify(data.id))}
-            >
-              <Link to={`/products/${(data.name).split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`}>
+          {expectedData ?
+            currentPageData.map((data, index) => (
+              <div
+                key={index}
+                className="grid__col-4 products px--16"
+                onMouseEnter={() => handleMouseEnter(index)}
+                onMouseLeave={() => handleMouseLeave(index)}
+                onClick={() => localStorage.setItem('productDetail', JSON.stringify(data.id))}
+              >
+                <Link to={`/products/${(data.name).split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`}>
 
 
-                {
-                  data.discount &&
-                  <span className="product-discount">
-                    -{data.discount}
-                  </span>
-                }
+                  {
+                    data.discount &&
+                    <span className="product-discount">
+                      -{data.discount}
+                    </span>
+                  }
 
-                {
-                  data.quantity_sold >= 150 &&
-                  <span className="product-quantity-sold">
-                    Best Seller
-                  </span>
-                }
-                <div className="products__img">
-                  <img src={indexShowImg === index ? data.image_url.split(', ')[1] || data.image_url.split(', ')[0] : data.image_url.split(', ')[0]}
-                    alt={data.name}
-                    className="products__img-child"
-                  />
-                </div>
-                <div className="products__content">
-                  <h3 className="product-content__name">{data.name}</h3>
-                  <div className="product-content__price">
+                  {
+                    data.quantity_sold >= 150 &&
+                    <span className="product-quantity-sold">
+                      Best Seller
+                    </span>
+                  }
+                  <div className="products__img">
+                    <img src={indexShowImg === index ? data.image_url.split(', ')[1] || data.image_url.split(', ')[0] : data.image_url.split(', ')[0]}
+                      alt={data.name}
+                      className="products__img-child"
+                    />
+                  </div>
+                  <div className="products__content">
+                    <h3 className="product-content__name">{data.name}</h3>
+                    <div className="product-content__price">
 
-                    {data.discount ?
-                      <span className="product__price-new">{data.discount ? (data.prices - (data.prices * (parseInt(data.discount)) / 100)).toLocaleString("en-VI") /* ,{style: "currency", currency: "VND"} */ : parseInt(data.prices).toLocaleString("en-VI")}
-                        <span className="cart__total-price-vnd">₫</span>
-                      </span>
-                      :
-                      <span>
-                        <span className="product__price-new">{parseInt(data.prices).toLocaleString("en-VI")}
+                      {data.discount ?
+                        <span className="product__price-new">{data.discount ? (data.prices - (data.prices * (parseInt(data.discount)) / 100)).toLocaleString("en-VI") /* ,{style: "currency", currency: "VND"} */ : parseInt(data.prices).toLocaleString("en-VI")}
                           <span className="cart__total-price-vnd">₫</span>
                         </span>
-                      </span>
-                    }
-                    {data.discount && <span className="product__price-old item-product__price-old">{data.prices.toLocaleString('en-VI')}
-                      <span className="cart__total-price-vnd">₫</span>
-                    </span>}
-                  </div>
-                  <div className="product__content-review">
-                    <div className="product__content-star ">
-                      <i className="fa-solid fa-star"></i>
-                      <i className="fa-solid fa-star"></i>
-                      <i className="fa-solid fa-star"></i>
-                      <i className="fa-solid fa-star"></i>
-                      <i className="fa-solid fa-star"></i>
-                      <span className="quantity-review">(12)</span>
+                        :
+                        <span>
+                          <span className="product__price-new">{parseInt(data.prices).toLocaleString("en-VI")}
+                            <span className="cart__total-price-vnd">₫</span>
+                          </span>
+                        </span>
+                      }
+                      {data.discount && <span className="product__price-old item-product__price-old">{data.prices.toLocaleString('en-VI')}
+                        <span className="cart__total-price-vnd">₫</span>
+                      </span>}
                     </div>
-                    <span className="product-content__sold-quantity">Đã bán {data.quantity_sold}</span>
+                    <div className="product__content-review">
+                      <div className="product__content-star ">
+                        <i className="fa-solid fa-star"></i>
+                        <i className="fa-solid fa-star"></i>
+                        <i className="fa-solid fa-star"></i>
+                        <i className="fa-solid fa-star"></i>
+                        <i className="fa-solid fa-star"></i>
+                        <span className="quantity-review">(12)</span>
+                      </div>
+                      <span className="product-content__sold-quantity">Đã bán {data.quantity_sold}</span>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            </div>
-          ))}
+                </Link>
+              </div>
+            )) :
+            <CircularProgress />
+          }
           <Pagination total={expectedData.length} onPageChange={handlePageChange} />
         </div>
       </div>
