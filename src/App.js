@@ -247,7 +247,7 @@ function App() {
   const [datas, setDatas] = useState([])
   const [dataGroupTypes, setDataGroupTypes] = useState([])
   const [dataTypes, setDataTypes] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const timerId = useRef()
 
 
