@@ -71,6 +71,7 @@ import DetailUserPage from './pages/DetailUser/DetailUser'
 import CreateUserPage from './pages/CreateUser/CreateUser'
 import CreateProductPage from './pages/CreateProduct/CreateProduct'
 import DetailProductAdminPage from './pages/DetailProductAdmin/DetailProductAdmin'
+import Loading from './Components/Loading/Loading'
 import {
   PermIdentity,
   Storefront,
@@ -246,6 +247,7 @@ function App() {
   const [datas, setDatas] = useState([])
   const [dataGroupTypes, setDataGroupTypes] = useState([])
   const [dataTypes, setDataTypes] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
   const timerId = useRef()
 
 
@@ -269,9 +271,14 @@ function App() {
   ]
 
   useEffect(() => {
+    setIsLoading(true)
+  }, [])
+
+  useEffect(() => {
     async function getDataProducts() {
       const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/products');
       setDatas([...res.data])
+      setIsLoading(false)
     }
     getDataProducts()
   }, [])
@@ -327,10 +334,13 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route
-          path='/'
-          element={<HomePage datas={datas} dataGroupTypes={dataGroupTypes} dataTypes={dataTypes} accountInfos={accountInfos} localeLogos={localeLogos} bannerServices={bannerServices} sliders={sliders} customers={customers} />}
-        />
+        {isLoading ?
+          <Loading /> :
+          <Route
+            path='/'
+            element={<HomePage datas={datas} dataGroupTypes={dataGroupTypes} dataTypes={dataTypes} accountInfos={accountInfos} localeLogos={localeLogos} bannerServices={bannerServices} sliders={sliders} customers={customers} />}
+          />
+        }
         <Route
           path='/account'
           element={
