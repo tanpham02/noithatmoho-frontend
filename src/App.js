@@ -273,12 +273,12 @@ function App() {
 
   useEffect(() => {
     setIsLoading(true)
-    document.querySelector('.fb-reset').classList?.add('hidden')
+    document.querySelector('.fb-reset')?.classList?.add('hidden')
     async function getDataProducts() {
       const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/products')
       setDatas([...res.data])
       setIsLoading(false)
-      document.querySelector('.fb-reset').classList?.remove('hidden')
+      document.querySelector('.fb-reset')?.classList?.remove('hidden')
     }
     getDataProducts()
   }, [])
