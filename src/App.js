@@ -71,7 +71,6 @@ import DetailUserPage from './pages/DetailUser/DetailUser'
 import CreateUserPage from './pages/CreateUser/CreateUser'
 import CreateProductPage from './pages/CreateProduct/CreateProduct'
 import DetailProductAdminPage from './pages/DetailProductAdmin/DetailProductAdmin'
-import Loading from './Components/Loading/Loading'
 import {
   PermIdentity,
   Storefront,
