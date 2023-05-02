@@ -2,7 +2,7 @@ import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import SofaTable from "../../Components/SofaTable/SofaTable";
 import BannerService from "../../Components/BannerService/BannerService";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 
 const filters = {
     filterCategories: [
@@ -77,4 +77,4 @@ const SofaTablePage = ({ localeLogos, bannerServices, datas, dataTypes, accountI
     )
 }
 
-export default SofaTablePage
+export default memo(SofaTablePage)

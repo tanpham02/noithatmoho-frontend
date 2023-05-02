@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { memo, useEffect } from "react"
 
 import CheckOut from "../../Components/CheckOut/CheckOut"
 const CheckOutPage = ({ datas }) => {
@@ -14,4 +14,4 @@ const CheckOutPage = ({ datas }) => {
     return <CheckOut datas={datas} />
 }
 
-export default CheckOutPage
+export default memo(CheckOutPage)

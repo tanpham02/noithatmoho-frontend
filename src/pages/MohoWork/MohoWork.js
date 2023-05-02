@@ -2,7 +2,7 @@ import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import MohoWork from "../../Components/MohoWork/MohoWork";
 import BannerService from "../../Components/BannerService/BannerService";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 
 const filters = {
   filterCategories: [
@@ -80,4 +80,4 @@ const MohoWorkPage = ({ localeLogos, bannerServices, datas, dataTypes, dataGroup
   )
 }
 
-export default MohoWorkPage
+export default memo(MohoWorkPage)

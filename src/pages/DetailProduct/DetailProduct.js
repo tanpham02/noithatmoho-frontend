@@ -3,7 +3,7 @@ import DetailProduct from "../../Components/DetailProduct/DetailProduct"
 import BannerService from "../../Components/BannerService/BannerService"
 import Footer from "../../Components/Footer/Footer"
 
-import { useEffect } from "react"
+import { memo, useEffect } from "react"
 import axios from "axios"
 
 
@@ -35,5 +35,5 @@ const DetailProductPage = ({ accountInfos, localeLogos, bannerServices, sliders,
     )
 }
 
-export default DetailProductPage
+export default memo(DetailProductPage)
 

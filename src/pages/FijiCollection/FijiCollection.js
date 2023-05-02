@@ -2,7 +2,7 @@ import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import FijiCollection from "../../Components/FijiCollection/FijiCollection";
 import BannerService from "../../Components/BannerService/BannerService";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 
 const filters = {
   filterCategories: [
@@ -80,4 +80,4 @@ const FijiCollectionPage = ({ localeLogos, bannerServices, datas, dataTypes, acc
   )
 }
 
-export default FijiCollectionPage
+export default memo(FijiCollectionPage)

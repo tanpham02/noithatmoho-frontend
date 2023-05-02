@@ -98,6 +98,8 @@ const DetailProductAdmin = () => {
         }
     }
 
+    console.log(product.size)
+
 
 
     return (
@@ -151,7 +153,14 @@ const DetailProductAdmin = () => {
                         </div>
                         <div className="productInfoItem">
                             <span className="productInfoKey">Kích thước</span>
-                            <span className="productInfoValue">{product.size}</span>
+                            <span className="productInfoValue">
+                                {product.size?.includes(', ') ?
+                                    product.size.split(', ').map((si, index) =>
+                                        <span style={{display: 'block'}} key={index}>- {si}</span>
+                                    ) :
+                                    product.size
+                                }
+                            </span>
                         </div>
                     </div>
                 </div>

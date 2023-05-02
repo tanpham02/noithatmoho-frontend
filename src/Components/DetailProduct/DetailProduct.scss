@@ -1,6 +1,20 @@
 .product-detail {
     margin-top: 30px;
 
+    & .loader-products {
+        position: relative;
+        top: 40px;
+        left: 47%;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: inline-block;
+        border-top: 4px solid var(--primary-color-orange);
+        border-right: 3px solid transparent;
+        box-sizing: border-box;
+        animation: rotation 1s linear infinite;
+    }
+
     &__img {
         display: flex;
         cursor: pointer;

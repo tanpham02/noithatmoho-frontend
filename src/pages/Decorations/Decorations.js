@@ -2,7 +2,7 @@ import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import Decorations from "../../Components/Decorations/Decorations";
 import BannerService from "../../Components/BannerService/BannerService";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 
 const filters = {
     filterCategories: [
@@ -85,4 +85,4 @@ const DecorationsPage = ({ localeLogos, bannerServices, datas, dataTypes, dataGr
     )
 }
 
-export default DecorationsPage
+export default memo(DecorationsPage)

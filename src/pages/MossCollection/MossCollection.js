@@ -2,7 +2,7 @@ import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import MossCollection from "../../Components/MossCollection/MossCollection";
 import BannerService from "../../Components/BannerService/BannerService";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 
 const filters = {
   filterCategories: [
@@ -78,4 +78,4 @@ const MossCollectionPage = ({ localeLogos, bannerServices, datas, dataTypes, acc
   )
 }
 
-export default MossCollectionPage
+export default memo(MossCollectionPage)

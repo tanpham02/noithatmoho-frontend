@@ -3,7 +3,7 @@ import DeskCollection from "../../Components/DeskCollection/DeskCollection"
 import BannerService from "../../Components/BannerService/BannerService"
 import Footer from "../../Components/Footer/Footer"
 
-import { useEffect } from "react"
+import { memo, useEffect } from "react"
 
 const filters = {
     filterCategories: [
@@ -76,5 +76,5 @@ const DeskCollectionPage = ({datas, dataTypes, accountInfos, localeLogos, banner
     )
 }
 
-export default DeskCollectionPage
+export default memo(DeskCollectionPage)
 

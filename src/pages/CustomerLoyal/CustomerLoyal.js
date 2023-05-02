@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import Header from "../../Components/Header/Header";
 import CustomerLoyal from "../../Components/CustomerLoyal/CustomerLoyal";
 import BannerService from "../../Components/BannerService/BannerService";
@@ -24,4 +24,4 @@ const CustomerLoyalPage = ({ localeLogos, bannerServices, accountInfos }) => {
     )
 }
 
-export default CustomerLoyalPage
+export default memo(CustomerLoyalPage)

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, memo } from 'react'
 import {
     HouseOutlined
 
@@ -57,4 +57,4 @@ const SideBarAdmin = ({ listPage }) => {
         </div>
     );
 }
-export default SideBarAdmin
+export default memo(SideBarAdmin)

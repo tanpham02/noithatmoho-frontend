@@ -2,7 +2,7 @@ import Header from "../../Components/Header/Header";
 import Career from "../../Components/Career/Career";
 import BannerService from "../../Components/BannerService/BannerService";
 import Footer from "../../Components/Footer/Footer";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 
 const CareerPage = ({accountInfos,  localeLogos, bannerServices }) => {
 
@@ -23,4 +23,4 @@ const CareerPage = ({accountInfos,  localeLogos, bannerServices }) => {
     )
 }
 
-export default CareerPage
+export default memo(CareerPage)

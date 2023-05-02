@@ -2,7 +2,7 @@ import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import BedRoom from "../../Components/BedRoom/BedRoom";
 import BannerService from "../../Components/BannerService/BannerService";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 
 const filters = {
     filterCategories: [
@@ -80,4 +80,4 @@ const BedRoomPage = ({ localeLogos, bannerServices, datas, dataTypes, dataGroupT
     )
 }
 
-export default BedRoomPage
+export default memo(BedRoomPage)

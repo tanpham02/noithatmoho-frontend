@@ -544,7 +544,7 @@ const Header = ({ localeLogos, accountInfos }) => {
                                                         }
                                                     </div>
                                                     <div className="item-search_img">
-                                                        <img src={data.image_url.split(',')[0]} alt={data.name} />
+                                                        <img src={data.image_url.split(', ')[0]} alt={data.name} />
                                                     </div>
                                                 </Link>
                                             </li>

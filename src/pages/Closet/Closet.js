@@ -3,7 +3,7 @@ import Closet from "../../Components/Closet/Closet"
 import BannerService from "../../Components/BannerService/BannerService"
 import Footer from "../../Components/Footer/Footer"
 
-import { useEffect } from "react"
+import { memo, useEffect } from "react"
 
 const filters = {
     filterCategories: [
@@ -75,5 +75,5 @@ const ClosetPage = ({datas, dataTypes, accountInfos, localeLogos, bannerServices
     )
 }
 
-export default ClosetPage
+export default memo(ClosetPage)
 

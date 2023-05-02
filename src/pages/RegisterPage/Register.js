@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import Header from "../../Components/Header/Header";
 import Register from "../../Components/Register/Register";
 import Footer from "../../Components/Footer/Footer";
@@ -22,4 +22,4 @@ const RegisterPage = ({ localeLogos, bannerServices, accountInfos }) => {
     )
 }
 
-export default RegisterPage
+export default memo(RegisterPage)

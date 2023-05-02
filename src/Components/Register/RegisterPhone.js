@@ -1,5 +1,7 @@
-import { useState, useMemo, useEffect, memo } from "react"
+import { useState, useMemo, useEffect, memo, useCallback } from "react"
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import axios from 'axios'
 
 
@@ -7,7 +9,7 @@ const RegisterPhone = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [otp, setOtp] = useState('');
     const [showInput, setShowInput] = useState(false)
-    const [falseOtp, setFasleOtp] = useState(false)
+    const [falseOtp, setFalseOtp] = useState(false)
     const [validatePhone, setValidatePhone] = useState(true)
     const [validateOTP, setValidateOTP] = useState(false)
     const [showMessage, setShowMessage] = useState(false)
@@ -15,8 +17,9 @@ const RegisterPhone = () => {
     const [datas, setDatas] = useState([])
     const [existPhone, setExistPhone] = useState(false)
     const [passwordByPhone, setPasswordByPhone] = useState('')
-
     const [isLoading, setIsLoading] = useState(false)
+    const [errorValidatePass, setErrorValidatePass] = useState(false)
+
 
     const handlePhoneNumberChange = (e) => {
         setExistPhone(false)
@@ -27,6 +30,19 @@ const RegisterPhone = () => {
         }
     };
 
+    const checkOutToast = useCallback(() =>
+        toast.info('Đăng kí thành công.', {
+            position: "top-right",
+            autoClose: 2500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light"
+        }),
+        [])
+
 
     useEffect(() => {
         async function fetchData() {
@@ -34,7 +50,6 @@ const RegisterPhone = () => {
             const output = await res.data
             setDatas([...output])
         }
-
         fetchData()
     }, [otp])
 
@@ -74,12 +89,10 @@ const RegisterPhone = () => {
 
 
         if (datas.length) {
-            datas.find(data => {
+            datas.filter(data => {
                 async function a() {
                     if (data.phone_number) {
-                        const x = String(data.phone_number)
-                        const resPhone = `0${x.slice(3)}`
-                        if (resPhone.trim() === phoneNumber.trim()) {
+                        if (data.phone_number.trim() === phoneNumber.trim()) {
                             setExistPhone(true)
                             flag = true
                             return flag
@@ -93,9 +106,8 @@ const RegisterPhone = () => {
         if (handleValidataPhone) {
             if (phoneNumber !== '' && !flag) {
                 setShowInput(true)
-                axios.post('http://localhost:9080/api/send-otp', {
-                    phone_number: `+84${phoneNumber.slice(1)}`,
-                    vouchers: 'MOHO500K, MOHO50K, MOHO300K, MOHO200K, MOHO100K'
+                axios.post('http://localhost:9080/api/send-otp-sms', {
+                    phone_number: `+84${phoneNumber.slice(1)}`
                 })
                     .then(response => {
                         if (response !== '') {
@@ -118,19 +130,29 @@ const RegisterPhone = () => {
     const handleEnterOTP = (e) => {
         e.preventDefault()
 
+        if (otp === '') {
+            setValidateOTP(true)
+            return;
+        }
+
         const output = datas.filter(data => data.otp)
         if (output.length) {
             output.filter(otpData => {
-                const x = String(otpData.phone_number)
-                const stringPhone = `0${x.slice(3)}`
-                if (otp === otpData.otp && stringPhone === phoneNumber) {
+                if (otp === otpData.otp && otpData.phone_number === phoneNumber) {
                     setPhonePassW(true)
                     setShowInput(false)
-                    setFasleOtp(false)
-                    return otp
-                }
+                    setFalseOtp(false)
+                    async function removeOtp() {
+                        await axios.put(`http://localhost:9080/api/users/${otpData.id}`, {
+                            ...otpData,
+                            otp: ''
+                        })
+                    }
+                    removeOtp()
+                    return phoneNumber
+                }   
                 if (otp !== otpData.otp) {
-                    setFasleOtp(true)
+                    setFalseOtp(true)
                     return -1
                 }
             })
@@ -138,15 +160,12 @@ const RegisterPhone = () => {
             console.log('OTP Invalid!')
         }
 
-        if (otp === '') {
-            setValidateOTP(true)
-            return;
-        }
+
     }
 
     const handleInputOTP = () => {
         setExistPhone(false)
-        setFasleOtp(false)
+        setFalseOtp(false)
     }
 
     const handleInputPhoneNum = () => {
@@ -155,26 +174,39 @@ const RegisterPhone = () => {
 
 
     const handleReisterWithPhone = (e) => {
-
-        setIsLoading(true)
-        const regexPassW = /(?=.{8,})/
+        e.preventDefault()
+        const regexPassW = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/
         if (regexPassW.test(passwordByPhone)) {
-            e.preventDefault()
-            axios.post('http://localhost:9080/api/register', {
-                password: passwordByPhone
-            })
-            setIsLoading(false)
-            window.alert('Đăng kí thành công!')
-            // window.location.replace('/')
+            const output = datas.filter(data => data.phone_number === phoneNumber)
+            if (output.length) {
+                setIsLoading(true)
+                async function insertUserByPhone() {
+                    output.forEach(async user => {
+                        await axios.put(`http://localhost:9080/api/users/${user.id}`, {
+                            ...user,
+                            password: passwordByPhone,
+                            vouchers: 'MOHO500K, MOHO300K, MOHO200K, MOHO100K, MOHO50K',
+                            otp: ''
+                        })
+                        setIsLoading(false)
+                        return passwordByPhone
+                    })
+                }
+                checkOutToast()
+                setTimeout(() => {
+                    window.location.replace('/')
+                }, 3000)
+                insertUserByPhone()
+            }
         } else {
-
+            setErrorValidatePass(true)
+            return
         }
     }
 
     return (
 
         <>
-
             <form>
                 {PhonePassW || (!showInput && (<div className="form-group input-otp">
                     <label htmlFor="phone-number"></label>
@@ -195,7 +227,7 @@ const RegisterPhone = () => {
 
 
 
-                {showInput === true &&
+                {showInput &&
                     (<div className="form-group input-otp">
                         <label htmlFor="otp"></label>
                         <input
@@ -219,7 +251,7 @@ const RegisterPhone = () => {
                         {showMessage &&
                             <span className="message-send-otp">
                                 <i className="fa-solid fa-arrow-right" style={{ marginRight: '4px' }}></i>
-                                Chúng tôi đã gửi mã xác nhận đến số điện thoại  {phoneNumber}
+                                Chúng tôi đã gửi mã xác nhận đến số điện thoại  {'*'.repeat(+ phoneNumber.length - 3) + phoneNumber.slice(-3)}
                             </span>
                         }
                     </div>)
@@ -236,9 +268,17 @@ const RegisterPhone = () => {
                             name="set-password-by-phone"
                             value={passwordByPhone}
                             onChange={(e) => setPasswordByPhone(e.target.value)}
+                            onInput={() => setErrorValidatePass(false)}
                         />
                     </div>
                 )}
+                {errorValidatePass &&
+                    <span
+                        className="errorMsg"
+                    >
+                        Mật khẩu phải từ 8 ký tự, ít nhất 1 chữ cái thường, 1 chữ cái hoa, 1 chữ số và 1 kí tự đặc biệt
+                    </span>
+                }
 
 
 
@@ -259,11 +299,12 @@ const RegisterPhone = () => {
 
                 {PhonePassW && (<button className="btn btn-register__phone my--22" onClick={handleReisterWithPhone}>
                     {isLoading ?
-                        <span class="loader">Loading</span> :
+                        <span class="loader-register">Loading</span> :
                         'ĐĂNG KÝ'
                     }
                 </button>)}
             </form>
+            <ToastContainer />
         </>
     )
 }

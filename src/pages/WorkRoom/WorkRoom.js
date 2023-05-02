@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import WorkRoom from "../../Components/WorkRoom/WorkRoom";
@@ -80,4 +80,4 @@ const WorkRoomPage = ({ localeLogos, bannerServices, datas, dataTypes, dataGroup
   )
 }
 
-export default WorkRoomPage
+export default memo(WorkRoomPage)

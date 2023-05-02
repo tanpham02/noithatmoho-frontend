@@ -2,7 +2,7 @@ import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import NyborgCollection from "../../Components/NyborgCollection/NyborgCollection";
 import BannerService from "../../Components/BannerService/BannerService";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 
 const filters = {
   filterCategories: [
@@ -77,4 +77,4 @@ const NyborgCollecionPage = ({ localeLogos, bannerServices, datas, dataTypes, ac
   )
 }
 
-export default NyborgCollecionPage
+export default memo(NyborgCollecionPage)

@@ -2,7 +2,7 @@ import Header from "../../Components/Header/Header"
 import BestSeller from "../../Components/BestSeller/BestSeller"
 import BannerService from "../../Components/BannerService/BannerService"
 import Footer from "../../Components/Footer/Footer"
-import { useEffect } from "react"
+import { memo, useEffect } from "react"
 
 const filters = {
     filterCategories: [
@@ -81,5 +81,5 @@ const BestSellerPage = ({ datas, dataTypes, accountInfos, localeLogos, bannerSer
     )
 }
 
-export default BestSellerPage
+export default memo(BestSellerPage)
 

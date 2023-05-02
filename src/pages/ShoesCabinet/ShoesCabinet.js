@@ -2,7 +2,7 @@ import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import ShoesCabinet from "../../Components/ShoesCabinet/ShoesCabinet";
 import BannerService from "../../Components/BannerService/BannerService";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 
 
 const filters = {
@@ -78,4 +78,4 @@ const ShoesCabinetPage = ({ localeLogos, bannerServices, datas, dataTypes, accou
     )
 }
 
-export default ShoesCabinetPage
+export default memo(ShoesCabinetPage)

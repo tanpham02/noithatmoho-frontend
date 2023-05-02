@@ -2,7 +2,7 @@ import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import TvCabinet from "../../Components/TvCabinet/TvCabinet";
 import BannerService from "../../Components/BannerService/BannerService";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 
 
 const filters = {
@@ -78,4 +78,4 @@ const TvCabinetPage = ({ localeLogos, bannerServices, datas, dataTypes, accountI
     )
 }
 
-export default TvCabinetPage
+export default memo(TvCabinetPage)

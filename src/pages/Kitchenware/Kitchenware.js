@@ -3,7 +3,7 @@ import Kitchenware from "../../Components/Kitchenware/Kitchenware"
 import BannerService from "../../Components/BannerService/BannerService"
 import Footer from "../../Components/Footer/Footer"
 
-import { useEffect } from "react"
+import { memo, useEffect } from "react"
 
 const filters = {
     filterCategories: [
@@ -76,5 +76,5 @@ const KitchenwarePage = ({ datas, dataTypes, accountInfos, localeLogos, bannerSe
     )
 }
 
-export default KitchenwarePage
+export default memo(KitchenwarePage)
 

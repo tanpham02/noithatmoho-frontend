@@ -1,6 +1,8 @@
-import { useState, useEffect, useMemo, useRef, useContext } from "react"
-import { Link, json } from "react-router-dom"
+import { useState, useEffect, useMemo, memo, useCallback, useRef } from "react"
+import { Link } from "react-router-dom"
 import axios from "axios"
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import './Account.scss'
 import { ID_USER } from "../CheckOut/CheckOut"
 
@@ -15,9 +17,49 @@ const Account = ({ accountInfos, onReload }) => {
     const [isSuccessCheckout, setIsSuccessCheckout] = useState(false)
     const [selectedFile, setSelectedFile] = useState(null);
     const [avatar, setAvatar] = useState()
-
     const [products, setProducts] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
+    const [isCancelCheckout, setIsCancelCheckout] = useState(
+        () => JSON.parse(localStorage.getItem('isCancelCheckout')) ?? false
+    )
+    const timerId = useRef()
 
+
+    const checkOutToast = useCallback(() =>
+        toast.info('Cập nhật thông tin thành công', {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light"
+        }),
+        [])
+    const cancelToast = useCallback(() =>
+        toast.info('Đã hủy đơn hàng', {
+            position: "top-right",
+            autoClose: 2500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light"
+        }),
+        [])
+
+    useEffect(() => {
+        if (localStorage.getItem('isSuccessCheckout') === false || 'false') {
+            timerId.current = setTimeout(() => {
+                localStorage.setItem('isCancelCheckout', true)
+                setIsCancelCheckout(JSON.parse(localStorage.getItem('isCancelCheckout')))
+            }, (1000 * 60 * 60) * 2)
+        }
+
+        return () => clearTimeout(timerId.current)
+    }, [localStorage?.getItem('isSuccessCheckout')])
 
     useEffect(() => {
         const idUser = JSON.parse(localStorage.getItem('idUser'))
@@ -54,10 +96,12 @@ const Account = ({ accountInfos, onReload }) => {
     }, [dataUser])
 
     useEffect(() => {
+        setIsLoading(true)
         async function getCheckout() {
             const res = await axios.get(`http://localhost:9080/api/users/${ID_USER}`)
             const data = await res.data
             setDataUserCheckout({ ...data })
+            setIsLoading(false)
         }
         getCheckout()
     }, [])
@@ -77,16 +121,20 @@ const Account = ({ accountInfos, onReload }) => {
             email,
             full_name: fullName,
             birthday,
-            avatar
+            avatar: avatar ? avatar : dataUser.avatar
         }
 
-        console.log(updateUser)
-        axios.put(`http://localhost:9080/api/users/${userId}`, updateUser)
-            .then(res => console.log(res.data))
-            .catch(err => console.log(err))
-        window.alert('Cập nhật thông tinh thành công!')
-        setIsUpdate(true)
-        // window.location.reload()
+        async function updateUsers() {
+            await axios.put(`http://localhost:9080/api/users/${userId}`, updateUser)
+                .then(res => console.log(res.data))
+                .catch(err => console.log(err))
+            checkOutToast()
+            setTimeout(() => {
+                setIsUpdate(true)
+            }, 2300)
+        }
+        updateUsers()
+
     }
 
     useEffect(() => {
@@ -135,7 +183,7 @@ const Account = ({ accountInfos, onReload }) => {
 
 
     const handleIsSuccessCheckout = () => {
-        localStorage.setItem('isSuccessCheckout', JSON.stringify(true))
+        localStorage.removeItem('isSuccessCheckout')
         localStorage.removeItem('cancelCheckout')
 
         if (dataUserCheckout?.checkout) {
@@ -162,14 +210,6 @@ const Account = ({ accountInfos, onReload }) => {
         }
     }
 
-
-    console.log(dataUserCheckout?.product_boughts && JSON.parse((dataUserCheckout?.product_boughts)).filter(data => {
-        if (data.id === data.id) {
-            return false
-        }
-    }))
-
-
     const uniqueProductBoughts = useMemo(() => {
         if (dataUserCheckout?.product_boughts) {
             const dataUnique = Array.from(new Set(JSON.parse(dataUserCheckout?.product_boughts)
@@ -181,11 +221,6 @@ const Account = ({ accountInfos, onReload }) => {
         }
 
     }, [dataUserCheckout])
-
-
-
-
-
 
 
     const handleCancelCheckout = (e) => {
@@ -226,7 +261,10 @@ const Account = ({ accountInfos, onReload }) => {
                     })
                 })
             })
-            window.location.reload()
+            cancelToast()
+            setTimeout(() => {
+                window.location.reload()
+            }, 2500)
             return res.data
         }
 
@@ -254,350 +292,385 @@ const Account = ({ accountInfos, onReload }) => {
 
 
     return (
-        <div className='account'>
-            <div className='grid'>
-                <div className='grid__row'>
-                    <h2 className="account__title">Tài khoản của bạn</h2>
-                    <div className='grid__col-2-3'>
-                        <h4 className="account__heading-body">TÀI KHOẢN</h4>
-                        <ul className="account__body-lists">
-                            {accountInfos
-                                .filter((account, index) => (index !== 0))
-                                .map((acc, index) => (
-                                    <li key={index} className='account__body-item' onClick={() => handleClickOption(index)}>
-                                        <i className="fa-regular fa-circle-dot"></i>
-                                        <Link style={{
-                                            color: 'Tài khoản của bạn' === acc.name ? '#000' : '',
-                                            fontWeight: 'Tài khoản của bạn' === acc.name ? '600' : ''
-                                        }} to={acc.path}>{acc.name}</Link>
-                                    </li>
-                                ))
-                            }
-                        </ul>
-                    </div>
-                    <div className='grid__col-2-7'>
-                        <h4 className="account__heading-body account__heading-body--gray">THÔNG TIN TÀI KHOẢN</h4>
+        <>
+            <div className='account'>
+                <div className='grid'>
+                    <div className='grid__row'>
+                        <h2 className="account__title">Tài khoản của bạn</h2>
+                        <div className='grid__col-2-3'>
+                            <h4 className="account__heading-body">TÀI KHOẢN</h4>
+                            <ul className="account__body-lists">
+                                {accountInfos
+                                    .filter((account, index) => (index !== 0))
+                                    .map((acc, index) => (
+                                        <li key={index} className='account__body-item' onClick={() => handleClickOption(index)}>
+                                            <i className="fa-regular fa-circle-dot"></i>
+                                            <Link style={{
+                                                color: 'Tài khoản của bạn' === acc.name ? '#000' : '',
+                                                fontWeight: 'Tài khoản của bạn' === acc.name ? '600' : ''
+                                            }} to={acc.path}>{acc.name}</Link>
+                                        </li>
+                                    ))
+                                }
+                            </ul>
+                        </div>
+                        <div className='grid__col-2-7'>
+                            <h4 className="account__heading-body account__heading-body--gray">THÔNG TIN TÀI KHOẢN</h4>
 
-                        <div>
-                            {!(selectedFile) &&
-                                <div>
-                                    {selectedFile ?
-                                        <div className="account__info-avata have-avatar">
-                                            <img src={selectedFile} alt="" accept="image/*" />
-                                        </div> :
-                                        <div className="account__info-avata">
-                                            <i className="fa-regular fa-user"></i>
+                            <div>
+                                {!(selectedFile) &&
+                                    <div>
+                                        {selectedFile ?
+                                            <div className="account__info-avata have-avatar">
+                                                <img src={selectedFile} alt="" accept="image/*" />
+                                            </div> :
+                                            <div className="account__info-avata">
+                                                <i className="fa-regular fa-user"></i>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                                {(selectedFile) && <img width={250} accept="image/*" height={250} style={{ border: '2px solid #e3e5ec', borderRadius: '12px' }} src={selectedFile} alt="ssss" />}
+                                <form id="form-account">
+                                    <div className="form-group">
+                                        <label htmlFor="form-account__avatar"></label>
+                                        <input
+                                            type='file'
+                                            id="form-account__avatar"
+                                            name="form-account__avatar"
+                                            onChange={handleFileChange}
+                                        />
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label htmlFor="form-account__email">Email</label>
+                                        <input
+                                            type='email'
+                                            placeholder="Email"
+                                            id="form-account__email"
+                                            name="form-account__email"
+                                            disabled
+                                            value={email}
+                                        />
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label htmlFor="form-account__fullname">Tên đầy đủ</label>
+                                        <input
+                                            type='text'
+                                            placeholder="Tên đầy đủ"
+                                            id="form-account__fullname"
+                                            name="form-account__fullname"
+                                            value={fullName}
+                                            onChange={handleChangeFullname}
+                                        />
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label htmlFor="form-account__birthday">Ngày Sinh</label>
+                                        <input
+                                            type='text'
+                                            placeholder="dd/mm/yyyy"
+                                            id="form-account__birthday"
+                                            name="form-account__birthday"
+                                            value={birthday}
+                                            onChange={handleChangBirthday}
+                                        />
+                                    </div>
+
+
+
+                                    <button type="submit" onClick={handleSubmit} className="btn acount-btn">Cập nhật</button>
+                                </form>
+                            </div>
+
+                            {isLoading ?
+                                <span class="loader-products"></span> :
+                                <>
+
+                                    {(!isSuccessCheckout && dataUserCheckout?.checkout) &&
+                                        <div className="warraper-products-bought">
+                                            {dataUserCheckout?.checkout &&
+                                                <div className="products-bought">
+                                                    <>
+                                                        <span className="products-bought__heading">Đơn hàng của bạn</span>
+                                                        <ul className="checkout__cart-lists">
+                                                            {JSON.parse(dataUserCheckout.checkout?.split('; ')[2]).map((bought, index) => (
+                                                                <li key={index} className="checkout__cart-item">
+                                                                    <Link
+                                                                        onClick={() => localStorage.setItem('productDetail', JSON.stringify(bought.id))}
+                                                                        to={`/products/${(bought.name).split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`}
+                                                                        style={{
+                                                                            display: 'flex',
+                                                                            alignItems: 'center',
+                                                                            justifyContent: 'space-between',
+                                                                            padding: '8px 15px 15px 0',
+                                                                            width: '100%'
+                                                                        }}
+                                                                    >
+                                                                        <div className='cart-item__wrap'>
+                                                                            <div className="cart-item__img">
+                                                                                <img src={bought.img.split(', ')[0]} alt={bought.name} />
+                                                                                <span key={index} className='cart-item__quantity'>{bought.quantity}</span>
+                                                                            </div>
+                                                                            <div className="cart-item__desc">
+                                                                                <h3 className="cart-item__name"
+                                                                                    style={{
+                                                                                        width: '100%'
+                                                                                    }}
+                                                                                >
+                                                                                    {bought.name}</h3>
+                                                                                <span className="cart-item__color">Màu tự nhiên</span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <span className="cart-item__prices" style={{ letterSpacing: 1 }}>
+                                                                            {bought.discount ?
+                                                                                (bought.prices - (bought.prices * (parseInt(bought.discount)) / 100)).toLocaleString("en-VI") :
+                                                                                parseInt(bought.prices).toLocaleString("en-VI")
+                                                                            }
+                                                                            <span className="VND">₫</span>
+                                                                        </span>
+                                                                    </Link>
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+
+                                                        <div style={{
+                                                            padding: '0px 0px 20px 2px'
+                                                        }}>
+
+                                                            <div className="info-checkout" style={{
+                                                                display: 'flex',
+                                                                color: '#434343',
+                                                                flexDirection: 'column',
+                                                                fontWeight: 500,
+                                                                borderTop: '1px solid var(--border-color)',
+                                                                padding: '20px 0 30px 0',
+                                                            }}>
+                                                                <h3 style={{
+                                                                    fontWeight: 600,
+                                                                    fontSize: '1.55rem',
+                                                                    marginBottom: 12,
+                                                                    color: '#4b4b4b'
+                                                                }}>Thông tin đơn hàng</h3>
+                                                                <span
+
+                                                                    style={{
+                                                                        fontWeight: 600,
+                                                                        color: '#4b4b4b',
+                                                                        fontSize: '1.3rem'
+                                                                    }}
+                                                                >- Tên người đặt hàng:
+                                                                    <span style={{
+                                                                        fontWeight: 500,
+                                                                        color: '#434343',
+                                                                        fontSize: '1.25rem',
+                                                                        letterSpacing: '1px'
+                                                                    }}>&nbsp;{dataUserCheckout.checkout.split('; ')[0]}</span>
+                                                                </span>
+                                                                <span
+                                                                    className="mt--12"
+                                                                    style={{
+                                                                        fontWeight: 600,
+                                                                        color: '#4b4b4b',
+                                                                        fontSize: '1.3rem'
+                                                                    }}
+                                                                >- Ngày đặt hàng:
+                                                                    <span style={{
+                                                                        fontWeight: 500,
+                                                                        color: '#434343',
+                                                                        fontSize: '1.25rem',
+                                                                        letterSpacing: '1px'
+                                                                    }}>&nbsp;{dataUserCheckout.checkout.split('; ')[7]}</span>
+                                                                </span>
+                                                                <span
+                                                                    className="mt--12"
+                                                                    style={{
+                                                                        fontWeight: 600,
+                                                                        color: '#4b4b4b',
+                                                                        fontSize: '1.3rem'
+                                                                    }}
+                                                                >- Vận chuyển bởi:
+                                                                    <span style={{
+                                                                        fontWeight: 500,
+                                                                        color: '#434343',
+                                                                        fontSize: '1.25rem'
+                                                                    }}>&nbsp;{dataUserCheckout.checkout.split('; ')[4]}</span>
+                                                                </span>
+                                                                <span
+                                                                    style={{
+                                                                        fontWeight: 600,
+                                                                        color: '#434343',
+                                                                        fontSize: '1.3rem'
+                                                                    }}
+                                                                    className="mt--12">- Phương thức thanh toán:
+                                                                    <span style={{
+                                                                        fontWeight: 500,
+                                                                        color: '#434343',
+                                                                        fontSize: '1.25rem'
+                                                                    }}>
+                                                                        &nbsp;{dataUserCheckout.checkout.split('; ')[5]}
+                                                                    </span>
+                                                                </span>
+                                                                {handleSubTotal !==
+                                                                    parseInt(dataUserCheckout.checkout.split('; ')[6].split(',').join('').slice(0, -1)) &&
+                                                                    <span
+                                                                        style={{
+                                                                            fontWeight: 600,
+                                                                            color: '#434343',
+                                                                            fontSize: '1.3rem'
+                                                                        }}
+                                                                        className="mt--12">- Mã giảm giá:
+                                                                        <span style={{
+                                                                            fontWeight: 500,
+                                                                            color: '#434343',
+                                                                            fontSize: '1.25rem',
+                                                                            position: 'relative',
+                                                                            letterSpacing: '1px'
+                                                                        }}>
+                                                                            &nbsp;- {(handleSubTotal - parseInt(dataUserCheckout.checkout.split('; ')[6].split(',').join('').slice(0, -1))).toLocaleString('en-vi')}
+                                                                            <span className="VND" style={{
+                                                                                position: 'absolute',
+                                                                                top: '-1px',
+                                                                                right: '-9px',
+                                                                                fontSize: '1.15rem'
+                                                                            }}>₫</span>
+                                                                        </span>
+                                                                    </span>}
+                                                            </div>
+
+                                                            <div
+                                                                style={{
+                                                                    display: 'flex',
+                                                                    alignItems: 'center',
+                                                                    justifyContent: 'space-between',
+                                                                    borderTop: '1px solid var(--border-color)',
+                                                                    paddingTop: '20px',
+                                                                }}
+                                                            >
+                                                                <h4
+                                                                    style={{
+                                                                        color: '#4b4b4b',
+                                                                        fontSize: '1.55rem',
+                                                                        fontWeight: 600,
+                                                                        display: "inline-block"
+                                                                    }}>Vui lòng chuẩn bị trước số tiền: </h4>
+                                                                <span
+                                                                    className="cart-item__prices-total"
+                                                                    style={{
+                                                                        position: 'relative',
+                                                                        textAlign: 'right',
+                                                                        margin: '22px 19px 6px',
+                                                                        display: 'inline - block',
+                                                                        fontWeight: 500,
+                                                                        fontSize: '1.6rem',
+                                                                        letterSpacing: '1px',
+                                                                        color: '#4b4b4b'
+                                                                    }}
+                                                                >
+                                                                    {dataUserCheckout.checkout.split('; ')[6].slice(0, -1)}
+                                                                    <span className="VND" style={{
+                                                                        position: 'absolute',
+                                                                        top: '-1px',
+                                                                        right: '-10px',
+                                                                        fontSize: '1.3rem'
+                                                                    }}>₫</span>
+                                                                </span>
+                                                            </div>
+
+                                                        </div>
+                                                        <div
+                                                            style={{
+                                                                display: 'flex',
+                                                                justifyContent: 'space-evenly',
+                                                                alignItems: 'center'
+                                                            }}
+                                                        >
+                                                            <button
+                                                                className="btn btn-checkout-account"
+                                                                onClick={handleIsSuccessCheckout}
+                                                            >
+                                                                Đã nhận được hàng
+                                                            </button>
+                                                            {!isCancelCheckout &&
+                                                                <button
+                                                                    className="btn btn-checkout__cancel"
+                                                                    onClick={handleCancelCheckout}
+                                                                >
+                                                                    Hủy
+                                                                </button>
+                                                            }
+                                                        </div>
+                                                    </>
+                                                </div>}
                                         </div>
                                     }
-                                </div>
-                            }
-                            {(selectedFile) && <img width={250} accept="image/*" height={250} style={{ border: '2px solid #e3e5ec', borderRadius: '12px' }} src={selectedFile} alt="ssss" />}
-                            <form id="form-account">
-                                <div className="form-group">
-                                    <label htmlFor="form-account__avatar"></label>
-                                    <input
-                                        type='file'
-                                        id="form-account__avatar"
-                                        name="form-account__avatar"
-                                        onChange={handleFileChange}
-                                    />
-                                </div>
 
-                                <div className="form-group">
-                                    <label htmlFor="form-account__email">Email</label>
-                                    <input
-                                        type='email'
-                                        placeholder="Email"
-                                        id="form-account__email"
-                                        name="form-account__email"
-                                        disabled
-                                        value={email}
-                                    />
-                                </div>
+                                    {(dataUserCheckout.product_boughts) ?
+                                        <div className="warraper-products-bought">
+                                            <div className="products-bought">
+                                                {dataUserCheckout?.product_boughts &&
+                                                    <>
+                                                        <span className="products-bought__heading">Sản phẩm đã mua</span>
+                                                        <ul className="checkout__cart-lists border-last-child">
+                                                            {uniqueProductBoughts.map((bought, index) => (
+                                                                <li key={index} className="checkout__cart-item">
+                                                                    <Link
+                                                                        onClick={() => localStorage.setItem('productDetail', JSON.stringify(bought.id))}
+                                                                        style={{
+                                                                            display: 'flex',
+                                                                            alignItems: 'center',
+                                                                            justifyContent: 'space-between',
+                                                                            padding: '8px 15px 15px 0',
+                                                                            width: '100%'
+                                                                        }}
+                                                                        to={`/products/${(bought.name).split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`}
+                                                                    >
 
-                                <div className="form-group">
-                                    <label htmlFor="form-account__fullname">Tên đầy đủ</label>
-                                    <input
-                                        type='text'
-                                        placeholder="Tên đầy đủ"
-                                        id="form-account__fullname"
-                                        name="form-account__fullname"
-                                        value={fullName}
-                                        onChange={handleChangeFullname}
-                                    />
-                                </div>
-
-                                <div className="form-group">
-                                    <label htmlFor="form-account__birthday">Ngày Sinh</label>
-                                    <input
-                                        type='text'
-                                        placeholder="dd/mm/yyyy"
-                                        id="form-account__birthday"
-                                        name="form-account__birthday"
-                                        value={birthday}
-                                        onChange={handleChangBirthday}
-                                    />
-                                </div>
-
-
-
-                                <button type="submit" onClick={handleSubmit} className="btn acount-btn">Cập nhật</button>
-                            </form>
-                        </div>
-
-
-                        {(!isSuccessCheckout && dataUserCheckout?.checkout) &&
-                            <div className="warraper-products-bought">
-                                {dataUserCheckout?.checkout &&
-                                    <div className="products-bought">
-                                        <>
-                                            <span className="products-bought__heading">Đơn hàng của bạn</span>
-                                            <ul className="checkout__cart-lists">
-                                                {JSON.parse(dataUserCheckout.checkout?.split('; ')[2]).map((bought, index) => (
-                                                    <li key={index} className="checkout__cart-item">
-                                                        <div className='cart-item__wrap'>
-                                                            <div className="cart-item__img">
-                                                                <img src={bought.img.split(', ')[0]} alt={bought.name} />
-                                                                <span key={index} className='cart-item__quantity'>{bought.quantity}</span>
-                                                            </div>
-                                                            <div className="cart-item__desc">
-                                                                <h3 className="cart-item__name"
-                                                                    style={{
-                                                                        width: '100%'
-                                                                    }}
-                                                                >
-                                                                    {bought.name}</h3>
-                                                                <span className="cart-item__color">Màu tự nhiên</span>
-                                                            </div>
-                                                        </div>
-                                                        <span className="cart-item__prices" style={{ letterSpacing: 1 }}>
-                                                            {bought.discount ?
-                                                                (bought.prices - (bought.prices * (parseInt(bought.discount)) / 100)).toLocaleString("en-VI") :
-                                                                parseInt(bought.prices).toLocaleString("en-VI")
-                                                            }
-                                                            <span className="VND">₫</span>
-                                                        </span>
-                                                    </li>
-                                                ))}
-                                            </ul>
-
-                                            <div style={{
-                                                padding: '0px 0px 20px 2px'
-                                            }}>
-
-                                                <div className="info-checkout" style={{
-                                                    display: 'flex',
-                                                    color: '#434343',
-                                                    flexDirection: 'column',
-                                                    fontWeight: 500,
-                                                    borderTop: '1px solid var(--border-color)',
-                                                    padding: '20px 0 30px 0',
-                                                }}>
-                                                    <h3 style={{
-                                                        fontWeight: 600,
-                                                        fontSize: '1.55rem',
-                                                        marginBottom: 12,
-                                                        color: '#4b4b4b'
-                                                    }}>Thông tin đơn hàng</h3>
-                                                    <span
-
-                                                        style={{
-                                                            fontWeight: 600,
-                                                            color: '#4b4b4b',
-                                                            fontSize: '1.3rem'
-                                                        }}
-                                                    >- Tên người đặt hàng:
-                                                        <span style={{
-                                                            fontWeight: 500,
-                                                            color: '#434343',
-                                                            fontSize: '1.25rem',
-                                                            letterSpacing: '1px'
-                                                        }}>&nbsp;{dataUserCheckout.checkout.split('; ')[0]}</span>
-                                                    </span>
-                                                    <span
-                                                        className="mt--12"
-                                                        style={{
-                                                            fontWeight: 600,
-                                                            color: '#4b4b4b',
-                                                            fontSize: '1.3rem'
-                                                        }}
-                                                    >- Ngày đặt hàng:
-                                                        <span style={{
-                                                            fontWeight: 500,
-                                                            color: '#434343',
-                                                            fontSize: '1.25rem',
-                                                            letterSpacing: '1px'
-                                                        }}>&nbsp;{dataUserCheckout.checkout.split('; ')[7]}</span>
-                                                    </span>
-                                                    <span
-                                                        className="mt--12"
-                                                        style={{
-                                                            fontWeight: 600,
-                                                            color: '#4b4b4b',
-                                                            fontSize: '1.3rem'
-                                                        }}
-                                                    >- Vận chuyển bởi:
-                                                        <span style={{
-                                                            fontWeight: 500,
-                                                            color: '#434343',
-                                                            fontSize: '1.25rem'
-                                                        }}>&nbsp;{dataUserCheckout.checkout.split('; ')[4]}</span>
-                                                    </span>
-                                                    <span
-                                                        style={{
-                                                            fontWeight: 600,
-                                                            color: '#434343',
-                                                            fontSize: '1.3rem'
-                                                        }}
-                                                        className="mt--12">- Phương thức thanh toán:
-                                                        <span style={{
-                                                            fontWeight: 500,
-                                                            color: '#434343',
-                                                            fontSize: '1.25rem'
-                                                        }}>
-                                                            &nbsp;{dataUserCheckout.checkout.split('; ')[5]}
-                                                        </span>
-                                                    </span>
-                                                    {handleSubTotal !==
-                                                        parseInt(dataUserCheckout.checkout.split('; ')[6].split(',').join('').slice(0, -1)) &&
-                                                        <span
-                                                            style={{
-                                                                fontWeight: 600,
-                                                                color: '#434343',
-                                                                fontSize: '1.3rem'
-                                                            }}
-                                                            className="mt--12">- Mã giảm giá:
-                                                            <span style={{
-                                                                fontWeight: 500,
-                                                                color: '#434343',
-                                                                fontSize: '1.25rem',
-                                                                position: 'relative',
-                                                                letterSpacing: '1px'
-                                                            }}>
-                                                                &nbsp;- {(handleSubTotal - parseInt(dataUserCheckout.checkout.split('; ')[6].split(',').join('').slice(0, -1))).toLocaleString('en-vi')}
-                                                                <span className="VND" style={{
-                                                                    position: 'absolute',
-                                                                    top: '-1px',
-                                                                    right: '-9px',
-                                                                    fontSize: '1.15rem'
-                                                                }}>₫</span>
-                                                            </span>
-                                                        </span>}
-                                                </div>
-
-                                                <div
-                                                    style={{
-                                                        display: 'flex',
-                                                        alignItems: 'center',
-                                                        justifyContent: 'space-between',
-                                                        borderTop: '1px solid var(--border-color)',
-                                                        paddingTop: '20px',
-                                                    }}
-                                                >
-                                                    <h4
-                                                        style={{
-                                                            color: '#4b4b4b',
-                                                            fontSize: '1.55rem',
-                                                            fontWeight: 600,
-                                                            display: "inline-block"
-                                                        }}>Vui lòng chuẩn bị trước số tiền: </h4>
-                                                    <span
-                                                        className="cart-item__prices-total"
-                                                        style={{
-                                                            position: 'relative',
-                                                            textAlign: 'right',
-                                                            margin: '22px 19px 6px',
-                                                            display: 'inline - block',
-                                                            fontWeight: 500,
-                                                            fontSize: '1.6rem',
-                                                            letterSpacing: '1px',
-                                                            color: '#4b4b4b'
-                                                        }}
-                                                    >
-                                                        {dataUserCheckout.checkout.split('; ')[6].slice(0, -1)}
-                                                        <span className="VND" style={{
-                                                            position: 'absolute',
-                                                            top: '-1px',
-                                                            right: '-10px',
-                                                            fontSize: '1.3rem'
-                                                        }}>₫</span>
-                                                    </span>
-                                                </div>
-
+                                                                        <div className='cart-item__wrap'>
+                                                                            <div className="cart-item__img">
+                                                                                <img src={bought.img.split(', ')[0]} alt={bought.name} />
+                                                                            </div>
+                                                                            <div className="cart-item__desc">
+                                                                                <h3 className="cart-item__name"
+                                                                                    style={{
+                                                                                        width: '100%'
+                                                                                    }}
+                                                                                >
+                                                                                    {bought.name}</h3>
+                                                                                <span className="cart-item__color">Màu tự nhiên</span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <span className="cart-item__prices" style={{ letterSpacing: 1 }}>
+                                                                            {bought.discount ?
+                                                                                (bought.prices - (bought.prices * (parseInt(bought.discount)) / 100)).toLocaleString("en-VI") :
+                                                                                parseInt(bought.prices).toLocaleString("en-VI")
+                                                                            }
+                                                                            <span className="VND">₫</span>
+                                                                        </span>
+                                                                    </Link>
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    </>
+                                                }
                                             </div>
-                                            <div
-                                                style={{
-                                                    display: 'flex',
-                                                    justifyContent: 'space-evenly',
-                                                    alignItems: 'center'
-                                                }}
-                                            >
-                                                <button
-                                                    className="btn btn-checkout"
-                                                    onClick={handleIsSuccessCheckout}
-                                                >
-                                                    Đã nhận được hàng
-                                                </button>
-                                                <button
-                                                    className="btn btn-checkout__cancel"
-                                                    onClick={handleCancelCheckout}
-                                                >
-                                                    Hủy
-                                                </button>
-                                            </div>
-                                        </>
-                                    </div>}
-                            </div>}
+                                        </div>
+                                        :
 
-
-                        {(dataUserCheckout.product_boughts) ?
-                            <div className="warraper-products-bought">
-                                <div className="products-bought">
-                                    {dataUserCheckout?.product_boughts &&
-                                        <>
-                                            <span className="products-bought__heading">Sản phẩm đã mua</span>
-                                            <ul className="checkout__cart-lists border-last-child">
-                                                {uniqueProductBoughts.map((bought, index) => (
-                                                    <li key={index} className="checkout__cart-item">
-                                                        <div className='cart-item__wrap'>
-                                                            <div className="cart-item__img">
-                                                                <img src={bought.img.split(', ')[0]} alt={bought.name} />
-                                                            </div>
-                                                            <div className="cart-item__desc">
-                                                                <h3 className="cart-item__name"
-                                                                    style={{
-                                                                        width: '100%'
-                                                                    }}
-                                                                >
-                                                                    {bought.name}</h3>
-                                                                <span className="cart-item__color">Màu tự nhiên</span>
-                                                            </div>
-                                                        </div>
-                                                        <span className="cart-item__prices" style={{ letterSpacing: 1 }}>
-                                                            {bought.discount ?
-                                                                (bought.prices - (bought.prices * (parseInt(bought.discount)) / 100)).toLocaleString("en-VI") :
-                                                                parseInt(bought.prices).toLocaleString("en-VI")
-                                                            }
-                                                            <span className="VND">₫</span>
-                                                        </span>
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </>
+                                        (!dataUserCheckout.checkout && <span className="products-bought__not">
+                                            Bạn chưa đặt mua sản phẩm.
+                                        </span>)
                                     }
-                                </div>
-                            </div> :
-
-                            (!dataUserCheckout.checkout && <span className="products-bought__not">
-                                Bạn chưa đặt mua sản phẩm.
-                            </span>)
-
-                        }
+                                </>
+                            }
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div >
+            </div >
+            <ToastContainer />
+        </>
     )
 }
 
-export default Account
+export default memo(Account)

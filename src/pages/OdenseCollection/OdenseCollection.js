@@ -2,7 +2,7 @@ import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import OdenseCollection from "../../Components/OdenseCollection/OdenseCollection";
 import BannerService from "../../Components/BannerService/BannerService";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 
 const filters = {
   filterCategories: [
@@ -77,4 +77,4 @@ const OdenseCollectionPage = ({ localeLogos, bannerServices, datas, dataTypes, a
   )
 }
 
-export default OdenseCollectionPage
+export default memo(OdenseCollectionPage)

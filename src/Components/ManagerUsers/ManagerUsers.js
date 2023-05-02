@@ -105,7 +105,7 @@ const ManagerUsers = () => {
         {
             field: "id",
             headerName: "ID",
-            width: 95
+            width: 110
         },
         {
             field: "full_name",
@@ -151,7 +151,7 @@ const ManagerUsers = () => {
         {
             field: "action",
             headerName: "Hành động",
-            width: 180,
+            width: 170,
             renderCell: (params) => {
                 return (
                     <>

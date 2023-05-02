@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { themeDark, themeLight } from '../../reducers/actions'
 import "./Topbar.scss";
+import { memo } from "react";
 export const THEME_LIGHT = 'light'
 export const THEME_DARK = 'dark'
 
@@ -39,4 +40,4 @@ const Topbar = ({ currentTheme, dispatch }) => {
   )
 }
 
-export default Topbar
+export default memo(Topbar)

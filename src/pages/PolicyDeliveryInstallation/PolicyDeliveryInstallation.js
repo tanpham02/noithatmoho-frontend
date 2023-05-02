@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import Header from "../../Components/Header/Header";
 import PolicyDeliveryInstallation from "../../Components/PolicyDeliveryInstallation/PolicyDeliveryInstallation";
 import BannerService from "../../Components/BannerService/BannerService";
@@ -23,4 +23,4 @@ const PolicyDeliveryInstallationPage = ({ accountInfos, localeLogos, bannerServi
     )
 }
 
-export default PolicyDeliveryInstallationPage
+export default memo(PolicyDeliveryInstallationPage)

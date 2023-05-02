@@ -3,7 +3,7 @@ import CabinetShelf from "../../Components/CabinetShelf/CabinetShelf"
 import BannerService from "../../Components/BannerService/BannerService"
 import Footer from "../../Components/Footer/Footer"
 
-import { useEffect } from "react"
+import { memo, useEffect } from "react"
 
 const filters = {
     filterCategories: [
@@ -76,5 +76,5 @@ const CabinetShelfPage = ({datas, dataTypes, accountInfos, localeLogos, bannerSe
     )
 }
 
-export default CabinetShelfPage
+export default memo(CabinetShelfPage)
 

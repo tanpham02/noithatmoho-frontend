@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react'
+import { useEffect, useContext, memo } from 'react'
 import ManagerUsers from '../../Components/ManagerUsers/ManagerUsers'
 import SideBarAdmin from '../../Components/SideBarAdmin/SideBarAdmin'
 import Topbar from '../../Components/Topbar/Topbar'
@@ -28,4 +28,4 @@ const ManagerUsersPage = ({ listPage }) => {
     )
 }
 
-export default ManagerUsersPage
+export default memo(ManagerUsersPage)

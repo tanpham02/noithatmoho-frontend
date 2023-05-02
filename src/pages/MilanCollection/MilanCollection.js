@@ -2,7 +2,7 @@ import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import MilanCollection from "../../Components/MilanCollection/MilanCollection";
 import BannerService from "../../Components/BannerService/BannerService";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 
 const filters = {
   filterCategories: [
@@ -78,4 +78,4 @@ const MilanCollectionPage = ({ localeLogos, bannerServices, datas, dataTypes, ac
   )
 }
 
-export default MilanCollectionPage
+export default memo(MilanCollectionPage)

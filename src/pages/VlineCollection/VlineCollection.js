@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import VlineCollection from "../../Components/VlineCollection/VlineCollection";
@@ -85,4 +85,4 @@ const VlineCollectionPage = ({ localeLogos, bannerServices, datas, dataTypes, ac
     )
 }
 
-export default VlineCollectionPage
+export default memo(VlineCollectionPage)

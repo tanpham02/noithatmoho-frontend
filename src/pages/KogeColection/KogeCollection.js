@@ -2,7 +2,7 @@ import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import KogeCollection from "../../Components/KogeCollection/KogeCollection";
 import BannerService from "../../Components/BannerService/BannerService";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 
 const filters = {
   filterCategories: [
@@ -76,4 +76,4 @@ const KogeCollectionPage = ({ localeLogos, bannerServices, datas, dataTypes, acc
   )
 }
 
-export default KogeCollectionPage
+export default memo(KogeCollectionPage)

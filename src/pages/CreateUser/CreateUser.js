@@ -1,7 +1,7 @@
 import CreateUser from '../../Components/CreateUser/CreateUser'
 import SideBarAdmin from '../../Components/SideBarAdmin/SideBarAdmin'
 import Topbar from '../../Components/Topbar/Topbar'
-import { useEffect } from 'react'
+import { memo, useEffect } from 'react'
 
 const CreateUserPage = ({ listPage }) => {
     useEffect(() => {
@@ -23,5 +23,5 @@ const CreateUserPage = ({ listPage }) => {
     )
 }
 
-export default CreateUserPage
+export default memo(CreateUserPage)
 

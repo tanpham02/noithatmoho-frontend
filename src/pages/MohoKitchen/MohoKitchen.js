@@ -2,7 +2,7 @@ import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import MohoKitchen from "../../Components/MohoKitchen/MohoKitchen";
 import BannerService from "../../Components/BannerService/BannerService";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 
 const filters = {
   filterCategories: [
@@ -80,4 +80,4 @@ const MohoKitchenPage = ({ localeLogos, bannerServices, datas, dataTypes, dataGr
   )
 }
 
-export default MohoKitchenPage
+export default memo(MohoKitchenPage)

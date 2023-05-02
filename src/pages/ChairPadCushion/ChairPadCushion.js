@@ -3,7 +3,7 @@ import ChairPadCushion from "../../Components/ChairPadCushion/ChairPadCushion"
 import BannerService from "../../Components/BannerService/BannerService"
 import Footer from "../../Components/Footer/Footer"
 
-import { useEffect } from "react"
+import { memo, useEffect } from "react"
 
 const filters = {
     filterCategories: [
@@ -75,5 +75,5 @@ const ChairPadCushionPage = ({datas, dataTypes, accountInfos, localeLogos, banne
     )
 }
 
-export default ChairPadCushionPage
+export default memo(ChairPadCushionPage)
 

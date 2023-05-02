@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { memo, useEffect } from "react"
 import Header from "../../Components/Header/Header"
 import VaseBowl from "../../Components/VaseBowl/VaseBowl"
 import BannerService from "../../Components/BannerService/BannerService"
@@ -75,5 +75,5 @@ const VaseBowlPage = ({datas, dataTypes, accountInfos, localeLogos, bannerServic
     )
 }
 
-export default VaseBowlPage
+export default memo(VaseBowlPage)
 

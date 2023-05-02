@@ -1,5 +1,7 @@
-import { useState, useEffect, memo } from 'react'
+import { useState, useEffect, memo, useCallback } from 'react'
 import axios from 'axios'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import './CreateUser.scss'
 
 const CreateUser = () => {
@@ -29,6 +31,18 @@ const CreateUser = () => {
         fetchData()
     }, [])
 
+    const checkOutToast = useCallback(() =>
+        toast.info('Thêm mới người dùng thành công', {
+            position: "top-right",
+            autoClose: 2500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light"
+        }),
+        [])
 
     const handleCreateUser = (e) => {
         e.preventDefault()
@@ -43,54 +57,52 @@ const CreateUser = () => {
             is_admin: isAdmin ? parseInt(isAdmin) : 0
         }
 
-        setIsLoading(true)
-        async function createUser() {
-            const res = await axios.post('http://localhost:9080/api/users', dataUser)
-            setIsLoading(false)
-            window.location.replace('/manager-users')
-            return res.data
-        }
-
         const regexNumber = /^\d+$/
         const regexP = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/
 
         dataUsers?.find(user => {
             if (user.email === email.trim()) {
                 setExistEmail(true)
-                setIsLoading(false)
             }
             if (user.phone_number === phoneNumber.trim()) {
                 setExistPhone(true)
-                setIsLoading(false)
             }
-            return user
+            return setIsLoading(false)
         })
 
 
         if (regexNumber.test(phoneNumber) === false && regexP.test(passWord) === false) {
             setRegexPass(true)
-            setIsLoading(false)
             setRegexPhone(true)
-            return
+            return setIsLoading(false)
         }
 
         if (regexP.test(passWord) === false) {
             setRegexPass(true)
-            setIsLoading(false)
-            return
+            return setIsLoading(false)
         }
 
         if (regexNumber.test(phoneNumber) === false) {
             setRegexPhone(true)
+            return setIsLoading(false)
+        }
+
+        setIsLoading(true)
+        async function createUser() {
+            const res = await axios.post('http://localhost:9080/api/users', dataUser)
             setIsLoading(false)
-            return
+            checkOutToast()
+            setTimeout(() => {
+                window.location.replace('/manager-users')
+            }, 2500)
+            return res.data
         }
 
         if (regexNumber.test(phoneNumber) && regexP.test(passWord)) {
             setRegexPass(false)
             setRegexPhone(false)
             createUser()
-            return
+            return setIsLoading(false)
         }
     }
 

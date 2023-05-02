@@ -3,7 +3,7 @@ import BeddingMattress from "../../Components/BeddingMattress/BeddingMattress"
 import BannerService from "../../Components/BannerService/BannerService"
 import Footer from "../../Components/Footer/Footer"
 
-import { useEffect } from "react"
+import { memo, useEffect } from "react"
 
 const filters = {
     filterCategories: [
@@ -74,5 +74,5 @@ const BeddingMattressPage = ({datas, dataTypes, accountInfos, localeLogos, banne
     )
 }
 
-export default BeddingMattressPage
+export default memo(BeddingMattressPage)
 

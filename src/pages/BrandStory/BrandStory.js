@@ -2,7 +2,7 @@ import Header from "../../Components/Header/Header";
 import BrandStory from "../../Components/BrandStory/BrandStory";
 import BannerService from "../../Components/BannerService/BannerService";
 import Footer from "../../Components/Footer/Footer";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 
 const BrandStoryPage = ({accountInfos, localeLogos, bannerServices }) => {
 
@@ -24,4 +24,4 @@ const BrandStoryPage = ({accountInfos, localeLogos, bannerServices }) => {
     )
 }
 
-export default BrandStoryPage
+export default memo(BrandStoryPage)

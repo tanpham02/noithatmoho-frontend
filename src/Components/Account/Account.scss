@@ -1,4 +1,41 @@
-.account {}
+.account {
+    & .loader-products {
+        position: relative;
+        top: 7%;
+        left: 25%;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: inline-block;
+        border-top: 4px solid var(--primary-color-orange);
+        border-right: 3px solid transparent;
+        box-sizing: border-box;
+        animation: rotation 1s linear infinite;
+    }
+
+    .btn-checkout-account {
+        padding: 16px;
+        background-color: #338dbc;
+        color: #fff;
+        height: 48px;
+        font-size: 1.45rem;
+        position: relative;
+        text-align: center;
+        right: -39.8%;
+    
+        &:hover {
+            background-color: #3c92bf;
+    
+            & .loader-checkout {
+                color: var(--gray-color);
+    
+                &::after {
+                    background: var(--gray-color);
+                }
+            }
+        }
+    }
+}
 
 .account__title {
     font-size: 3.5rem;
@@ -146,7 +183,6 @@ input {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 8px 20px 15px 0;
 
             &:not(:last-of-type) {
                 border-bottom: 1px solid var(--border-color);
@@ -236,3 +272,7 @@ input {
     position: absolute;
     right: 400px;
 }
+
+
+
+

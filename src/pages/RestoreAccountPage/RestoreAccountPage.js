@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import Header from "../../Components/Header/Header";
 import RestoreAccount from "../../Components/RestoreAccount/RestoreAccount";
 import BannerService from "../../Components/BannerService/BannerService";
@@ -38,4 +38,4 @@ const RestoreAccountPage = ({ accountInfos, localeLogos, bannerServices }) => {
     )
 }
 
-export default RestoreAccountPage
+export default memo(RestoreAccountPage)

@@ -1,7 +1,7 @@
 import DetailProductAdmin from '../../Components/DetailProductAdmin/DetailProductAdmin'
 import SideBarAdmin from '../../Components/SideBarAdmin/SideBarAdmin'
 import Topbar from '../../Components/Topbar/Topbar'
-import { useEffect } from 'react'
+import { memo, useEffect } from 'react'
 
 const DetailProductAdminPage = ({ listPage }) => {
     useEffect(() => {
@@ -23,5 +23,5 @@ const DetailProductAdminPage = ({ listPage }) => {
     )
 }
 
-export default DetailProductAdminPage
+export default memo(DetailProductAdminPage)
 

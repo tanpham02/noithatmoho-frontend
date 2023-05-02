@@ -3,7 +3,7 @@ import BedSide from "../../Components/BedSide/BedSide"
 import BannerService from "../../Components/BannerService/BannerService"
 import Footer from "../../Components/Footer/Footer"
 
-import { useEffect } from "react"
+import { memo, useEffect } from "react"
 
 const filters = {
     filterCategories: [
@@ -75,5 +75,5 @@ const BedSidePage = ({datas, dataTypes, accountInfos, localeLogos, bannerService
     )
 }
 
-export default BedSidePage
+export default memo(BedSidePage)
 

@@ -205,7 +205,7 @@ const HeaderFixed = ({ onLanguage, search, setValueSearch, localeLogos, accountI
                                                     }
                                                 </div>
                                                 <div className="item-search_img">
-                                                    <img src={data.image_url.split(',')[0]} alt={data.name} />
+                                                    <img src={data.image_url.split(', ')[0]} alt={data.name} />
                                                 </div>
                                             </Link>
                                         </li>
@@ -297,7 +297,7 @@ const HeaderFixed = ({ onLanguage, search, setValueSearch, localeLogos, accountI
                                             </span>
                                         }
                                         <div
-                                            className="123"
+                                            className=""
                                             style={{
                                                 marginRight: '-55px',
                                                 position: 'relative',

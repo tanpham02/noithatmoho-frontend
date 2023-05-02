@@ -2,7 +2,7 @@ import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import FynCollection from "../../Components/FynCollection/FynCollection";
 import BannerService from "../../Components/BannerService/BannerService";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 
 const filters = {
   filterCategories: [
@@ -77,4 +77,4 @@ const FynCollectionPage = ({ localeLogos, bannerServices, datas, dataTypes, acco
   )
 }
 
-export default FynCollectionPage
+export default memo(FynCollectionPage)

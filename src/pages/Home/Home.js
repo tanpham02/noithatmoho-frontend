@@ -35,7 +35,11 @@ const HomePage = ({ dataGroupTypes, dataTypes, accountInfos, localeLogos, banner
     return (
         <>
             {isLoading ?
-                <div class="lds-ring"><div></div><div></div><div></div><div></div></div> :
+                <span style={{
+                    position: 'relative',
+                    top: '310px',
+                    left: '47.5%'
+                }} class="loader-main-products"></span> :
                 <>
                     <Header localeLogos={localeLogos} accountInfos={accountInfos} />
                     <Sliders sliders={sliders} />

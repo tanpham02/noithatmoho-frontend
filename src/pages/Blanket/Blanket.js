@@ -3,7 +3,7 @@ import Blanket from "../../Components/Blanket/Blanket"
 import BannerService from "../../Components/BannerService/BannerService"
 import Footer from "../../Components/Footer/Footer"
 
-import { useEffect } from "react"
+import { memo, useEffect } from "react"
 
 const filters = {
     filterCategories: [
@@ -75,5 +75,5 @@ const BlanketPage = ({datas, dataTypes, accountInfos, localeLogos, bannerService
     )
 }
 
-export default BlanketPage
+export default memo(BlanketPage)
 

@@ -1,7 +1,7 @@
 import DetailUser from '../../Components/DetailUser/DetailUser'
 import SideBarAdmin from '../../Components/SideBarAdmin/SideBarAdmin'
 import Topbar from '../../Components/Topbar/Topbar'
-import { useEffect } from 'react'
+import { memo, useEffect } from 'react'
 
 const DetailUserPage = ({ listPage }) => {
     useEffect(() => {
@@ -23,5 +23,5 @@ const DetailUserPage = ({ listPage }) => {
     )
 }
 
-export default DetailUserPage
+export default memo(DetailUserPage)
 

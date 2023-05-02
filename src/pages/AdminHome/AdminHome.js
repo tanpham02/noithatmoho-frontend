@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { memo, useEffect } from "react"
 import Admin from "../../Components/Admin/Admin"
 import { useTranslation } from 'react-i18next'
 
@@ -19,5 +19,5 @@ const AdminHome = ({ listPage }) => {
     )
 }
 
-export default AdminHome
+export default memo(AdminHome)
 

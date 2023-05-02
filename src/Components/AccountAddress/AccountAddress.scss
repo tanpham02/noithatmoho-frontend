@@ -3,6 +3,20 @@
     max-width: 600px;
 }
 
+.loader-account {
+    position: relative;
+    top: 43px;
+    left: 18%;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: inline-block;
+    border-top: 4px solid var(--primary-color-orange);
+    border-right: 3px solid transparent;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+}
+
 #form-account {
     &.user-address {
         margin-top: 24px;

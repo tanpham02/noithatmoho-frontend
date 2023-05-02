@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { memo, useEffect } from "react"
 import Header from "../../Components/Header/Header"
 import AccountAddress from "../../Components/AccountAddress/AccountAddress"
 import BannerService from "../../Components/BannerService/BannerService"
@@ -23,4 +23,4 @@ const AccountAddressPage = ({ localeLogos, bannerServices, accountInfos }) => {
         </>
     )
 }
-export default AccountAddressPage
+export default memo(AccountAddressPage)

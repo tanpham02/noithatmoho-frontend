@@ -3,7 +3,7 @@ import ChairDining from "../../Components/ChairDining/ChairDining"
 import BannerService from "../../Components/BannerService/BannerService"
 import Footer from "../../Components/Footer/Footer"
 
-import { useEffect } from "react"
+import { memo, useEffect } from "react"
 
 const filters = {
     filterCategories: [
@@ -75,5 +75,5 @@ const ChairDiningPage = ({datas, dataTypes, accountInfos, localeLogos, bannerSer
     )
 }
 
-export default ChairDiningPage
+export default memo(ChairDiningPage)
 

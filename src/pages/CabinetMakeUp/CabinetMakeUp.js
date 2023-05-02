@@ -3,7 +3,7 @@ import CabinetMakeUp from "../../Components/CabinetMakeUp/CabinetMakeUp"
 import BannerService from "../../Components/BannerService/BannerService"
 import Footer from "../../Components/Footer/Footer"
 
-import { useEffect } from "react"
+import { memo, useEffect } from "react"
 
 const filters = {
     filterCategories: [
@@ -75,5 +75,5 @@ const CabinetMakeUpPage = ({datas, dataTypes, accountInfos, localeLogos, bannerS
     )
 }
 
-export default CabinetMakeUpPage
+export default memo(CabinetMakeUpPage)
 

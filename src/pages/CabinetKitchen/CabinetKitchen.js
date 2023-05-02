@@ -3,7 +3,7 @@ import CabinetKitchen from "../../Components/CabinetKitchen/CabinetKitchen"
 import BannerService from "../../Components/BannerService/BannerService"
 import Footer from "../../Components/Footer/Footer"
 
-import { useEffect } from "react"
+import { memo, useEffect } from "react"
 
 const filters = {
     filterCategories: [
@@ -75,5 +75,5 @@ const CabinetKitchenPage = ({datas, dataTypes, accountInfos, localeLogos, banner
     )
 }
 
-export default CabinetKitchenPage
+export default memo(CabinetKitchenPage)
 

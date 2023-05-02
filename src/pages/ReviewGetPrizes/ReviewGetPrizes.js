@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import Header from "../../Components/Header/Header";
 import ReviewGetPrizes from "../../Components/ReviewGetPrizes/ReviewGetPrizes";
 import BannerService from "../../Components/BannerService/BannerService";
@@ -23,4 +23,4 @@ const ReviewGetPrizesPage = ({ localeLogos, bannerServices, accountInfos }) => {
     )
 }
 
-export default ReviewGetPrizesPage
+export default memo(ReviewGetPrizesPage)

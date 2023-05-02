@@ -2,7 +2,7 @@ import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import OsloColletion from "../../Components/OsloColletion/OsloColletion";
 import BannerService from "../../Components/BannerService/BannerService";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 
 const filters = {
   filterCategories: [
@@ -79,4 +79,4 @@ const OsloColletionPage = ({ localeLogos, bannerServices, datas, dataTypes, acco
   )
 }
 
-export default OsloColletionPage
+export default memo(OsloColletionPage)

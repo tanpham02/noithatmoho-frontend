@@ -3,7 +3,7 @@ import TreeFlowers from "../../Components/TreeFlowers/TreeFlowers"
 import BannerService from "../../Components/BannerService/BannerService"
 import Footer from "../../Components/Footer/Footer"
 
-import { useEffect } from "react"
+import { memo, useEffect } from "react"
 
 const filters = {
     filterCategories: [
@@ -75,5 +75,5 @@ const TreeFlowersPage = ({datas, dataTypes, accountInfos, localeLogos, bannerSer
     )
 }
 
-export default TreeFlowersPage
+export default memo(TreeFlowersPage)
 

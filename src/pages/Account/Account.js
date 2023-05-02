@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, memo } from "react"
 import Header from "../../Components/Header/Header"
 import Account from "../../Components/Account/Account"
 import BannerService from "../../Components/BannerService/BannerService"
@@ -48,4 +48,4 @@ const AccountPage = ({ localeLogos, bannerServices, accountInfos }) => {
     )
 }
 
-export default AccountPage
+export default memo(AccountPage)

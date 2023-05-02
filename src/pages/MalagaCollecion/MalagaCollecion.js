@@ -2,7 +2,7 @@ import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import MalagaCollecion from "../../Components/MalagaCollecion/MalagaCollecion";
 import BannerService from "../../Components/BannerService/BannerService";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 
 const filters = {
   filterCategories: [
@@ -78,4 +78,4 @@ const MalagaCollecionPage = ({ localeLogos, bannerServices, datas, dataTypes, ac
   )
 }
 
-export default MalagaCollecionPage
+export default memo(MalagaCollecionPage)
