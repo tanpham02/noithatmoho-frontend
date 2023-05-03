@@ -24,7 +24,7 @@ const CreateUser = () => {
 
     useEffect(() => {
         async function fetchData() {
-            const res = await axios.get('http://localhost:9080/api/users')
+            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/users')
             const datas = await res.data
             setDataUsers(datas)
         }
@@ -46,6 +46,7 @@ const CreateUser = () => {
 
     const handleCreateUser = (e) => {
         e.preventDefault()
+        setIsLoading(true)
 
         const dataUser = {
             full_name: fullName,
@@ -60,15 +61,6 @@ const CreateUser = () => {
         const regexNumber = /^\d+$/
         const regexP = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/
 
-        dataUsers?.find(user => {
-            if (user.email === email.trim()) {
-                setExistEmail(true)
-            }
-            if (user.phone_number === phoneNumber.trim()) {
-                setExistPhone(true)
-            }
-            return setIsLoading(false)
-        })
 
 
         if (regexNumber.test(phoneNumber) === false && regexP.test(passWord) === false) {
@@ -79,7 +71,7 @@ const CreateUser = () => {
 
         if (regexP.test(passWord) === false) {
             setRegexPass(true)
-            return setIsLoading(false)
+            setIsLoading(false)
         }
 
         if (regexNumber.test(phoneNumber) === false) {
@@ -87,9 +79,30 @@ const CreateUser = () => {
             return setIsLoading(false)
         }
 
-        setIsLoading(true)
+        const resultUsers = dataUsers?.filter(user => {
+            if ((user.email === email.trim() && user.phone_number === phoneNumber.trim())) {
+                setExistEmail(true)
+                setExistPhone(true)
+                return user
+            }
+            if (user.email === email.trim()) {
+                setExistEmail(true)
+                return user
+
+            }
+            if (user.phone_number === phoneNumber.trim()) {
+                setExistPhone(true)
+                return user
+            }
+            setIsLoading(false)
+            return false
+        })
+
+        if (resultUsers.length) return;
+
+
         async function createUser() {
-            const res = await axios.post('http://localhost:9080/api/users', dataUser)
+            const res = await axios.post('https://noithatmoho-backend.up.railway.app/api/users', dataUser)
             setIsLoading(false)
             checkOutToast()
             setTimeout(() => {
@@ -102,7 +115,7 @@ const CreateUser = () => {
             setRegexPass(false)
             setRegexPhone(false)
             createUser()
-            return setIsLoading(false)
+            setIsLoading(false)
         }
     }
 
@@ -113,106 +126,109 @@ const CreateUser = () => {
 
 
     return (
-        <div className="newUser">
-            <h1 className="newUserTitle">Thêm mới người dùng</h1>
-            <form className="newUserForm" onSubmit={handleCreateUser} >
-                <div className="newUserItem">
-                    <label>Tên đầy đủ</label>
-                    <input
-                        type="text"
-                        name='name'
-                        placeholder="Tên đầy đủ"
-                        required
-                        value={fullName}
-                        onChange={(e) => setFullName(e.target.value)}
-                    />
-                </div>
-                <div className="newUserItem">
-                    <label>Email</label>
-                    <input
-                        type="email"
-                        name='email'
-                        placeholder="Email"
-                        required
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        onInput={() => setExistEmail(false)}
-                    />
-                    {existEmail && <span className='errorMsg'>Email đã được sử dụng</span>}
-                </div>
-                <div className="newUserItem">
-                    <label>Mật khẩu</label>
-                    <input
-                        type="password"
-                        name='password'
-                        placeholder="Mật khẩu"
-                        required
-                        value={passWord}
-                        onChange={(e) => setPassWord(e.target.value)}
-                        onInput={() => setRegexPass(false)}
-                    />
-                    {regexPass && <span className='errorMsg'>Mật khẩu phải từ 8 ký tự, chứa ít nhất 1 chữ thường, 1 chữ hoa, 1 số và 1 kí tự đặc biệt</span>}
-                </div>
-                <div className="newUserItem">
-                    <label>Số điện thoại</label>
-                    <input
-                        type="text"
-                        name='phone'
-                        placeholder="Số điện thoại"
-                        required
-                        value={phoneNumber}
-                        onChange={(e) => setPhoneNumber(e.target.value)}
-                        onInput={handleInputPhoneNumber}
-                    />
-                    {regexPhone ?
-                        <span className='errorMsg'>Số điện thoại phải là chữ số</span> :
-                        existPhone && <span className='errorMsg'>Số điện thoại đã được sử dụng</span>
-                    }
-                </div>
-                <div className="newUserItem">
-                    <label>Ngày sinh</label>
-                    <input
-                        type="text"
-                        name='birthday'
-                        placeholder="dd/mm/yyyy"
-                        required
-                        value={birthday}
-                        onChange={(e) => setBirthday(e.target.value)}
-                    />
-                </div>
-                <div className="newUserItem">
-                    <label>Địa chỉ</label>
-                    <input
-                        type="text"
-                        name='address'
-                        placeholder="Địa chỉ"
-                        required
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
-                    />
-                </div>
-                <div className="newUserItem">
-                    <label>Vai trò</label>
-                    <input
-                        type="text"
-                        name='role'
-                        placeholder="0 | 1"
-                        value={isAdmin}
-                        onChange={(e) => setAdmin(e.target.value)}
-                    />
-                    <span className='isZero'>Có thể bỏ trống nếu là 0</span>
-                </div>
-                <button
-                    type='submit'
-                    className="btn newUserButton"
-                >
-                    {isLoading ?
-                        <div className="admin-product-lds-dual-ring"></div> :
-                        'Create'
-                    }
-                </button>
-            </form>
-        </div>
+        <>
+            <div className="newUser">
+                <h1 className="newUserTitle">Thêm mới người dùng</h1>
+                <form className="newUserForm" onSubmit={handleCreateUser} >
+                    <div className="newUserItem">
+                        <label>Tên đầy đủ</label>
+                        <input
+                            type="text"
+                            name='name'
+                            placeholder="Tên đầy đủ"
+                            required
+                            value={fullName}
+                            onChange={(e) => setFullName(e.target.value)}
+                        />
+                    </div>
+                    <div className="newUserItem">
+                        <label>Email</label>
+                        <input
+                            type="email"
+                            name='email'
+                            placeholder="Email"
+                            required
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            onInput={() => setExistEmail(false)}
+                        />
+                        {existEmail && <span className='errorMsg'>Email đã được sử dụng</span>}
+                    </div>
+                    <div className="newUserItem">
+                        <label>Mật khẩu</label>
+                        <input
+                            type="password"
+                            name='password'
+                            placeholder="Mật khẩu"
+                            required
+                            value={passWord}
+                            onChange={(e) => setPassWord(e.target.value)}
+                            onInput={() => setRegexPass(false)}
+                        />
+                        {regexPass && <span className='errorMsg'>Mật khẩu phải từ 8 ký tự, chứa ít nhất 1 chữ thường, 1 chữ hoa, 1 số và 1 kí tự đặc biệt</span>}
+                    </div>
+                    <div className="newUserItem">
+                        <label>Số điện thoại</label>
+                        <input
+                            type="text"
+                            name='phone'
+                            placeholder="Số điện thoại"
+                            required
+                            value={phoneNumber}
+                            onChange={(e) => setPhoneNumber(e.target.value)}
+                            onInput={handleInputPhoneNumber}
+                        />
+                        {regexPhone ?
+                            <span className='errorMsg'>Số điện thoại phải là chữ số</span> :
+                            existPhone && <span className='errorMsg'>Số điện thoại đã được sử dụng</span>
+                        }
+                    </div>
+                    <div className="newUserItem">
+                        <label>Ngày sinh</label>
+                        <input
+                            type="text"
+                            name='birthday'
+                            placeholder="dd/mm/yyyy"
+                            required
+                            value={birthday}
+                            onChange={(e) => setBirthday(e.target.value)}
+                        />
+                    </div>
+                    <div className="newUserItem">
+                        <label>Địa chỉ</label>
+                        <input
+                            type="text"
+                            name='address'
+                            placeholder="Địa chỉ"
+                            required
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
+                        />
+                    </div>
+                    <div className="newUserItem">
+                        <label>Vai trò</label>
+                        <input
+                            type="text"
+                            name='role'
+                            placeholder="0 | 1"
+                            value={isAdmin}
+                            onChange={(e) => setAdmin(e.target.value)}
+                        />
+                        <span className='isZero'>Có thể bỏ trống nếu là 0</span>
+                    </div>
+                    <button
+                        type='submit'
+                        className="btn newUserButton"
+                    >
+                        {isLoading ?
+                            <div className="admin-product-lds-dual-ring"></div> :
+                            'Create'
+                        }
+                    </button>
+                </form>
+            </div>
+            <ToastContainer />
+        </>
     )
 
 }

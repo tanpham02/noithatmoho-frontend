@@ -10,7 +10,6 @@ const BeddingMattress = ({ datas, dataTypes, filterCategories, filterPrices, fil
 
 
     useEffect(() => {
-
         const results = datas.filter((data, index) => {
             const kitchenWare = dataTypes.find(type => type.id === 25)
             if (kitchenWare.id === data['type_id']) {
@@ -75,6 +74,9 @@ const BeddingMattress = ({ datas, dataTypes, filterCategories, filterPrices, fil
                                                 -{data.discount}
                                             </span> :
 
+                                            (data.created_at &&
+                                                `${new Date(data.created_at).getMonth() + 1}/${new Date(data.created_at).getDate()}/${new Date(data.created_at).getFullYear()}`
+                                                === new Date().toLocaleDateString()) &&
                                             <span className="product-new">
                                                 NEW
                                             </span>

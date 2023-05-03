@@ -2,10 +2,12 @@ import './ManagerProducts.scss'
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-import { useState, useEffect, memo, useContext } from "react";
+import { useState, useEffect, memo, useContext, useCallback } from "react";
 import axios from 'axios'
 import { themeProvider } from '../../context/ProviderTheme/ProviderTheme'
 import { THEME_DARK } from '../../reducers/actions'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 
 const ManagerProducts = () => {
@@ -18,10 +20,23 @@ const ManagerProducts = () => {
 
     const [isLoading, setIsLoading] = useState(false)
 
+    const checkOutToast = useCallback(() =>
+        toast.info('Hoàn tất xóa sản phẩm', {
+            position: "top-right",
+            autoClose: 2500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light"
+        }),
+        [])
+
     useEffect(() => {
         setIsLoading(true)
         async function getData() {
-            const res = await axios.get('http://localhost:9080/api/products')
+            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/products')
             const datas = await res.data
             setDataProducts(datas)
             setIsLoading(false)
@@ -31,9 +46,11 @@ const ManagerProducts = () => {
 
     const handleDelete = (id) => {
         async function deletePro() {
-            await axios.delete(`http://localhost:9080/api/products/${id}`)
-            window.alert('Đã xóa sản phẩm thành công!')
-            window.location.reload()
+            await axios.delete(`https://noithatmoho-backend.up.railway.app/api/products/${id}`)
+            checkOutToast()
+            setTimeout(() => {
+                window.location.reload()
+            }, 2800)
         }
         if (window.confirm('Bạn có chắc chắn muốn xóa sản phẩm này?') === true) {
             deletePro()
@@ -193,7 +210,6 @@ const ManagerProducts = () => {
 
 
     return (
-
         <>
             <div className='header-search manager'>
                 <input
@@ -257,8 +273,9 @@ const ManagerProducts = () => {
                     />
                 </div>
             }
+            <ToastContainer />
         </>
     )
-}   
+}
 
 export default memo(ManagerProducts)

@@ -46,7 +46,7 @@ const RegisterPhone = () => {
 
     useEffect(() => {
         async function fetchData() {
-            const res = await axios('http://localhost:9080/api/users')
+            const res = await axios('https://noithatmoho-backend.up.railway.app/api/users')
             const output = await res.data
             setDatas([...output])
         }
@@ -106,7 +106,7 @@ const RegisterPhone = () => {
         if (handleValidataPhone) {
             if (phoneNumber !== '' && !flag) {
                 setShowInput(true)
-                axios.post('http://localhost:9080/api/send-otp-sms', {
+                axios.post('https://noithatmoho-backend.up.railway.app/api/send-otp-sms', {
                     phone_number: `+84${phoneNumber.slice(1)}`
                 })
                     .then(response => {
@@ -143,7 +143,7 @@ const RegisterPhone = () => {
                     setShowInput(false)
                     setFalseOtp(false)
                     async function removeOtp() {
-                        await axios.put(`http://localhost:9080/api/users/${otpData.id}`, {
+                        await axios.put(`https://noithatmoho-backend.up.railway.app/api/users/${otpData.id}`, {
                             ...otpData,
                             otp: ''
                         })
@@ -182,7 +182,7 @@ const RegisterPhone = () => {
                 setIsLoading(true)
                 async function insertUserByPhone() {
                     output.forEach(async user => {
-                        await axios.put(`http://localhost:9080/api/users/${user.id}`, {
+                        await axios.put(`https://noithatmoho-backend.up.railway.app/api/users/${user.id}`, {
                             ...user,
                             password: passwordByPhone,
                             vouchers: 'MOHO500K, MOHO300K, MOHO200K, MOHO100K, MOHO50K',

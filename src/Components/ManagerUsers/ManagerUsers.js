@@ -2,7 +2,9 @@ import "./ManagerUsers.scss"
 import { DataGrid } from "@material-ui/data-grid"
 import { DeleteOutline } from "@material-ui/icons"
 import { Link } from "react-router-dom"
-import { useState, useEffect, memo, useContext } from "react"
+import { useState, useEffect, memo, useContext, useCallback } from "react"
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import axios from 'axios'
 import { themeProvider } from '../../context/ProviderTheme/ProviderTheme'
 import { THEME_DARK } from "../../reducers/actions"
@@ -17,6 +19,19 @@ const ManagerUsers = () => {
     const [state] = themePage
     const { currentTheme } = state
 
+    const checkOutToast = useCallback(() =>
+        toast.info('Hoàn tất xóa người dùng', {
+            position: "top-right",
+            autoClose: 2500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light"
+        }),
+        [])
+
     useEffect(() => {
         if (search.length) {
             const dataSearch = dataUsers.filter(data => data.full_name.toLowerCase().includes(search.toLowerCase().trim()))
@@ -30,7 +45,7 @@ const ManagerUsers = () => {
     useEffect(() => {
         setIsLoading(true)
         async function getData() {
-            const res = await axios.get('http://localhost:9080/api/users')
+            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/users')
             const datas = await res.data
             setDataUSers(datas)
             setIsLoading(false)
@@ -40,9 +55,11 @@ const ManagerUsers = () => {
 
     const handleDelete = (id) => {
         async function deleteUser() {
-            await axios.delete(`http://localhost:9080/api/users/${id}`)
-            window.alert('Xoá người dùng thành công!')
-            window.location.reload()
+            await axios.delete(`https://noithatmoho-backend.up.railway.app/api/users/${id}`)
+            checkOutToast()
+            setTimeout(() => {
+                window.location.reload()
+            }, 2800)
         }
         if (window.confirm('Bạn có chắc chắn muốn xóa người dùng này?') === true) {
             deleteUser()
@@ -244,6 +261,7 @@ const ManagerUsers = () => {
                     />
                 }
             </div>
+            <ToastContainer />
         </>
     )
 }

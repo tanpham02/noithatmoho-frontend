@@ -37,7 +37,7 @@ const RestoreByPhone = () => {
 
     useEffect(() => {
         async function fetchData() {
-            const res = await axios('http://localhost:9080/api/users')
+            const res = await axios('https://noithatmoho-backend.up.railway.app/api/users')
             const output = await res.data
             setDatas([...output])
         }
@@ -85,7 +85,7 @@ const RestoreByPhone = () => {
 
                 const a = users.find(async user => user.id)
                 async function sendOtp() {
-                    await axios.post(`http://localhost:9080/api/send-otp-sms-reset`, {
+                    await axios.post(`https://noithatmoho-backend.up.railway.app/api/send-otp-sms-reset`, {
                         phone_number: `+84${phoneNumber.slice(1)}`,
                         id: a.id
                     })
@@ -119,7 +119,7 @@ const RestoreByPhone = () => {
                 setShowInput(false)
 
                 async function removeOtp() {
-                    await axios.put(`http://localhost:9080/api/users/${user.id}`, {
+                    await axios.put(`https://noithatmoho-backend.up.railway.app/api/users/${user.id}`, {
                         ...user,
                         otp: ''
                     })
@@ -146,7 +146,7 @@ const RestoreByPhone = () => {
                 setIsLoading(true)
                 async function ResetUserByPhone() {
                     output.forEach(async user => {
-                        await axios.put(`http://localhost:9080/api/users/${user.id}`, {
+                        await axios.put(`https://noithatmoho-backend.up.railway.app/api/users/${user.id}`, {
                             ...user,
                             password: passwordByPhone,
                             vouchers: 'MOHO500K, MOHO300K, MOHO200K, MOHO100K, MOHO50K',

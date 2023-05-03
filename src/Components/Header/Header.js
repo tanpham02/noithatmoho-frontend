@@ -464,7 +464,7 @@ const Header = ({ localeLogos, accountInfos }) => {
 
     useEffect(() => {
         async function getData() {
-            const res = await axios.get('http://localhost:9080/api/products')
+            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/products')
             const datas = await res.data
             const results = datas.filter(data => {
                 if (data.name.toLowerCase().includes(search.trim().toLowerCase())) {

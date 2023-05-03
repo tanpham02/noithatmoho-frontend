@@ -47,7 +47,7 @@ const Kitchenware = ({ datas, dataTypes, filterCategories, filterPrices, filterS
             <img className="img-page" src="/assets/img/img-page/vase-bowl.png" alt="Đồ Làm Bếp" />
             <div className="grid">
                 <div className="grid__row">
-                    <h2 className="products__title px--16">Đồ Làm Bếp</h2>
+                    <h2 className="products__title px--16">Đồ Nhà Bếp</h2>
                     <KitchenwareFilter
                         dataKoges={dataKoges}
                         filterPrices={filterPrices}
@@ -74,6 +74,9 @@ const Kitchenware = ({ datas, dataTypes, filterCategories, filterPrices, filterS
                                                 -{data.discount}
                                             </span> :
 
+                                            (data.created_at &&
+                                                `${new Date(data.created_at).getMonth() + 1}/${new Date(data.created_at).getDate()}/${new Date(data.created_at).getFullYear()}`
+                                                === new Date().toLocaleDateString()) &&
                                             <span className="product-new">
                                                 NEW
                                             </span>

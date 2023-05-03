@@ -88,6 +88,9 @@ const BestSeller = ({ datas, dataTypes, filterCategories, filterPrices, filterSo
                                                     -{data.discount}
                                                 </span> :
 
+                                                (data.created_at &&
+                                                    `${new Date(data.created_at).getMonth() + 1}/${new Date(data.created_at).getDate()}/${new Date(data.created_at).getFullYear()}`
+                                                    === new Date().toLocaleDateString()) &&
                                                 <span className="product-new">
                                                     NEW
                                                 </span>

@@ -15,7 +15,7 @@ const Login = ({ onGetDataAuthor, fixedHeader }) => {
 
     useEffect(() => {
         async function fetchData() {
-            const res = await axios.get('http://localhost:9080/api/users')
+            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/users')
             const data = await res.data
             setDatas([...data])
         }
@@ -82,7 +82,7 @@ const Login = ({ onGetDataAuthor, fixedHeader }) => {
 
                         setIsLoading(true)
                         async function LoginData() {
-                            await axios.post('http://localhost:9080/api/login', dataLogin)
+                            await axios.post('https://noithatmoho-backend.up.railway.app/api/login', dataLogin)
                             window.location.replace('/')
                             setIsLoading(false)
                         }
