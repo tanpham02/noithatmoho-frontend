@@ -372,7 +372,7 @@ const DetailProduct = () => {
                                                     <i className="fa-solid fa-check"></i>
                                                     Nhập mã ưu đãi
                                                     <strong>&nbsp;MOHO50K, MOHO100K, MOHO200K, MOHO300K, MOHO500K.&nbsp;</strong>
-                                                    Chỉ áp dụng 01 lần/01 khách hàng và không áp dụng cùng với các chương trình khuyến mại khác. Hạn sử dụng: 31/03/2023 (*)
+                                                    Chỉ áp dụng 01 lần/01 khách hàng và không áp dụng cùng với các chương trình khuyến mại khác. Hạn sử dụng: 31/12/2023 (*)
                                                 </span>
                                                 <span>
                                                     (*) Không áp dụng cho danh mục Đồ Trang Trí
