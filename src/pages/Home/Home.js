@@ -38,7 +38,7 @@ const HomePage = ({ dataGroupTypes, dataTypes, accountInfos, localeLogos, banner
                 <span style={{
                     position: 'relative',
                     top: '310px',
-                    left: '46.5%'
+                    left: '47%'
                 }} class="loader-main-products"></span> :
                 <>
                     <Header localeLogos={localeLogos} accountInfos={accountInfos} />
