@@ -45,6 +45,14 @@ const DetailProduct = () => {
     }, [quantity])
 
 
+    useEffect(() => {
+        if (quantity <= 0) {
+            setQuantity(1)
+        }
+    }, [quantity])
+
+
+
     useLayoutEffect(() => {
         const number = /^[0-9]+$/
         if (!number.test(quantity)) {
@@ -279,7 +287,6 @@ const DetailProduct = () => {
                                                 }
                                             </div>
 
-
                                             {
                                                 JSON.parse(localStorage.getItem('isAdmin')) !== 1 &&
                                                 (
@@ -294,20 +301,24 @@ const DetailProduct = () => {
                                                         >
                                                             {`Sản phẩm có sẵn ${data.quantity_sold}`}
                                                         </span>
-
-                                                        {data.prices !== 0 && <div className="product-detail__quantity">
-                                                            <i onClick={() => setQuantity(quantity - 1)} className="fa-solid fa-minus"></i>
-                                                            <input
-                                                                type='text'
-                                                                value={parseInt(quantity)}
-                                                                min= '1'
-                                                                onChange={(e) => setQuantity(parseInt(e.target.value))}
-                                                            />
-                                                            <i onClick={() => setQuantity(quantity + 1)} className="fa-solid fa-plus"></i>
-                                                        </div>}
+                                                        {data.prices !== 0 &&
+                                                            <div className="product-detail__quantity">
+                                                                <i onClick={() => setQuantity(quantity - 1)}
+                                                                    className="fa-solid fa-minus">
+                                                                </i>
+                                                                <input
+                                                                    type='text'
+                                                                    value={parseInt(quantity)}
+                                                                    min='1'
+                                                                    onChange={(e) => setQuantity(parseInt(e.target.value))}
+                                                                />
+                                                                <i onClick={() => setQuantity(quantity + 1)}
+                                                                    className="fa-solid fa-plus">
+                                                                </i>
+                                                            </div>
+                                                        }
                                                     </>
-                                                )
-                                            }
+                                                )}
                                             {stock && <span className="errorMsg">{`Số lượng còn lại trong kho không đủ!`}</span>}
 
                                             {
