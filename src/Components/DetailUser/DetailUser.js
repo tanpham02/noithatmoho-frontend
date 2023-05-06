@@ -25,7 +25,7 @@ const DetailUser = () => {
     useEffect(() => {
         const id = window.location.pathname.split('/')[3]
         async function fetchData() {
-            const res = await axios.get(`https://noithatmoho-backend.up.railway.app/api/users/${id}`)
+            const res = await axios.get(`http://localhost:9080/api/users/${id}`)
             const datas = res.data
             setUser({ ...datas })
         }
@@ -85,7 +85,7 @@ const DetailUser = () => {
 
         setIsLoading(true)
         async function updateUser() {
-            const res = await axios.put(`https://noithatmoho-backend.up.railway.app/api/users/${user.id}`, dataUpdate)
+            const res = await axios.put(`http://localhost:9080/api/users/${user.id}`, dataUpdate)
             setIsLoading(false)
             checkOutToast()
             window.setTimeout(() => {

@@ -2,6 +2,7 @@ import { useState, useCallback, memo } from 'react'
 import { Link } from 'react-router-dom'
 import RegisterPhone from './RegisterPhone'
 import RegisterEmail from './RegisterEmail'
+import GoogleLoginButton from '../GoogleLoginButton/GoogleLoginButton'
 import './Register.scss'
 
 const checkTypes = [
@@ -49,7 +50,7 @@ const Register = () => {
                             <span className="heading-description">Đăng ký tài khoản chỉ trong 1 phút để tích lũy điểm và nhận ưu đãi từ MOHO.</span>
                             <span className="heading-line"></span>
                             <div className="login-with mt--38">
-                                <button className="login-with__google cancel--border">Đăng nhập với Google</button>
+                                <GoogleLoginButton />
                                 <button className="login-with__facebook cancel--border">Đăng nhập với Facebook</button>
                             </div>
                         </div>

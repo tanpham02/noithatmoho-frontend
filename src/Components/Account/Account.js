@@ -65,7 +65,7 @@ const Account = ({ accountInfos, onReload }) => {
         const idUser = JSON.parse(localStorage.getItem('idUser'))
         setUserId(idUser)
         async function fetchDataUser() {
-            const res = await axios.get(`https://noithatmoho-backend.up.railway.app/api/users/${idUser}`)
+            const res = await axios.get(`http://localhost:9080/api/users/${idUser}`)
             const data = await res.data
             setDataUser({ ...data })
         }
@@ -74,7 +74,7 @@ const Account = ({ accountInfos, onReload }) => {
 
     useEffect(() => {
         async function fetchDataPros() {
-            const res = await axios.get(`https://noithatmoho-backend.up.railway.app/api/products`)
+            const res = await axios.get(`http://localhost:9080/api/products`)
             const data = await res.data
             setProducts(data)
         }
@@ -98,7 +98,7 @@ const Account = ({ accountInfos, onReload }) => {
     useEffect(() => {
         setIsLoading(true)
         async function getCheckout() {
-            const res = await axios.get(`https://noithatmoho-backend.up.railway.app/api/users/${ID_USER}`)
+            const res = await axios.get(`http://localhost:9080/api/users/${ID_USER}`)
             const data = await res.data
             setDataUserCheckout({ ...data })
             setIsLoading(false)
@@ -125,7 +125,7 @@ const Account = ({ accountInfos, onReload }) => {
         }
 
         async function updateUsers() {
-            await axios.put(`https://noithatmoho-backend.up.railway.app/api/users/${userId}`, updateUser)
+            await axios.put(`http://localhost:9080/api/users/${userId}`, updateUser)
                 .then(res => console.log(res.data))
                 .catch(err => console.log(err))
             checkOutToast()
@@ -197,7 +197,7 @@ const Account = ({ accountInfos, onReload }) => {
 
             if (localeDayDb === localeDay) {
                 async function updateProBought() {
-                    axios.put(`https://noithatmoho-backend.up.railway.app/api/users/${ID_USER}`, {
+                    axios.put(`http://localhost:9080/api/users/${ID_USER}`, {
                         ...dataUserCheckout,
                         product_boughts: dataUserCheckout?.product_boughts ?
                             JSON.stringify([...JSON.parse(dataUserCheckout.product_boughts), ...nextProduct]) :
@@ -240,7 +240,7 @@ const Account = ({ accountInfos, onReload }) => {
         }
 
         async function cancelCheckout() {
-            const res = await axios.put(`https://noithatmoho-backend.up.railway.app/api/users/${ID_USER}`, cancelCheckoutData).then(res => {
+            const res = await axios.put(`http://localhost:9080/api/users/${ID_USER}`, cancelCheckoutData).then(res => {
                 return dataUserCheckout?.checkout && JSON.parse(dataUserCheckout.checkout?.split('; ')[2]).forEach(checkoutData => {
                     products.filter(async data => {
                         if (data.id === checkoutData.id) {
@@ -253,7 +253,7 @@ const Account = ({ accountInfos, onReload }) => {
                                     quantity_sold,
                                     quantity_stock
                                 }
-                                await axios.put(`https://noithatmoho-backend.up.railway.app/api/products/${data.id}`, updatePro)
+                                await axios.put(`http://localhost:9080/api/products/${data.id}`, updatePro)
                                     .then(res => console.log(res.data))
                                     .catch(err => console.log(err))
                             }

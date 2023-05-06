@@ -95,7 +95,7 @@ const CheckOut = ({ datas }) => {
     useEffect(() => {
         setIsLoading(true)
         async function getUsers() {
-            const res = await axios.get(`https://noithatmoho-backend.up.railway.app/api/users/${ID_USER}`)
+            const res = await axios.get(`http://localhost:9080/api/users/${ID_USER}`)
             const users = await res.data
             setInfoUser(users)
             setIsLoading(false)
@@ -344,7 +344,7 @@ const CheckOut = ({ datas }) => {
 
             setIsLoadingBtn(true)
             async function checkOut() {
-                await axios.put(`https://noithatmoho-backend.up.railway.app/api/users/${ID_USER}`, checkoutMain)
+                await axios.put(`http://localhost:9080/api/users/${ID_USER}`, checkoutMain)
                 dataCheckOuts.forEach(checkoutData => {
                     datas.filter(async (data) => {
                         if (data.id === checkoutData.id) {
@@ -359,7 +359,7 @@ const CheckOut = ({ datas }) => {
                                     quantity_stock
                                 }
 
-                                await axios.put(`https://noithatmoho-backend.up.railway.app/api/products/${checkoutData.id}`, updatePro)
+                                await axios.put(`http://localhost:9080/api/products/${checkoutData.id}`, updatePro)
                                 localStorage.setItem('cartLists', JSON.stringify([]))
                                 localStorage.setItem('isSuccessCheckout', JSON.stringify(false))
                                 localStorage.setItem('isCancelCheckout', JSON.stringify(false))

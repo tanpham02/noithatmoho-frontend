@@ -20,7 +20,7 @@ const AccountPage = ({ localeLogos, bannerServices, accountInfos }) => {
 
     useEffect(() => {
         async function fetchData() {
-            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/users')
+            const res = await axios.get('http://localhost:9080/api/users')
             const data = res.data
             setData(data)
         }

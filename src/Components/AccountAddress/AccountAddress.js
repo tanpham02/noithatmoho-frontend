@@ -16,7 +16,7 @@ const AccountAddress = ({ accountInfos }) => {
     useEffect(() => {
         setIsLoading(true)
         async function getUser() {
-            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/users')
+            const res = await axios.get('http://localhost:9080/api/users')
             const data = await res.data
             setDatas(data)
             setIsLoading(false)
@@ -84,7 +84,7 @@ const AccountAddress = ({ accountInfos }) => {
                 phone_number: phoneNumber
             }
             async function updateAdress() {
-                await axios.put(`https://noithatmoho-backend.up.railway.app/api/users/${parseInt(JSON.parse(localStorage.getItem('idUser')))}`,
+                await axios.put(`http://localhost:9080/api/users/${parseInt(JSON.parse(localStorage.getItem('idUser')))}`,
                     dataUpdate)
                     .then(res => console.log(res))
                     .catch(err => console.log(err))
@@ -112,7 +112,7 @@ const AccountAddress = ({ accountInfos }) => {
             phone_number: null
         }
         async function clearAddress() {
-            await axios.put(`https://noithatmoho-backend.up.railway.app/api/users/${parseInt(JSON.parse(localStorage.getItem('idUser')))}`,
+            await axios.put(`http://localhost:9080/api/users/${parseInt(JSON.parse(localStorage.getItem('idUser')))}`,
                 dataDelete)
                 .then(res => console.log(res))
                 .catch(err => console.log(err))

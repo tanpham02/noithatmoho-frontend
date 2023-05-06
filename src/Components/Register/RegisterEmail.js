@@ -68,7 +68,7 @@ const RegisterEmail = () => {
 
                             setIsLoading(true)
                             async function createdUser() {
-                                await axios.post('https://noithatmoho-backend.up.railway.app/api/users', newValues)
+                                await axios.post('http://localhost:9080/api/users', newValues)
                                 setIsLoading(false)
                                 checkOutToast()
                                 setTimeout(() => {
@@ -87,7 +87,7 @@ const RegisterEmail = () => {
 
     useEffect(() => {
         async function registerMail() {
-            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/users')
+            const res = await axios.get('http://localhost:9080/api/users')
             const dataUsers = await res.data
             setDatas([...dataUsers])
         }
