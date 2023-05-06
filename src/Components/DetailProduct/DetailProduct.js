@@ -300,6 +300,7 @@ const DetailProduct = () => {
                                                             <input
                                                                 type='text'
                                                                 value={parseInt(quantity)}
+                                                                min= '1'
                                                                 onChange={(e) => setQuantity(parseInt(e.target.value))}
                                                             />
                                                             <i onClick={() => setQuantity(quantity + 1)} className="fa-solid fa-plus"></i>
