@@ -45,7 +45,7 @@ const DetailProduct = () => {
     }, [quantity])
 
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (quantity <= 0) {
             setQuantity(1)
         }
@@ -53,7 +53,7 @@ const DetailProduct = () => {
 
 
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         const number = /^[0-9]+$/
         if (!number.test(quantity)) {
             setQuantity(1)
@@ -308,8 +308,7 @@ const DetailProduct = () => {
                                                                 </i>
                                                                 <input
                                                                     type='text'
-                                                                    value={parseInt(quantity)}
-                                                                    min='1'
+                                                                    value={quantity}
                                                                     onChange={(e) => setQuantity(parseInt(e.target.value))}
                                                                 />
                                                                 <i onClick={() => setQuantity(quantity + 1)}
