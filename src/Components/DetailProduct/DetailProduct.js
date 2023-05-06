@@ -10,7 +10,7 @@ const DetailProduct = () => {
     }, [])
 
     const [dataDetail, setDataDetail] = useState([])
-    const [quantity, setQuantity] = useState(0)
+    const [quantity, setQuantity] = useState(1)
     const [isACtive, setIsActive] = useState(0)
     const [cartLists, setCartLists] = useState(() => {
         return JSON.parse(localStorage.getItem('cartLists')) ?? []
@@ -34,7 +34,7 @@ const DetailProduct = () => {
 
     useEffect(() => {
         dataDetail.forEach(data => {
-            if (quantity >= data.quantity_stock) {
+            if (data.quantity_stock < quantity) {
                 setStock(true)
                 return
             } else {
