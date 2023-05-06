@@ -46,7 +46,7 @@ const DetailProduct = () => {
 
 
     useLayoutEffect(() => {
-        if (quantity <= 0) {
+        if (quantity < 0) {
             setQuantity(1)
         }
     }, [quantity])
@@ -287,24 +287,37 @@ const DetailProduct = () => {
                                                 }
                                             </div>
 
-                                            <>
-                                                <span style={{ fontSize: '1.3rem', color: 'var(--light)' }}>{`Sản phẩm có sẵn ${data.quantity_sold}`}</span>
-                                                {
-                                                    JSON.parse(localStorage.getItem('isAdmin')) !== 1 && (data.prices !== 0 && <div className="product-detail__quantity">
-                                                        <i onClick={() => setQuantity(quantity - 1)} className="fa-solid fa-minus"></i>
-                                                        <input
-                                                            type='text'
-                                                            value={parseInt(quantity)}
-                                                            onChange={(e) => setQuantity(parseInt(e.target.value))}
-                                                        />
-                                                        <i onClick={() => setQuantity(quantity + 1)} className="fa-solid fa-plus"></i>
-                                                    </div>)
-                                                }
-                                            </>
+
+                                            {
+                                                JSON.parse(localStorage.getItem('isAdmin')) !== 1 &&
+                                                (
+                                                    <>
+                                                        <span
+                                                            style={{
+                                                                fontSize: '1.3rem',
+                                                                color: 'var(--light)'
+                                                            }}
+                                                        >
+                                                            {`Sản phẩm có sẵn ${data.quantity_sold}`}
+                                                        </span>
+
+                                                        {data.prices !== 0 && <div className="product-detail__quantity">
+                                                            <i onClick={() => setQuantity(quantity - 1)} className="fa-solid fa-minus"></i>
+                                                            <input
+                                                                type='text'
+                                                                value={parseInt(quantity)}
+                                                                onChange={(e) => setQuantity(parseInt(e.target.value))}
+                                                            />
+                                                            <i onClick={() => setQuantity(quantity + 1)} className="fa-solid fa-plus"></i>
+                                                        </div>}
+                                                    </>
+                                                )
+                                            }
+                                            
 
                                             {stock && <span className="errorMsg">{`Số lượng trong kho còn lại!`}</span>}
 
-                                            {
+                                                {
                                                 JSON.parse(localStorage.getItem('isAdmin')) !== 1 && <div className="product-detail__btn">
                                                     {data.prices ?
                                                         <>
@@ -359,7 +372,7 @@ const DetailProduct = () => {
                                                         <button style={{ fontSize: '1.5rem', height: 50 }} className="btn product-detail__btn-add-cart btn--color-prima-blue">LIÊN HỆ ĐỂ NHẬN TƯ VẤN VÀ THIẾT KẾ MIỄN PHÍ</button>
                                                     }
                                                 </div>
-                                            }
+                                                }
 
                                             < div className="product-detail__info-promotion" >
                                                 <span>
