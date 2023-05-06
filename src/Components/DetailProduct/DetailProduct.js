@@ -45,7 +45,7 @@ const DetailProduct = () => {
     }, [quantity])
 
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         if (quantity <= 0) {
             setQuantity(1)
         }
@@ -53,7 +53,7 @@ const DetailProduct = () => {
 
 
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const number = /^[0-9]+$/
         if (!number.test(quantity)) {
             setQuantity(1)
@@ -288,37 +288,19 @@ const DetailProduct = () => {
                                             </div>
 
                                             {
-                                                JSON.parse(localStorage.getItem('isAdmin')) !== 1 &&
-                                                (
-                                                    <>
-                                                        <span
-                                                            style={{
-                                                                fontSize: '1.2rem',
-                                                                color: ' var(--gray-color)',
-                                                                fontWeight: 600,
-                                                                opacity: '0.5',
-                                                            }}
-                                                        >
-                                                            {`Sản phẩm có sẵn ${data.quantity_sold}`}
-                                                        </span>
-                                                        {data.prices !== 0 &&
-                                                            <div className="product-detail__quantity">
-                                                                <i onClick={() => setQuantity(quantity - 1)}
-                                                                    className="fa-solid fa-minus">
-                                                                </i>
-                                                                <input
-                                                                    type='text'
-                                                                    value={quantity}
-                                                                    onChange={(e) => setQuantity(parseInt(e.target.value))}
-                                                                />
-                                                                <i onClick={() => setQuantity(quantity + 1)}
-                                                                    className="fa-solid fa-plus">
-                                                                </i>
-                                                            </div>
-                                                        }
-                                                    </>
-                                                )}
-                                            {stock && <span className="errorMsg">{`Số lượng còn lại trong kho không đủ!`}</span>}
+                                                JSON.parse(localStorage.getItem('isAdmin')) !== 1 && (data.prices !== 0 && <div className="product-detail__quantity">
+                                                    <i onClick={() => setQuantity(quantity - 1)} className="fa-solid fa-minus"></i>
+                                                    <input
+                                                        type='text'
+                                                        value={parseInt(quantity)}
+                                                        min='1'
+                                                        onChange={(e) => setQuantity(parseInt(e.target.value))}
+                                                    />
+                                                    <i onClick={() => setQuantity(quantity + 1)} className="fa-solid fa-plus"></i>
+                                                </div>)
+                                            }
+
+                                            {stock && <span className="errorMsg">Số lượng trong kho không đủ!</span>}
 
                                             {
                                                 JSON.parse(localStorage.getItem('isAdmin')) !== 1 && <div className="product-detail__btn">
