@@ -34,7 +34,7 @@ const DetailProduct = () => {
 
     useEffect(() => {
         dataDetail.forEach(data => {
-            if (quantity > data.quantity_stock) {
+            if (quantity >= data.quantity_stock) {
                 setStock(true)
                 return
             } else {
