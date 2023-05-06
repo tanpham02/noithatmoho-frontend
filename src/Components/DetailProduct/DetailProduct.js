@@ -45,7 +45,7 @@ const DetailProduct = () => {
     }, [quantity])
 
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (quantity <= 0) {
             setQuantity(1)
         }
@@ -287,20 +287,23 @@ const DetailProduct = () => {
                                                 }
                                             </div>
 
-                                            {
-                                                JSON.parse(localStorage.getItem('isAdmin')) !== 1 && (data.prices !== 0 && <div className="product-detail__quantity">
-                                                    <i onClick={() => setQuantity(quantity - 1)} className="fa-solid fa-minus"></i>
-                                                    <input
-                                                        type='text'
-                                                        value={parseInt(quantity)}
-                                                        min='1'
-                                                        onChange={(e) => setQuantity(parseInt(e.target.value))}
-                                                    />
-                                                    <i onClick={() => setQuantity(quantity + 1)} className="fa-solid fa-plus"></i>
-                                                </div>)
-                                            }
+                                            <>
+                                                {
+                                                    JSON.parse(localStorage.getItem('isAdmin')) !== 1 && (data.prices !== 0 && <div className="product-detail__quantity">
+                                                        <i onClick={() => setQuantity(quantity - 1)} className="fa-solid fa-minus"></i>
+                                                        <input
+                                                            type='text'
+                                                            value={parseInt(quantity)}
+                                                            min='1'
+                                                            onChange={(e) => setQuantity(parseInt(e.target.value))}
+                                                        />
+                                                        <i onClick={() => setQuantity(quantity + 1)} className="fa-solid fa-plus"></i>
+                                                    </div>)
+                                                }
+                                                <span span className="errorMsg">{`Sản phẩm có sẵn ${data.quantity_sold}`}</span>
+                                            </>
 
-                                            {stock && <span className="errorMsg">Số lượng trong kho không đủ!</span>}
+                                            {stock && <span className="errorMsg">{`Số lượng trong kho còn lại!`}</span>}
 
                                             {
                                                 JSON.parse(localStorage.getItem('isAdmin')) !== 1 && <div className="product-detail__btn">
