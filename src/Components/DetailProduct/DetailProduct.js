@@ -45,6 +45,14 @@ const DetailProduct = () => {
     }, [quantity])
 
 
+    useEffect(() => {
+        if (quantity < 0) {
+            setQuantity(1)
+        }
+    }, [quantity])
+
+
+
     useLayoutEffect(() => {
         const number = /^[0-9]+$/
         if (!number.test(quantity)) {
@@ -300,6 +308,7 @@ const DetailProduct = () => {
                                                             <input
                                                                 type='text'
                                                                 value={parseInt(quantity)}
+                                                                min='0'
                                                                 onChange={(e) => setQuantity(parseInt(e.target.value))}
                                                             />
                                                             <i onClick={() => setQuantity(quantity + 1)} className="fa-solid fa-plus"></i>
@@ -307,9 +316,7 @@ const DetailProduct = () => {
                                                     </>
                                                 )
                                             }
-
-
-                                            {stock && <span className="errorMsg">{`Số lượng trong kho còn lại!`}</span>}
+                                            {stock && <span className="errorMsg">{`Số lượng còn lại trong kho không đủ!`}</span>}
 
                                             {
                                                 JSON.parse(localStorage.getItem('isAdmin')) !== 1 && <div className="product-detail__btn">
