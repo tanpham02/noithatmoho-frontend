@@ -12,6 +12,7 @@ const AccountAddress = ({ accountInfos }) => {
     const [phoneNumber, setPhoneNumber] = useState('')
     const [errMess, setErrMess] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const [validatePhone, setValidatePhone] = useState(false)
 
     useEffect(() => {
         setIsLoading(true)
@@ -93,7 +94,14 @@ const AccountAddress = ({ accountInfos }) => {
                     window.location.reload()
                 }, 2500)
             }
-            updateAdress()
+            if (!/^[0-9]+$/.test(phoneNumber)) {
+                setValidatePhone(true)
+                return
+            } else {
+                setValidatePhone(false)
+                updateAdress()
+                return
+            }
         }
     }
 
@@ -195,16 +203,22 @@ const AccountAddress = ({ accountInfos }) => {
                                                 />
                                             </div>
 
-                                            <div className="form-group user-address">
-                                                <i className="form-group__icon fa-solid fa-phone"></i>
-                                                <input
-                                                    type='text'
-                                                    placeholder="Số điện thoại"
-                                                    id="form-account__phone-number"
-                                                    name="form-account__phone-number"
-                                                    value={phoneNumber}
-                                                    onChange={handleChangePhone}
-                                                />
+                                            <div style={{ paddingBottom: 22, marginBottom: 8 }}>
+                                                <div className="form-group user-address" style={{ marginBottom: 0, paddingBottom: 0 }}>
+                                                    <i className="form-group__icon fa-solid fa-phone"></i>
+                                                    <input
+                                                        type='text'
+                                                        placeholder="Số điện thoại"
+                                                        id="form-account__phone-number"
+                                                        name="form-account__phone-number"
+                                                        value={phoneNumber}
+                                                        onChange={handleChangePhone}
+                                                        onInput={() => setValidatePhone(false)}
+                                                    />
+                                                </div>
+                                                {validatePhone &&
+                                                    <span className='errorMsg' >Số điện thoại phải là số</span>
+                                                }
                                             </div>
 
 

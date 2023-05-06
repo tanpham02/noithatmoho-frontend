@@ -91,6 +91,8 @@ const CheckOut = ({ datas }) => {
     const [voucherDbs, setVoucherDbs] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const [isLoadingBtn, setIsLoadingBtn] = useState(false)
+    const [validatePhone, setValidatePhone] = useState(false)
+    const [disabled, setDisable] = useState(false)
 
     useEffect(() => {
         setIsLoading(true)
@@ -135,6 +137,19 @@ const CheckOut = ({ datas }) => {
             progress: undefined,
             theme: "light"
         }),
+        [])
+    const paymentWarningToast = useCallback((e) =>
+        toast.warning(`Hiện tại chưa thanh toán bằng  ${e}`,
+            {
+                position: "top-right",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light"
+            }),
         [])
 
     useEffect(() => {
@@ -202,7 +217,6 @@ const CheckOut = ({ datas }) => {
         } else {
             setFocusPhoneNum(false)
         }
-
     }
     const handleBlurInputPhoneNum = () => {
         if (phoneNum.length <= 0) {
@@ -236,6 +250,19 @@ const CheckOut = ({ datas }) => {
         setCheckedPayment(index)
         setPayment(e.target.value)
     }
+
+
+    useEffect(() => {
+        if (checkedPayment !== 0) {
+            paymentWarningToast(payment)
+            setDisable(true)
+            return
+        }
+        setDisable(false)
+        return
+
+    }, [payment, checkedPayment])
+
 
     useEffect(() => {
         if (voucher) {
@@ -327,22 +354,34 @@ const CheckOut = ({ datas }) => {
 
             const checkoutDatas = {
                 ...infoUser,
-                checkout: `${name}; ${phoneNum}; ${JSON.stringify(infoProducts)}; ${address}; ${delivery}; ${payment}; ${total}₫; ${new Date().toLocaleDateString()}`,
+                checkout: `${name}; ${phoneNum}; ${JSON.stringify(infoProducts)}; ${address}; ${delivery}; ${payment}; ${total}₫; ${new Date().toLocaleDateString()}; Pending`,
                 vouchers: `${inputVoucher ? voucherDbs : infoUser.vouchers}`,
                 total_order: `${totalOrder}, ${new Date().toLocaleDateString()}`,
                 transactions: infoUser.transactions ? infoUser.transactions : ''
             }
 
-
             const transactionDb = infoUser?.transactions ? infoUser.transactions : 0
-            const transactionHandle = checkoutDatas?.checkout ? JSON.parse(checkoutDatas.checkout?.split('; ')[6]?.split(',').join('')?.slice(0, -1)) : 0
+            // const transactionHandle = checkoutDatas?.checkout ? JSON.parse(checkoutDatas.checkout?.split('; ')[6]?.split(',').join('')?.slice(0, -1)) : 0
+            // + Number(transactionHandle))
 
             const checkoutMain = {
                 ...checkoutDatas,
-                transactions: String(Number(transactionDb) + Number(transactionHandle))
+                transactions: String(Number(transactionDb))
             }
 
-            setIsLoadingBtn(true)
+            console.log(checkoutMain)
+
+            if (!/^[0-9]+$/.test(phoneNum)) {
+                setValidatePhone(true)
+                setIsLoading(false)
+                return
+            } else {
+                setIsLoadingBtn(true)
+                setValidatePhone(false)
+                checkOut()
+                return
+            }
+
             async function checkOut() {
                 await axios.put(`https://noithatmoho-backend.up.railway.app/api/users/${ID_USER}`, checkoutMain)
                 dataCheckOuts.forEach(checkoutData => {
@@ -373,7 +412,7 @@ const CheckOut = ({ datas }) => {
                     window.location.replace('/account')
                 }, 3000)
             }
-            checkOut()
+
 
         } else {
             checkOutWarningToast()
@@ -400,7 +439,10 @@ const CheckOut = ({ datas }) => {
     }, [infoUser]);
 
 
-
+    const handleChangePhoneNumber = (e) => {
+        setPhoneNum(e.target.value)
+        setValidatePhone(false)
+    }
 
 
     return (
@@ -444,7 +486,7 @@ const CheckOut = ({ datas }) => {
                                                 name="form-checkout__full-name"
                                                 id="form-checkout__full-name"
                                                 className="form-checkout__full-name"
-                                                onInput={() => handleSetInputName}
+                                                onInput={handleSetInputName}
                                                 onBlur={handleBlurInputName}
                                                 onFocus={() => setFocusName(true)}
                                                 value={name}
@@ -463,8 +505,10 @@ const CheckOut = ({ datas }) => {
                                                 onBlur={handleBlurInputPhoneNum}
                                                 onFocus={() => setFocusPhoneNum(true)}
                                                 value={phoneNum}
-                                                onChange={(e) => setPhoneNum(e.target.value)}
+                                                onChange={handleChangePhoneNumber}
+
                                             />
+                                            {validatePhone && <span className="errorMsg">Số điện thoại phải là chữ số</span>}
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="form-checkout__address" className={`${focusAddress && 'active'}`}>Địa chỉ</label>
@@ -542,7 +586,8 @@ const CheckOut = ({ datas }) => {
                                             type="submit"
                                             onClick={handleSubmit}
                                             className="btn btn-checkout"
-                                            disabled={isLoadingBtn}
+                                            disabled={disabled}
+                                            style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}
                                         >
                                             {isLoadingBtn ?
                                                 <span class="loader-btn-checkout">Loading</span> :

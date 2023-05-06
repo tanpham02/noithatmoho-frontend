@@ -83,7 +83,18 @@ const Login = ({ onGetDataAuthor, fixedHeader }) => {
                         setIsLoading(true)
                         async function LoginData() {
                             await axios.post('https://noithatmoho-backend.up.railway.app/api/login', dataLogin)
-                            window.location.replace('/')
+                            datas.filter(user => {
+                                if (user.email === emailOrPhonenumber || user.phone_number === emailOrPhonenumber) {
+                                    if (user) {
+                                        if (user.is_admin === 1) {
+                                            window.location.replace('/admin')
+                                            return user
+                                        }
+                                        window.location.replace('/')
+                                        return user
+                                    }
+                                }
+                            })
                             setIsLoading(false)
                         }
                         LoginData()

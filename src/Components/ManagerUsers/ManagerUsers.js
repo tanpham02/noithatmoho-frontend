@@ -147,7 +147,7 @@ const ManagerUsers = () => {
                             }}
                                 className="checkout__info-avata"
                             >
-                                <i className="fa-regular fa-user"></i>
+                                <i style={{color: '#fff'}} className="fa-regular fa-user"></i>
                             </div>
                         }
                         {params.row.full_name}

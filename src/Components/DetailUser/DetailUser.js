@@ -135,7 +135,7 @@ const DetailUser = () => {
                                 }}
                                     className="checkout__info-avata"
                                 >
-                                    <i className="fa-regular fa-user"></i>
+                                    <i style={{ color: '#fff' }} className="fa-regular fa-user"></i>
                                 </div>}
 
                             <div className="userShowTopTitle">
@@ -267,7 +267,7 @@ const DetailUser = () => {
                                         }}
                                             className="checkout__info-avata"
                                         >
-                                            <i className="fa-regular fa-user"></i>
+                                            <i style={{ color: '#fff' }} className="fa-regular fa-user"></i>
                                         </div>
                                     }
                                 </div>

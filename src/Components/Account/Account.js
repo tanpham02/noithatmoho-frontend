@@ -24,7 +24,6 @@ const Account = ({ accountInfos, onReload }) => {
     )
     const timerId = useRef()
 
-
     const checkOutToast = useCallback(() =>
         toast.info('Cập nhật thông tin thành công', {
             position: "top-right",
@@ -182,20 +181,13 @@ const Account = ({ accountInfos, onReload }) => {
     }
 
 
-    const handleIsSuccessCheckout = () => {
-        localStorage.removeItem('isSuccessCheckout')
+    const handleIsSuccessCheckout = (e) => {
+        localStorage.setItem('isSuccessCheckout', true)
         localStorage.removeItem('cancelCheckout')
 
-        if (dataUserCheckout?.checkout) {
-            const nextProduct = JSON.parse(dataUserCheckout.checkout?.split('; ')[2])
-
-            const dateLocale = new Date().toLocaleDateString().split('/')
-            const localeDay = dateLocale[0] + '/' + dateLocale[2]
-
-            const dateLocaleDb = dataUserCheckout?.total_order && dataUserCheckout.total_order?.split(', ')[1].split('/')
-            const localeDayDb = dataUserCheckout?.total_order && dateLocaleDb[0] + '/' + dateLocaleDb[2]
-
-            if (localeDayDb === localeDay) {
+        if (dataUserCheckout.checkout.split('; ')[8] === 'Successfully') {
+            if (dataUserCheckout?.checkout) {
+                const nextProduct = JSON.parse(dataUserCheckout.checkout?.split('; ')[2])
                 async function updateProBought() {
                     axios.put(`https://noithatmoho-backend.up.railway.app/api/users/${ID_USER}`, {
                         ...dataUserCheckout,
@@ -207,7 +199,50 @@ const Account = ({ accountInfos, onReload }) => {
                 }
                 updateProBought()
             }
+            return dataUserCheckout
+
+        } else {
+            const newObj = dataUserCheckout.checkout.split('; ').reduce((acc, next, index) => {
+                acc[index] = next
+                return acc
+            }, {})
+            newObj['8'] = 'Successfully'
+            const output = Object.values(newObj).join('; ')
+
+            if (dataUserCheckout?.checkout) {
+                const nextProduct = JSON.parse(dataUserCheckout.checkout?.split('; ')[2])
+
+                const dateLocale = new Date().toLocaleDateString().split('/')
+                const localeDay = dateLocale[0] + '/' + dateLocale[2]
+
+                const dateLocaleDb = dataUserCheckout?.total_order && dataUserCheckout.total_order?.split(', ')[1].split('/')
+                const localeDayDb = dataUserCheckout?.total_order && dateLocaleDb[0] + '/' + dateLocaleDb[2]
+
+                const transactionHandle =
+                    dataUserCheckout?.checkout ? JSON.parse(dataUserCheckout.checkout?.split('; ')[6]?.split(',').join('')?.slice(0, -1)) : 0
+
+                const transactions = Number(transactionHandle) + Number(dataUserCheckout?.transactions)
+
+
+
+                if (localeDayDb === localeDay) {
+                    async function updateProBought() {
+                        axios.put(`https://noithatmoho-backend.up.railway.app/api/users/${ID_USER}`, {
+                            ...dataUserCheckout,
+                            checkout: output,
+                            product_boughts: dataUserCheckout?.product_boughts ?
+                                JSON.stringify([...JSON.parse(dataUserCheckout.product_boughts), ...nextProduct]) :
+                                JSON.stringify([...nextProduct]),
+                            transactions: `${transactions}`
+                        })
+                        window.location.reload()
+                    }
+                    updateProBought()
+                }
+            }
+            return dataUserCheckout
         }
+
     }
 
     const uniqueProductBoughts = useMemo(() => {
@@ -224,54 +259,79 @@ const Account = ({ accountInfos, onReload }) => {
 
 
     const handleCancelCheckout = (e) => {
-        let totalOrder = dataUserCheckout?.total_order ? parseInt(dataUserCheckout.total_order) - 1 : 0
+        localStorage.setItem('isCancelCheckout', true)
+        localStorage.setItem('isSuccessCheckout', true)
 
-        const totalAfterOrder = JSON.parse(dataUserCheckout.checkout?.split('; ')[6]?.split(',').join('')?.slice(0, -1))
-
-        const transactions = dataUserCheckout?.transactions ?
-            String(Number(dataUserCheckout?.transactions) - Number(totalAfterOrder)) :
-            ''
-
-        const cancelCheckoutData = {
-            ...dataUserCheckout,
-            checkout: '',
-            total_order: `${totalOrder}, ${dataUserCheckout.checkout.split('; ')[7]}`,
-            transactions
-        }
-
-        async function cancelCheckout() {
-            const res = await axios.put(`https://noithatmoho-backend.up.railway.app/api/users/${ID_USER}`, cancelCheckoutData).then(res => {
-                return dataUserCheckout?.checkout && JSON.parse(dataUserCheckout.checkout?.split('; ')[2]).forEach(checkoutData => {
-                    products.filter(async data => {
-                        if (data.id === checkoutData.id) {
-                            if (checkoutData.id === data.id) {
-                                const quantity_sold = data.quantity_sold && data.quantity_sold !== 0 ?
-                                    data.quantity_sold - checkoutData.quantity : 0
-                                const quantity_stock = data.quantity_stock + checkoutData.quantity
-                                const updatePro = {
-                                    ...data,
-                                    quantity_sold,
-                                    quantity_stock
-                                }
-                                await axios.put(`https://noithatmoho-backend.up.railway.app/api/products/${data.id}`, updatePro)
-                                    .then(res => console.log(res.data))
-                                    .catch(err => console.log(err))
-                            }
-                        }
-                    })
+        if (dataUserCheckout.checkout.split('; ')[8] === 'Fail') {
+            async function updateUserCheck() {
+                await axios.put(`https://noithatmoho-backend.up.railway.app/api/users/${ID_USER}`, {
+                    ...dataUserCheckout,
+                    checkout: '',
                 })
-            })
+            }
             cancelToast()
             setTimeout(() => {
                 window.location.reload()
             }, 2500)
-            return res.data
-        }
+            return dataUserCheckout
+        } else {
+            let totalOrder = dataUserCheckout?.total_order ? parseInt(dataUserCheckout.total_order) - 1 : 0
 
-        if (window.confirm('Bạn có chắc chắn muốn hủy đơn hàng này?') === true) {
-            cancelCheckout()
+            const totalAfterOrder = JSON.parse(dataUserCheckout.checkout?.split('; ')[6]?.split(',').join('')?.slice(0, -1))
+
+            const transactions = dataUserCheckout?.transactions ?
+                String(Number(dataUserCheckout?.transactions) - Number(totalAfterOrder)) :
+                ''
+
+            const newObj = dataUserCheckout.checkout.split('; ').reduce((acc, next, index) => {
+                acc[index] = next
+                return acc
+            }, {})
+            newObj['8'] = 'Fail'
+            const output = Object.values(newObj).join('; ')
+
+            const cancelCheckoutData = {
+                ...dataUserCheckout,
+                checkout: output,
+                total_order: `${totalOrder}, ${dataUserCheckout.checkout.split('; ')[7]}`,
+            }
+
+            async function cancelCheckout() {
+                const res = await axios.put(`https://noithatmoho-backend.up.railway.app/api/users/${ID_USER}`, cancelCheckoutData).then(res => {
+                    return dataUserCheckout?.checkout && JSON.parse(dataUserCheckout.checkout?.split('; ')[2]).forEach(checkoutData => {
+                        products.filter(async data => {
+                            if (data.id === checkoutData.id) {
+                                if (checkoutData.id === data.id) {
+                                    const quantity_sold = data.quantity_sold && data.quantity_sold !== 0 ?
+                                        data.quantity_sold - checkoutData.quantity : 0
+                                    const quantity_stock = data.quantity_stock + checkoutData.quantity
+                                    const updatePro = {
+                                        ...data,
+                                        quantity_sold,
+                                        quantity_stock
+                                    }
+                                    await axios.put(`https://noithatmoho-backend.up.railway.app/api/products/${data.id}`, updatePro)
+                                        .then(res => console.log(res.data))
+                                        .catch(err => console.log(err))
+                                }
+                            }
+                        })
+                    })
+                })
+                cancelToast()
+                setTimeout(() => {
+                    window.location.reload()
+                }, 2500)
+                return res.data
+            }
+
+            if (window.confirm('Bạn có chắc chắn muốn hủy đơn hàng này?') === true) {
+                cancelCheckout()
+            }
+            return
         }
     }
+
 
     useEffect(() => {
         setIsSuccessCheckout(JSON.parse(localStorage.getItem('isSuccessCheckout')))
@@ -289,7 +349,6 @@ const Account = ({ accountInfos, onReload }) => {
             return parseInt(subTotal)
         }
     }, [dataUserCheckout])
-
 
     return (
         <>
@@ -388,7 +447,7 @@ const Account = ({ accountInfos, onReload }) => {
                                 <span class="loader-products"></span> :
                                 <>
 
-                                    {(!isSuccessCheckout && dataUserCheckout?.checkout) &&
+                                    {(!isSuccessCheckout && dataUserCheckout?.checkout?.split(';')[8].trim() !== 'Fail') &&
                                         <div className="warraper-products-bought">
                                             {dataUserCheckout?.checkout &&
                                                 <div className="products-bought">
@@ -467,6 +526,21 @@ const Account = ({ accountInfos, onReload }) => {
                                                                         fontSize: '1.25rem',
                                                                         letterSpacing: '1px'
                                                                     }}>&nbsp;{dataUserCheckout.checkout.split('; ')[0]}</span>
+                                                                </span>
+                                                                <span
+                                                                    className="mt--12"
+                                                                    style={{
+                                                                        fontWeight: 600,
+                                                                        color: '#4b4b4b',
+                                                                        fontSize: '1.3rem'
+                                                                    }}
+                                                                >- Số điện thoại:
+                                                                    <span style={{
+                                                                        fontWeight: 500,
+                                                                        color: '#434343',
+                                                                        fontSize: '1.25rem',
+                                                                        letterSpacing: '1px'
+                                                                    }}>&nbsp;{dataUserCheckout.checkout.split('; ')[1]}</span>
                                                                 </span>
                                                                 <span
                                                                     className="mt--12"
@@ -606,7 +680,7 @@ const Account = ({ accountInfos, onReload }) => {
                                         </div>
                                     }
 
-                                    {(dataUserCheckout.product_boughts) ?
+                                    {(dataUserCheckout?.product_boughts) ?
                                         <div className="warraper-products-bought">
                                             <div className="products-bought">
                                                 {dataUserCheckout?.product_boughts &&
@@ -658,9 +732,9 @@ const Account = ({ accountInfos, onReload }) => {
                                         </div>
                                         :
 
-                                        (!dataUserCheckout.checkout && <span className="products-bought__not">
+                                        <span className="products-bought__not">
                                             Bạn chưa đặt mua sản phẩm.
-                                        </span>)
+                                        </span>
                                     }
                                 </>
                             }
