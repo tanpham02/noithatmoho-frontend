@@ -45,7 +45,7 @@ const ManagerUsers = () => {
     useEffect(() => {
         setIsLoading(true)
         async function getData() {
-            const res = await axios.get('http://localhost:9080/api/users')
+            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/users')
             const datas = await res.data
             setDataUSers(datas)
             setIsLoading(false)
@@ -55,7 +55,7 @@ const ManagerUsers = () => {
 
     const handleDelete = (id) => {
         async function deleteUser() {
-            await axios.delete(`http://localhost:9080/api/users/${id}`)
+            await axios.delete(`https://noithatmoho-backend.up.railway.app/api/users/${id}`)
             checkOutToast()
             setTimeout(() => {
                 window.location.reload()

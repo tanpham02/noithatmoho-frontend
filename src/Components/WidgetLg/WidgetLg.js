@@ -8,7 +8,7 @@ const WidgetLg = ({ currentTheme, THEME_DARK }) => {
 
   useEffect(() => {
     async function getData() {
-      const res = await axios.get('http://localhost:9080/api/users')
+      const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/users')
       const data = await res.data
       setUserData(data)
     }
@@ -23,6 +23,7 @@ const WidgetLg = ({ currentTheme, THEME_DARK }) => {
           <th className="widget-lg__th">Tên khách hàng</th>
           <th className="widget-lg__th">Ngày</th>
           <th className="widget-lg__th">Tổng giá trị đơn hàng (VND)</th>
+          <th className="widget-lg__th">Trạng thái</th>
         </tr>
 
         {userDatas && userDatas.map((user, index) =>
@@ -36,7 +37,9 @@ const WidgetLg = ({ currentTheme, THEME_DARK }) => {
                 />
                 <span className="widget-lg__name">{user.full_name}</span>
               </td>
+
               <td className="widget-lg__date">{user.checkout?.split('; ')[7]}</td>
+
               <td className="widget-lg__amount"
                 style={{
                   position: 'relative'
@@ -54,6 +57,8 @@ const WidgetLg = ({ currentTheme, THEME_DARK }) => {
                 >
                   ₫</span>
               </td>
+
+              <td className="widget-lg__date">Thành công</td>
             </tr>
           ))}
       </table>

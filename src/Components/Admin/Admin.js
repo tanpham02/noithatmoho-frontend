@@ -23,7 +23,7 @@ const Admin = ({ listPage }) => {
     useEffect(() => {
         setIsLoading(true)
         async function getData() {
-            const res = await axios.get('http://localhost:9080/api/users')
+            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/users')
             const data = await res.data
             setUserData(data)
             setIsLoading(false)

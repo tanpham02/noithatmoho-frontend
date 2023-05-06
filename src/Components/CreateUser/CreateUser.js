@@ -24,7 +24,7 @@ const CreateUser = () => {
 
     useEffect(() => {
         async function fetchData() {
-            const res = await axios.get('http://localhost:9080/api/users')
+            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/users')
             const datas = await res.data
             setDataUsers(datas)
         }
@@ -102,7 +102,7 @@ const CreateUser = () => {
 
 
         async function createUser() {
-            const res = await axios.post('http://localhost:9080/api/users', dataUser)
+            const res = await axios.post('https://noithatmoho-backend.up.railway.app/api/users', dataUser)
             setIsLoading(false)
             checkOutToast()
             setTimeout(() => {

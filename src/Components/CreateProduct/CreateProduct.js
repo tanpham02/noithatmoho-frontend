@@ -56,7 +56,7 @@ const CreateProduct = () => {
 
     useEffect(() => {
         async function getDataType() {
-            const res = await axios.get('http://localhost:9080/api/types')
+            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/types')
             const datas = await res.data
             setDataType(datas)
         }
@@ -65,7 +65,7 @@ const CreateProduct = () => {
 
     useEffect(() => {
         async function getDataGroupType() {
-            const res = await axios.get('http://localhost:9080/api/groupTypes')
+            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/groupTypes')
             const datas = await res.data
             setDataGroupType(datas)
         }
@@ -107,7 +107,7 @@ const CreateProduct = () => {
 
         setIsLoading(true)
         async function createProduct() {
-            const res = await axios.post('http://localhost:9080/api/products', createPro)
+            const res = await axios.post('https://noithatmoho-backend.up.railway.app/api/products', createPro)
             setIsLoading(false)
             checkOutToast()
             window.setTimeout(() => {

@@ -36,7 +36,7 @@ const ManagerProducts = () => {
     useEffect(() => {
         setIsLoading(true)
         async function getData() {
-            const res = await axios.get('http://localhost:9080/api/products')
+            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/products')
             const datas = await res.data
             setDataProducts(datas)
             setIsLoading(false)
@@ -46,7 +46,7 @@ const ManagerProducts = () => {
 
     const handleDelete = (id) => {
         async function deletePro() {
-            await axios.delete(`http://localhost:9080/api/products/${id}`)
+            await axios.delete(`https://noithatmoho-backend.up.railway.app/api/products/${id}`)
             checkOutToast()
             setTimeout(() => {
                 window.location.reload()

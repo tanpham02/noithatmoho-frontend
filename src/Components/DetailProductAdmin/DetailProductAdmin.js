@@ -53,7 +53,7 @@ const DetailProductAdmin = () => {
     useEffect(() => {
         const id = window.location.pathname.split('/')[3]
         async function fetchData() {
-            const res = await axios.get(`http://localhost:9080/api/products/${id}`)
+            const res = await axios.get(`https://noithatmoho-backend.up.railway.app/api/products/${id}`)
             const datas = res.data
             setProduct(datas)
         }
@@ -109,7 +109,7 @@ const DetailProductAdmin = () => {
 
         setIsLoading(true)
         async function updatePro() {
-            const res = await axios.put(`http://localhost:9080/api/products/${product.id}`, updateData)
+            const res = await axios.put(`https://noithatmoho-backend.up.railway.app/api/products/${product.id}`, updateData)
             setIsLoading(false)
             checkOutToast()
             window.setTimeout(() => {

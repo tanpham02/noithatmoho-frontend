@@ -23,7 +23,7 @@ const DetailProduct = () => {
         setIsLoading(true)
         const id = JSON.parse(localStorage.getItem('productDetail'))
         async function getData() {
-            const res = await axios.get(`http://localhost:9080/api/products/${id}`)
+            const res = await axios.get(`https://noithatmoho-backend.up.railway.app/api/products/${id}`)
             const data = await res.data
             setDataDetail(prev => [...prev, data])
             setIsLoading(false)
