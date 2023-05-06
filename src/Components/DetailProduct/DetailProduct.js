@@ -10,7 +10,7 @@ const DetailProduct = () => {
     }, [])
 
     const [dataDetail, setDataDetail] = useState([])
-    const [quantity, setQuantity] = useState(1)
+    const [quantity, setQuantity] = useState(0)
     const [isACtive, setIsActive] = useState(0)
     const [cartLists, setCartLists] = useState(() => {
         return JSON.parse(localStorage.getItem('cartLists')) ?? []
@@ -45,8 +45,8 @@ const DetailProduct = () => {
     }, [quantity])
 
 
-    useEffect(() => {
-        if (quantity < 0) {
+    useLayoutEffect(() => {
+        if (quantity <= 0) {
             setQuantity(1)
         }
     }, [quantity])
@@ -308,7 +308,7 @@ const DetailProduct = () => {
                                                             <input
                                                                 type='text'
                                                                 value={parseInt(quantity)}
-                                                                min='0'
+                                                                min='1'
                                                                 onChange={(e) => setQuantity(parseInt(e.target.value))}
                                                             />
                                                             <i onClick={() => setQuantity(quantity + 1)} className="fa-solid fa-plus"></i>
