@@ -37,8 +37,8 @@ const HomePage = ({ dataGroupTypes, dataTypes, accountInfos, localeLogos, banner
             {isLoading ?
                 <span style={{
                     position: 'absolute',
-                    top: '50%',
-                    left: '50%',
+                    top: '47%',
+                    left: '47%',
                 }} class="loader-main-products"></span> :
                 <>
                     <Header localeLogos={localeLogos} accountInfos={accountInfos} />
