@@ -46,14 +46,6 @@ const DetailProduct = () => {
 
 
     useLayoutEffect(() => {
-        if (quantity < 0) {
-            setQuantity(1)
-        }
-    }, [quantity])
-
-
-
-    useLayoutEffect(() => {
         const number = /^[0-9]+$/
         if (!number.test(quantity)) {
             setQuantity(1)
@@ -294,8 +286,10 @@ const DetailProduct = () => {
                                                     <>
                                                         <span
                                                             style={{
-                                                                fontSize: '1.3rem',
-                                                                color: 'var(--light)'
+                                                                fontSize: '1.2rem',
+                                                                color: ' var(--gray-color)',
+                                                                fontWeight: 600,
+                                                                opacity: '0.5',
                                                             }}
                                                         >
                                                             {`Sản phẩm có sẵn ${data.quantity_sold}`}
@@ -313,11 +307,11 @@ const DetailProduct = () => {
                                                     </>
                                                 )
                                             }
-                                            
+
 
                                             {stock && <span className="errorMsg">{`Số lượng trong kho còn lại!`}</span>}
 
-                                                {
+                                            {
                                                 JSON.parse(localStorage.getItem('isAdmin')) !== 1 && <div className="product-detail__btn">
                                                     {data.prices ?
                                                         <>
@@ -372,7 +366,7 @@ const DetailProduct = () => {
                                                         <button style={{ fontSize: '1.5rem', height: 50 }} className="btn product-detail__btn-add-cart btn--color-prima-blue">LIÊN HỆ ĐỂ NHẬN TƯ VẤN VÀ THIẾT KẾ MIỄN PHÍ</button>
                                                     }
                                                 </div>
-                                                }
+                                            }
 
                                             < div className="product-detail__info-promotion" >
                                                 <span>
