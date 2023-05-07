@@ -193,31 +193,32 @@ const DetailProduct = () => {
                                                         }
                                                     </span>)
                                             }
-                                            {(data.quantity_stock > 0) ? (data.discount ?
-                                                <>
-                                                    <span className="product-detail__prices-new">
-                                                        {data.discount ?
-                                                            (data.prices - (data.prices * (parseInt(data.discount)) / 100)).toLocaleString("en-VI") :
-                                                            parseInt(data.prices).toLocaleString("en-VI")
-                                                        }
-                                                        <span className="VND">₫</span>
-                                                    </span>
+                                            {(data.quantity_stock > 0) ?
+                                                (data.discount ?
+                                                    <>
+                                                        <span className="product-detail__prices-new">
+                                                            {data.discount ?
+                                                                (data.prices - (data.prices * (parseInt(data.discount)) / 100)).toLocaleString("en-VI") :
+                                                                parseInt(data.prices).toLocaleString("en-VI")
+                                                            }
+                                                            <span className="VND">₫</span>
+                                                        </span>
 
-                                                    <span className="product-detail__prices-old item-product__price-old">
-                                                        {parseInt(data.prices).toLocaleString("en-VI")}
-                                                        <span className="VND">₫</span>
-                                                    </span>
-                                                </> :
-                                                (data.prices === 0) ?
-                                                    <span className="product-detail__prices-new" style={{ fontSize: 12 }}>
-                                                        {`Giá dự kiến chỉ từ ${parseInt(30000000).toLocaleString('EN-VI')}`}
-                                                        <span className="VND">₫</span>
-                                                    </span>
-                                                    :
-                                                    <span className="product-detail__prices-new ">{data.prices.toLocaleString('en-VI')}
-                                                        <span className="VND">₫</span>
-                                                    </span>
-                                            ) :
+                                                        <span className="product-detail__prices-old item-product__price-old">
+                                                            {parseInt(data.prices).toLocaleString("en-VI")}
+                                                            <span className="VND">₫</span>
+                                                        </span>
+                                                    </> :
+                                                    (data.prices === 0) ?
+                                                        <span className="product-detail__prices-new" style={{ fontSize: 12 }}>
+                                                            {`Giá dự kiến chỉ từ ${parseInt(30000000).toLocaleString('EN-VI')}`}
+                                                            <span className="VND">₫</span>
+                                                        </span>
+                                                        :
+                                                        <span className="product-detail__prices-new ">{data.prices.toLocaleString('en-VI')}
+                                                            <span className="VND">₫</span>
+                                                        </span>
+                                                ) :
                                                 <span style={{
                                                     backgroundColor: 'var(--primary-color-blue)',
                                                     fontSize: '1.3rem',

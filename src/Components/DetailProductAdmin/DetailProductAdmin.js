@@ -99,7 +99,7 @@ const DetailProductAdmin = () => {
             name: namePro ? namePro : product.name,
             prices: pricePro ? pricePro : product.prices,
             discount: discountPro,
-            quantity_stock: quantityStock ? parseInt(quantityStock)  : product.quantity_stock,
+            quantity_stock: quantityStock ? parseInt(quantityStock) >= 0 ? parseInt(quantityStock) : 0 : product.quantity_stock,
             quantity_sold: quantitySold ? parseInt(quantitySold) : product.quantity_sold,
             image_url: listImgs.length ? listImgs.join(', ') : product.image_url,
             size: size ? size : product.size,
