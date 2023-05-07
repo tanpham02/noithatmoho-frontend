@@ -42,7 +42,7 @@ const DetailProduct = () => {
                 return
             }
         })
-    }, [quantity])
+    }, [dataDetail, quantity])
 
     useLayoutEffect(() => {
         const number = /^[0-9]+$/
