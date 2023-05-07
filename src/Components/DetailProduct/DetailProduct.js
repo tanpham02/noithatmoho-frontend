@@ -42,7 +42,7 @@ const DetailProduct = () => {
                 return
             }
         })
-    }, [dataDetail, quantity])
+    }, [quantity])
 
     useLayoutEffect(() => {
         const number = /^[0-9]+$/
@@ -70,7 +70,7 @@ const DetailProduct = () => {
                         return [...prev, { id, quantity: parseInt(x.quantity) }]
                     }
                 } else {
-                    return [...prev, { id, quantity: parseInt(quantity) }]
+                    return [...prev, { id, quantity: quantity.length ? parseInt(quantity) : 1 }]
                 }
             })
             window.location.reload()
