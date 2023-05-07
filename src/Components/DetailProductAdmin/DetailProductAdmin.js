@@ -73,7 +73,7 @@ const DetailProductAdmin = () => {
                 setDiscountPro(product.discount)
             }
             if (product.quantity_stock) {
-                setQuantityStock(product.quantity_stock)
+                setQuantityStock(product.quantity_stock > 0 ? product.quantity_stock : 0)
             }
             if (product.quantity_sold) {
                 setQuantitySold(product.quantity_sold)
@@ -136,7 +136,7 @@ const DetailProductAdmin = () => {
                             <img src={product.image_url && product.image_url.split(', ')[0]} alt={product.name} className="productInfoImg" />
                             <span className="productName">{product.name}</span>
                         </div>
-                        {product.quantity_stock === 0 &&
+                        {product.quantity_stock <= 0 &&
                             <span
                                 className='errorMsg'
                                 style={{
