@@ -355,7 +355,6 @@ const DetailProductAdmin = () => {
                                     type="date"
                                     name='size'
                                     className="userUpdateInput"
-                                    required
                                     value={createdAt}
                                     onChange={e => setCreatedAt(e.target.value)}
                                 />
@@ -371,7 +370,6 @@ const DetailProductAdmin = () => {
                                     placeholder={product.created_by ? product.created_by : 'VD: Phạm Văn Tân'}
                                     name='size'
                                     className="userUpdateInput"
-                                    required
                                     value={createdBy}
                                     onChange={e => setCreatedBy(e.target.value)}
                                 />
