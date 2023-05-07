@@ -9,7 +9,7 @@
 
   & .chartTitle {
     margin-bottom: 20px;
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-weight: 600;
     color: var(--gray-color);
 
@@ -18,13 +18,14 @@
     }
   }
 
+  & .recharts-default-legend {
+    padding: 0px !important;
+    margin: 0px !important;
+    text-align: center !important;
+    display: inline-block !important;
+    position: absolute !important;
+    left: 62% !important;
+    transform: translateX(-62%) !important;
+  }
+
 }
-
-
-
-
-
-
-
-
-

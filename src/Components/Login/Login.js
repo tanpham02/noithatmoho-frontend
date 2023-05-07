@@ -67,7 +67,10 @@ const Login = ({ onGetDataAuthor, fixedHeader }) => {
                     let flag = false;
                     // const x = String(data.phone_number)
                     // const stringPhone = `0${x.slice(3)}`
-                    if (((emailOrPhonenumber.trim() === data.email && password.trim() === data.password) || (emailOrPhonenumber.trim() === String(data.phone_number).trim() && password.trim() === data.password)) && !flag) {
+                    if (((emailOrPhonenumber === data.email && password === data.password) ||
+                        (emailOrPhonenumber === String(data.phone_number) && password === data.password))
+                        && !flag
+                    ) {
                         setErrorMes(false)
                         const regexPhone = /^[0-9]+$/
                         const check = regexPhone.test(emailOrPhonenumber) ? 'phone_number' : 'email'
@@ -129,7 +132,14 @@ const Login = ({ onGetDataAuthor, fixedHeader }) => {
                 </div>
 
                 {errorMes && (
-                    <span className="errorMsg login">Email hoặc mật khẩu không đúng</span>
+                    <span
+                        className="errorMsg login">
+                        {`${/^[0-9]+$/.test(emailOrPhonenumber) ?
+                            'Số điện thoại' :
+                            'Email'} 
+                        hoặc mật khẩu không đúng`
+                        }
+                    </span>
                 )}
                 <div className="form-group login ">
                     <label htmlFor='email-or-phone-number'>

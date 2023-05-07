@@ -65,18 +65,22 @@ const VienanCollection = ({ datas, dataTypes, filterCategories, filterPrices, fi
                                 onClick={() => localStorage.setItem('productDetail', JSON.stringify(data.id))}
                             >
                                 <Link to={`/products/${(data.name).split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`}>
-                                    {
-                                        data.discount ?
-                                            <span className="product-discount">
-                                                -{data.discount}
-                                            </span> :
+                                    {data.discount &&
+                                        <span className="product-discount">
+                                            {
+                                                data.discount.includes('%') ?
+                                                    `-${data.discount}` :
+                                                    `-${data.discount}%`
+                                            }
+                                        </span>
+                                    }
 
-                                            (data.created_at &&
-                                                `${new Date(data.created_at).getMonth() + 1}/${new Date(data.created_at).getDate()}/${new Date(data.created_at).getFullYear()}`
-                                                === new Date().toLocaleDateString()) &&
-                                            <span className="product-new">
-                                                NEW
-                                            </span>
+                                    {(data.created_at &&
+                                        `${new Date(data.created_at).getMonth() + 1}/${new Date(data.created_at).getDate()}/${new Date(data.created_at).getFullYear()}`
+                                        === new Date().toLocaleDateString()) &&
+                                        <span className="product-new">
+                                            NEW
+                                        </span>
                                     }
 
                                     {

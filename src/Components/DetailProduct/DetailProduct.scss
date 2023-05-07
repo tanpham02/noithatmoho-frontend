@@ -208,7 +208,7 @@
         }
 
         & .product-detail__quantity {
-            margin: 6px 0;
+            margin: 8px 0 6px;
 
             & input {
                 width: 20%;
@@ -248,10 +248,20 @@
                 text-transform: uppercase;
                 color: var(--text-white);
 
+
+
                 &.btn--color-prima-blue {
                     background-color: var(--primary-color-blue);
                     height: 44px;
                     line-height: 90%;
+
+                    &.stock-btn {
+                        cursor: default !important;
+                        opacity: 0.8 !important;
+                        color: #fff !important;
+                        background-color: var(--primary-color-blue) !important;
+                        border: 1px solid var(--primary-color-blue) !important;
+                    }
 
                     &:hover {
                         color: var(--gray-color);
@@ -259,14 +269,24 @@
                         border: 1px solid var(--primary-color-blue);
                         transition: all ease-out 0.25s;
                         font-weight: 600;
-
                     }
+
+
+
                 }
 
                 &.btn--color-prima-orange {
                     background-color: var(--primary-color-orange);
                     height: 44px;
                     line-height: 90%;
+
+                    &.stock-btn {
+                        cursor: default !important;
+                        opacity: 0.8 !important;
+                        color: #fff !important;
+                        background-color: var(--primary-color-orange) !important;
+                        border: 1px solid var(--primary-color-orange) !important;
+                    }
 
                     &:hover {
                         color: var(--gray-color);

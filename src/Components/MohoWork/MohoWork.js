@@ -90,7 +90,11 @@ const MohoWork = ({ datas, dataTypes, dataGroupTypes, filterCategories, filterPr
                                         {
                                             data.discount &&
                                             <span className="product-discount">
-                                                -{data.discount}
+                                                {
+                                                    data.discount.includes('%') ?
+                                                        `-${data.discount}` :
+                                                        `-${data.discount}%`
+                                                }
                                             </span>
                                         }
 

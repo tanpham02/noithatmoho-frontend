@@ -12,17 +12,17 @@ const Cart = () => {
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
-        setIsLoading(true)
         const carts = JSON.parse(localStorage.getItem('cartLists')) ?? []
         setCarts([...carts])
-        setIsLoading(false)
     }, [])
 
 
     useEffect(() => {
+        setIsLoading(true)
         async function fetchData() {
             const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/products')
             const data = await res.data
+            setIsLoading(false)
             setDatas(data)
         }
         fetchData()

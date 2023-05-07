@@ -1,31 +1,28 @@
-import React, { useState } from 'react'
-import { GoogleLogin } from 'react-google-login'
+import { useGoogleLogin } from '@react-oauth/google';
 
-const GoogleLoginButton = () => {
-  const [accessToken, setAccessToken] = useState('')
 
-  const handleGoogleLoginSuccess = async (response) => {
-    const { code } = response
-    const url = `http://localhost:8080/login/oauth2/${code}/google`
-    const tokenResponse = await fetch(url)
-    const tokenData = await tokenResponse.json()
-    setAccessToken(tokenData.access_token)
-    console.log(url)
-  }
+const BtnLoginGG = () => {
+  const { signIn } = useGoogleLogin({
+    clientId: '273310959546-ih5nf3j8me1j68112tuk6ummroecml7s.apps.googleusercontent.com',
+    onSuccess: (response) => {
+      console.log('Logged in successfully!', response);
+    },
 
-  const handleGoogleLoginFailure = (error) => {
-    console.error(error)
-  }
+    onError: (err) => {
+      console.log(`Login failure with ${err}`)
+    },
+
+  }); 
+
+
 
   return (
-    <GoogleLogin
-      clientId="273310959546-ih5nf3j8me1j68112tuk6ummroecml7s.apps.googleusercontent.com"
-      buttonText="Đăng nhập với Google"
-      onSuccess={handleGoogleLoginSuccess}
-      onFailure={handleGoogleLoginFailure}
-      cookiePolicy={'single_host_origin'}
-    />
-  )
+    <div>
+      <h2>Sign in with Google</h2>
+      <button onClick={signIn} >Login with Goggle 🚀</button>
+    </div>
+  );
+
 }
 
-export default GoogleLoginButton
+export default BtnLoginGG

@@ -13,13 +13,13 @@ import {
   ResponsiveContainer
 } from "recharts"
 
-import { userData, productData } from "../../dummyData"
+import { userData, productData } from "../../mockDatas"
 
-function Chart({THEME_DARK, currentTheme}) {
+function Chart({ THEME_DARK, currentTheme }) {
   return (
     <div className="chart">
       <div>
-        <h3 className={`chartTitle ${currentTheme === THEME_DARK && 'active'}`}>Phân tích doanh số bán hàng</h3>
+        <h3 style={{ textAlign: 'center' }} className={`chartTitle ${currentTheme === THEME_DARK && 'active'}`}>DOANH THU - LỢI NHUẬN</h3>
         <BarChart
           width={550}
           height={400}
@@ -42,14 +42,14 @@ function Chart({THEME_DARK, currentTheme}) {
       </div>
       <div>
         <h3
-          style={{ marginLeft: 53 }}
+          style={{ textAlign: 'center', marginLeft: 30 }}
           className={`chartTitle ${currentTheme === THEME_DARK && 'active'}`}
         >
-          Phân tích tổng số lượng khách hàng đăng kí, đơn hàng và giao dịch
+          TỔNG SỐ LƯỢNG ĐƠN HÀNG - GIAO DỊCH THÀNH CÔNG
         </h3>
         <ResponsiveContainer width={600} height={400}>
           <LineChart
-            width={500}
+            width={550}
             height={300}
             data={userData}
             margin={{
@@ -64,9 +64,8 @@ function Chart({THEME_DARK, currentTheme}) {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Line type="monotone" dataKey="Khách hàng" stroke="#ee693b" activeDot={{ r: 8 }} />
-            <Line type="monotone" dataKey="Đơn hàng" stroke="#27678f" activeDot={{ r: 8 }} />
-            <Line type="monotone" dataKey="Giao dịch" stroke="#008080" activeDot={{ r: 8 }} />
+            <Line type="monotone" dataKey="Đơn hàng" stroke="#ee693b" activeDot={{ r: 8 }} />
+            <Line type="monotone" dataKey="Giao dịch" stroke="#27678f" activeDot={{ r: 8 }} />
           </LineChart>
         </ResponsiveContainer>
       </div>

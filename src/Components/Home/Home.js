@@ -6,7 +6,7 @@ const Home = ({ datas, dataGroupTypes, dataTypes }) => {
     const [dataDiscount, setDataDiscount] = useState([])
     const [dataBestSeller, setDataBestSeller] = useState([])
     const [dataDecors, setDataDecors] = useState([])
-    
+
     const handleMouseEnter = (index) => {
         setIndexShowImg(index)
     }
@@ -32,7 +32,7 @@ const Home = ({ datas, dataGroupTypes, dataTypes }) => {
 
     useEffect(() => {
         const idDataGroup = dataGroupTypes.find(dataGroup => dataGroup.id === 6)
-        if(idDataGroup) {
+        if (idDataGroup) {
             const listIds = dataTypes
                 .filter(dataType => {
                     if (idDataGroup?.id === dataType['group_type_id']) {
@@ -40,7 +40,7 @@ const Home = ({ datas, dataGroupTypes, dataTypes }) => {
                     }
                 })
                 .map(ids => ids.id)
-    
+
             const dataDecor = datas.filter(data => listIds.includes(data['type_id']))
             setDataDecors(dataDecor)
         }
@@ -69,12 +69,14 @@ const Home = ({ datas, dataGroupTypes, dataTypes }) => {
                                 onClick={() => localStorage.setItem('productDetail', JSON.stringify(data.id))}
                             >
                                 <Link to={`/products/${(data.name).split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`}>
-
-
                                     {
                                         data.discount &&
                                         <span className="product-discount">
-                                            -{data.discount}
+                                            {
+                                                data.discount.includes('%') ?
+                                                    `-${data.discount}` :
+                                                    `-${data.discount}%`
+                                            }
                                         </span>
                                     }
 
@@ -144,7 +146,11 @@ const Home = ({ datas, dataGroupTypes, dataTypes }) => {
                                     {
                                         data.discount &&
                                         <span className="product-discount">
-                                            -{data.discount}
+                                            {
+                                                data.discount.includes('%') ?
+                                                    `-${data.discount}` :
+                                                    `-${data.discount}%`
+                                            }
                                         </span>
                                     }
 
@@ -249,7 +255,11 @@ const Home = ({ datas, dataGroupTypes, dataTypes }) => {
                                     {
                                         data.discount &&
                                         <span className="product-discount">
-                                            -{data.discount}
+                                            {
+                                                data.discount.includes('%') ?
+                                                    `-${data.discount}` :
+                                                    `-${data.discount}%`
+                                            }
                                         </span>
                                     }
 

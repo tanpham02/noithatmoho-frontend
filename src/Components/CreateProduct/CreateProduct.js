@@ -19,14 +19,14 @@ const CreateProduct = () => {
     const [dataGroupType, setDataGroupType] = useState([])
     const [subCategorys, setSubCategorys] = useState([])
     const [typeId, setTypeId] = useState(null)
-
     const [createdAt, setCreatedAt] = useState('')
     const [createdBy, setCreatedBy] = useState('')
-
     const [regexPrice, setRegexPrice] = useState(false)
     const [regexAmount, setRegexAmount] = useState(false)
-
+    const [regexDiscount, setRegexDiscount] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+
+
 
     const checkOutToast = useCallback(() =>
         toast.info('Hoàn tất thêm sản phẩm', {
@@ -93,56 +93,82 @@ const CreateProduct = () => {
         e.preventDefault()
 
         const createPro = {
-            name: namePro,
-            prices: parseFloat(pricePro),
-            discount: discountPro,
-            quantity_stock: parseInt(quantityStock),
+            name: namePro.trim(),
+            prices: parseFloat(pricePro.trim()),
+            discount: discountPro.trim(),
+            quantity_stock: parseInt(quantityStock.trim()),
             quantity_sold: 0,
             size,
             image_url: listAvatar.join(', '),
             type_id: typeId.id,
             created_at: createdAt,
-            created_by: createdBy
+            created_by: createdBy.trim()
         }
 
-        setIsLoading(true)
-        async function createProduct() {
-            const res = await axios.post('https://noithatmoho-backend.up.railway.app/api/products', createPro)
-            setIsLoading(false)
-            checkOutToast()
-            window.setTimeout(() => {
-                window.location.replace('/manager-products')
-            }, 2800)
-            return res.data
-        }
 
-        const regexNumber = /^\d+$/
-        if (regexNumber.test(quantityStock) && regexNumber.test(pricePro)) {
+
+        const regexNumber = /^[1-9]0?\d*$/
+        const validateDiscount = /^(?:[1-9]0?\d*%?)?$/
+        if (regexNumber.test(quantityStock.trim()) && regexNumber.test(pricePro.trim()) && validateDiscount.test(discountPro.trim())) {
             setRegexPrice(false)
             setRegexAmount(false)
+            setRegexDiscount(false)
+            setIsLoading(true)
+            async function createProduct() {
+                const res = await axios.post('https://noithatmoho-backend.up.railway.app/api/products', createPro)
+                setIsLoading(false)
+                checkOutToast()
+                window.setTimeout(() => {
+                    window.location.replace('/manager-products')
+                }, 2800)
+                return res.data
+            }
             createProduct()
+            return
         }
-        if (regexNumber.test(quantityStock) === false && regexNumber.test(pricePro) === false) {
+        if (regexNumber.test(quantityStock.trim()) === false && regexNumber.test(pricePro.trim()) === false && validateDiscount.test(discountPro.trim()) === false) {
+            setRegexPrice(true)
+            setRegexAmount(true)
+            setRegexDiscount(true)
+            return
+        }
+
+        if (regexNumber.test(quantityStock.trim()) === false && regexNumber.test(pricePro.trim()) === false) {
             setRegexPrice(true)
             setRegexAmount(true)
             setIsLoading(false)
             return
         }
+        if (regexNumber.test(quantityStock.trim()) === false && validateDiscount.test(discountPro.trim()) === false) {
+            setRegexAmount(true)
+            setRegexDiscount(true)
+            setIsLoading(false)
+            return
+        }
+        if (regexNumber.test(pricePro.trim()) === false && validateDiscount.test(discountPro.trim()) === false) {
+            setRegexPrice(true)
+            setRegexDiscount(true)
+            setIsLoading(false)
+            return
+        }
 
-        if (regexNumber.test(quantityStock) && regexNumber.test(pricePro) === false) {
+        if (regexNumber.test(pricePro.trim()) === false) {
             setRegexPrice(true)
             setIsLoading(false)
             return
         }
 
-        if (regexNumber.test(pricePro) && regexNumber.test(quantityStock) === false) {
+        if (regexNumber.test(quantityStock.trim()) === false) {
             setRegexAmount(true)
+            setIsLoading(false)
+            return
+        }
+        if (validateDiscount.test(discountPro.trim()) === false) {
+            setRegexDiscount(true)
             setIsLoading(false)
             return
         }
     }
-
-
     return (
         <>
             <div className="newUser">
@@ -230,7 +256,7 @@ const CreateProduct = () => {
                                 onChange={e => setPricePro(e.target.value)}
                                 onInput={() => setRegexPrice(false)}
                             />
-                            {regexPrice && <span className='errorMsg'>Giá sản phẩm yêu cầu phải là số và phải là số lương</span>}
+                            {regexPrice && <span className='errorMsg'>Giá sản phẩm yêu cầu phải là số và bắt đầu với chữ số lớn hơn 0</span>}
                         </div>
                         <div className="newUserItem">
                             <label>Giảm giá</label>
@@ -240,7 +266,9 @@ const CreateProduct = () => {
                                 placeholder="_%"
                                 value={discountPro}
                                 onChange={e => setDiscountPro(e.target.value)}
+                                onInput={() => setRegexDiscount(false)}
                             />
+                            {regexDiscount && <span className='errorMsg'>Yêu cầu phải là số và bắt đầu với chữ số lớn hơn 0. (Và % có thể có hoặc không)</span>}
                         </div>
 
                         <div className="newUserItem">
@@ -254,7 +282,7 @@ const CreateProduct = () => {
                                 onChange={e => setQuantityStock(e.target.value)}
                                 onInput={() => setRegexAmount(false)}
                             />
-                            {regexAmount && <span className='errorMsg'>Số lượng yêu cầu phải là số và phải là số dương</span>}
+                            {regexAmount && <span className='errorMsg'>Số lượng nhập vào yêu cầu phải là số và bắt đầu với chữ số lớn hơn 0</span>}
                         </div>
 
                         <div className="newUserItem">
@@ -274,7 +302,6 @@ const CreateProduct = () => {
                                 required
                                 type="date"
                                 name='created_at'
-                                // placeholder="Dài x Rộng x Chiều cao (cm)"
                                 value={createdAt}
                                 onChange={e => setCreatedAt(e.target.value)}
                             />

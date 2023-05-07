@@ -105,12 +105,6 @@ const WidgetLg = ({ currentTheme, THEME_DARK }) => {
 
     let totalOrder = dataUserCheckout?.total_order ? parseInt(dataUserCheckout.total_order) - 1 : 0
 
-    const totalAfterOrder = JSON.parse(dataUserCheckout.checkout?.split('; ')[6]?.split(',').join('')?.slice(0, -1))
-
-    const transactions = dataUserCheckout?.transactions ?
-      String(Number(dataUserCheckout?.transactions) - Number(totalAfterOrder)) :
-      ''
-
     const newObj = dataUserCheckout.checkout.split('; ').reduce((acc, next, index) => {
       acc[index] = next
       return acc

@@ -6,7 +6,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import './i18n/i18n.js'
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import ProviderTheme from './context/ProviderTheme/ProviderTheme';
 
 
@@ -14,11 +14,13 @@ import ProviderTheme from './context/ProviderTheme/ProviderTheme';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
-  <ProviderTheme>
-    <Router>
-      <App />
-    </Router>
-  </ProviderTheme>
+  <GoogleOAuthProvider clientId='273310959546-ih5nf3j8me1j68112tuk6ummroecml7s.apps.googleusercontent.com'>
+    <ProviderTheme>
+      <Router>
+        <App /> 
+      </Router>
+    </ProviderTheme>
+  </GoogleOAuthProvider>
   // </React.StrictMode>   
 );
 
