@@ -360,7 +360,7 @@ const Header = ({ localeLogos, accountInfos }) => {
             localStorage.removeItem('idUser')
             localStorage.removeItem('selectedFilePath')
             localStorage.setItem('isLogin', JSON.stringify(false))
-            window.location.replace('/')
+            window.location.reload()
         }
     }
 

@@ -57,7 +57,7 @@ const BeddingMattress = ({ datas, dataTypes, filterCategories, filterPrices, fil
                         onGetData={getDataExpected}
                     />
                     {isLoading ?
-                        <span class="loader-main-products"></span> :
+                        <span className="loader-main-products"></span> :
 
                         expectedData.map((data, index) => (
                             <div

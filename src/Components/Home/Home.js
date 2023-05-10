@@ -132,7 +132,7 @@ const Home = ({ datas, dataGroupTypes, dataTypes }) => {
                             <h2 className="products__title px--16 best-seller-products-home__heading">Sản phẩm bán chạy</h2>
                             <Link to='/page/best-seller' className="seen-more">Xem thêm</Link>
                         </div>
-                        {dataBestSeller.slice(0, -6).map((data, index) => (
+                        {dataBestSeller.slice(0, 12).map((data, index) => (
                             <div
                                 key={index}
                                 className="grid__col-4 products px--16"

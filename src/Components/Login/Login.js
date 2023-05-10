@@ -183,7 +183,7 @@ const Login = ({ onGetDataAuthor, fixedHeader }) => {
                     onClick={handleSubmit}
                 >
                     {isLoading ?
-                        <span class="loader-login">Loading</span> :
+                        <span className="loader-login">Loading</span> :
                         'Đăng nhập'
                     }
                 </button>

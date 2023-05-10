@@ -24,16 +24,23 @@ const Topbar = ({ currentTheme, dispatch }) => {
       <div className="top-bar__wrapper">
         <div className="top-left">
           <Link to='/admin' className="logo">MOHO Administrator</Link>
-          <div className={`theme-dark-light ${currentTheme === THEME_DARK && 'active'}`}>
-            <i
-              className={`fa-solid fa-sun ${currentTheme === THEME_LIGHT && 'active'} `}
-              onClick={handleChangeThemeLight}
-            ></i>
-            <i
-              className={`fa-solid fa-moon ${currentTheme === THEME_DARK && 'active'}`}
-              onClick={handleChangeThemeDark}
-            ></i>
-          </div>
+          {window.location.pathname === '/manager-users/create-user' ||
+            window.location.pathname.includes('/manager-users/detail') ||
+            window.location.pathname === '/manager-products/create-product' ||
+            window.location.pathname.includes('/manager-products/detail')
+            ?
+            '' :
+            <div className={`theme-dark-light ${currentTheme === THEME_DARK && 'active'}`}>
+              <i
+                className={`fa-solid fa-sun ${currentTheme === THEME_LIGHT && 'active'} `}
+                onClick={handleChangeThemeLight}
+              ></i>
+              <i
+                className={`fa-solid fa-moon ${currentTheme === THEME_DARK && 'active'}`}
+                onClick={handleChangeThemeDark}
+              ></i>
+            </div>
+          }
         </div>
       </div >
     </div >

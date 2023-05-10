@@ -77,7 +77,7 @@ const LivingRoom = ({ datas, dataTypes, dataGroupTypes, filterCategories, filter
                         onGetData={getDataExpected}
                     />
                     {isLoading ?
-                        <span class="loader-main-products"></span> :
+                        <span className="loader-main-products"></span> :
                         <>
                             {currentPageData.map((data, index) => (
                                 <div

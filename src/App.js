@@ -70,6 +70,7 @@ import DetailUserPage from './pages/DetailUser/DetailUser'
 import CreateUserPage from './pages/CreateUser/CreateUser'
 import CreateProductPage from './pages/CreateProduct/CreateProduct'
 import DetailProductAdminPage from './pages/DetailProductAdmin/DetailProductAdmin'
+import NotFoundPage from './pages/NotFoundPage'
 import {
   PermIdentity,
   Storefront,
@@ -79,7 +80,7 @@ import {
 
 const localeLogos = [
   {
-    url: 'https://img.freepik.com/premium-vector/flag-united-states-america-vector-illustration-flat-modern-style_575709-256.jpg',
+    url: '/assets/img/locale-lang/US.png',
     alt: 'en',
     style: {
       height: '19px',
@@ -87,10 +88,10 @@ const localeLogos = [
     }
   },
   {
-    url: 'https://static.ex-cdn.com/cpcs.vn/v1.6.20/templates_acai/themes/images/vn.png',
+    url: '/assets/img/locale-lang/VN.png',
     alt: 'vi',
     style: {
-      height: '25px',
+      height: '19px',
       width: "29px"
     }
   }
@@ -264,7 +265,7 @@ function App() {
     },
     {
       name: 'Đăng xuất',
-      path: '/account/logout'
+      path: '/'
     }
   ]
 
@@ -332,370 +333,755 @@ function App() {
       <Routes>
         <Route
           path='/'
-          element={<HomePage datas={datas} dataGroupTypes={dataGroupTypes} dataTypes={dataTypes} accountInfos={accountInfos} localeLogos={localeLogos} bannerServices={bannerServices} sliders={sliders} customers={customers} />}
+          element={
+            <HomePage
+              datas={datas}
+              dataGroupTypes={dataGroupTypes}
+              dataTypes={dataTypes}
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              sliders={sliders}
+              customers={customers}
+            />
+          }
+        />
+        <Route
+          path='/*'
+          element={
+            <NotFoundPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+            />
+          }
         />
         <Route
           path='/account'
           element={
-            <AccountPage accountInfos={accountInfos} localeLogos={localeLogos} bannerServices={bannerServices} />
+            <AccountPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+            />
           }
         />
         <Route
           path='/account/addresses'
-          element={<AccountAddressPage accountInfos={accountInfos} localeLogos={localeLogos} bannerServices={bannerServices} />}
+          element={
+            <AccountAddressPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+            />
+          }
         />
         <Route
           path='/account/register'
-          element={<RegisterPage accountInfos={accountInfos} localeLogos={localeLogos} bannerServices={bannerServices} />}
+          element={
+            <RegisterPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+            />
+          }
         />
         <Route
           path='/account/restore-account'
-          element={<RestoreAccountPage accountInfos={accountInfos} localeLogos={localeLogos} bannerServices={bannerServices} />}
+          element={
+            <RestoreAccountPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+            />
+          }
         />
         <Route
           path='/collections/uu-dai'
-          element={<DiscountPage accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} />}
+          element={
+            <DiscountPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+            />
+          }
         />
         <Route
           path='/pages/brand-story'
-          element={<BrandStoryPage accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} />}
+          element={
+            <BrandStoryPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+            />
+          }
         />
         <Route
           path='/pages/career'
-          element={<CareerPage accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} />}
+          element={
+            <CareerPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+            />
+          }
         />
         <Route
           path='/pages/chinh-sach-ban-hang'
           element={<PolicySalePage accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} />}
+            localeLogos={localeLogos} bannerServices={bannerServices} />
+          }
         />
         <Route
           path='/pages/giao-hang-va-lap-dat'
-          element={<PolicyDeliveryInstallationPage accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} />}
+          element={
+            <PolicyDeliveryInstallationPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+            />
+          }
         />
         <Route
           path='/pages/chinh-sach-doi-tra'
-          element={<PolicyExchangeReturnPage accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} />}
+          element={
+            <PolicyExchangeReturnPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+            />
+          }
         />
         <Route
           path='/pages/chinh-sach-bao-hanh'
-          element={<PolicyWarrantyPage accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} />}
+          element={
+            <PolicyWarrantyPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+            />
+          }
         />
         <Route
           path='/pages/khach-hang-than-thiet-mohomie'
-          element={<CustomerLoyalPage accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} />}
+          element={
+            <CustomerLoyalPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+            />
+          }
         />
         <Route
           path='/pages/review-hay-nhan-qua-ngay-mohoments'
-          element={<ReviewGetPrizesPage accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} />}
+          element={
+            <ReviewGetPrizesPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+            />
+          }
         />
         <Route
           path='/pages/chinh-sach-doi-tac-ban-hang'
-          element={<PolicyPartnerSalePage accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} />}
+          element={
+            <PolicyPartnerSalePage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+            />
+          }
         />
         <Route
           path='/collections/moho-works'
-          element={<MohoWorkPage accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} dataGroupTypes={dataGroupTypes} />}
+          element={
+            <MohoWorkPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+              dataGroupTypes={dataGroupTypes}
+            />
+          }
         />
         <Route
           path='/pages/kitchen'
-          element={<MohoKitchenPage accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} dataGroupTypes={dataGroupTypes} />}
+          element={
+            <MohoKitchenPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+              dataGroupTypes={dataGroupTypes}
+            />
+          }
         />
         <Route
           path='/collections/phong-khach'
-          element={<LivingRoomPage accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} dataGroupTypes={dataGroupTypes} />}
+          element={
+            <LivingRoomPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+              dataGroupTypes={dataGroupTypes}
+            />
+          }
         />
         <Route
           path='/collections/tat-ca-san-pham-moho'
-          element={<AllProductsPage accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} />}
+          element={
+            <AllProductsPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+            />
+          }
         />
         <Route
           path='/collections/phong-an'
-          element={<DiningRoomPage accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} dataGroupTypes={dataGroupTypes} />}
+          element={
+            <DiningRoomPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+              dataGroupTypes={dataGroupTypes}
+            />
+          }
         />
         <Route
           path='/collections/phong-ngu'
-          element={<BedRoomPage accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} dataGroupTypes={dataGroupTypes} />}
+          element={
+            <BedRoomPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+              dataGroupTypes={dataGroupTypes}
+            />
+          }
         />
         <Route
           path='/page/best-seller'
-          element={<BestSellerPage accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} dataGroupTypes={dataGroupTypes} />}
+          element={
+            <BestSellerPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+              dataGroupTypes={dataGroupTypes}
+            />
+          }
         />
         <Route
           path='/collections/phong-lam-viec'
-          element={<WorkRoomPage accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} dataGroupTypes={dataGroupTypes} />}
+          element={
+            <WorkRoomPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+              dataGroupTypes={dataGroupTypes}
+            />
+          }
         />
         <Route
           path='/collections/do-trang-tri'
-          element={<DecorationsPage accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} dataGroupTypes={dataGroupTypes} />}
+          element={
+            <DecorationsPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+              dataGroupTypes={dataGroupTypes}
+            />
+          }
         />
         <Route
           path='/collections/koge-collection'
-          element={<KogeCollectionPage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <KogeCollectionPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+            />
+          }
         />
         <Route
           path='/collections/kolding-collection'
-          element={<KoldingCollectionPage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <KoldingCollectionPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+            />
+          }
         />
         <Route
           path='/collections/fiji-collection'
-          element={<FijiCollectionPage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <FijiCollectionPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+            />
+          }
         />
         <Route
           path='/collections/fyn-collection'
-          element={<FynCollectionPage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <FynCollectionPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />
+          }
         />
         <Route
           path='/collections/hobro-collection'
-          element={<HobroCollectionPage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <HobroCollectionPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />
+          }
         />
         <Route
           path='/collections/malaga-collection'
-          element={<MalagaCollecionPage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <MalagaCollecionPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+            />
+          }
         />
         <Route
           path='/collections/moss-collection'
-          element={<MossCollectionPage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <MossCollectionPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+            />
+          }
         />
         <Route
           path='/collections/milan-collection'
-          element={<MilanCollectionPage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <MilanCollectionPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+            />
+          }
         />
         <Route
           path='/collections/nyborg-collection'
-          element={<NyborgCollecionPage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <NyborgCollecionPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+            />
+          }
         />
         <Route
           path='/collections/odense-collection'
-          element={<OdenseCollectionPage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <OdenseCollectionPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+            />
+          }
         />
         <Route
           path='/collections/oslo-collection'
-          element={<OsloColletionPage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <OsloColletionPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+            />
+          }
         />
         <Route
           path='/collections/vline-collection'
-          element={<VlineCollectionPage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <VlineCollectionPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+            />
+          }
         />
         <Route
           path='/collections/vienna-collection'
-          element={<VienanCollectionPage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <VienanCollectionPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+            />
+          }
         />
         <Route
           path='/collections/ghe-sofa'
-          element={<SofaPage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <SofaPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+            />
+          }
         />
         <Route
           path='/collections/ban-sofa-ban-cafe-ban-tra'
-          element={<SofaTablePage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <SofaTablePage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+            />
+          }
         />
         <Route
           path='/collections/tu-ke-tivi'
-          element={<TvCabinetPage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <TvCabinetPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+            />
+          }
         />
         <Route
           path='/collections/tu-giay-tu-trang-tri'
-          element={<ShoesCabinetPage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <ShoesCabinetPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+            />
+          }
         />
         <Route
           path='/collections/ban-an'
-          element={<TableDiningPage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <TableDiningPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+            />
+          }
         />
         <Route
           path='/collections/ghe-an'
-          element={<ChairDiningPage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <ChairDiningPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+            />
+          }
         />
         <Route
           path='/collections/bo-ban-an'
-          element={<SetDiningPage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <SetDiningPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+            />
+          }
         />
         <Route
           path='/collections/moho-kitchen'
-          element={<CabinetKitchenPage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <CabinetKitchenPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+            />
+          }
         />
         <Route
           path='/collections/giuong-ngu'
-          element={<BedCollectionPage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <BedCollectionPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+            />
+          }
         />
         <Route
           path='/collections/tu-dau-giuong'
-          element={<BedSidePage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <BedSidePage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+            />
+          }
         />
         <Route
           path='/collections/tu-quan-ao'
-          element={<ClosetPage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <ClosetPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+            />
+          }
         />
         <Route
           path='/collections/ban-trang-diem'
-          element={<CabinetMakeUpPage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <CabinetMakeUpPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+            />
+          }
         />
         <Route
           path='/collections/ban-lam-viec'
-          element={<DeskCollectionPage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <DeskCollectionPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+            />
+          }
         />
         <Route
           path='/collections/ghe-van-phong'
-          element={<ChairOfficePage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <ChairOfficePage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+            />
+          }
         />
         <Route
           path='/collections/tu-ke'
-          element={<CabinetShelfPage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <CabinetShelfPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+            />
+          }
         />
         <Route
           path='/collections/binh-chau-lo'
-          element={<VaseBowlPage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <VaseBowlPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+            />
+          }
         />
         <Route
           path='/collections/nem'
-          element={<MattressPage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <MattressPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+            />
+          }
         />
         <Route
           path='/collections/chan-ga-goi-nem'
-          element={<BeddingMattressPage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <BeddingMattressPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+            />
+          }
         />
         <Route
           path='/collections/chan-phu'
-          element={<BlanketPage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <BlanketPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+            />
+          }
         />
         <Route
           path='/collections/cay-hoa'
-          element={<TreeFlowersPage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <TreeFlowersPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+            />
+          }
         />
         <Route
           path='/collections/dem-ngoi-goi-tua'
-          element={<ChairPadCushionPage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <ChairPadCushionPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+            />
+          }
         />
         <Route
           path='/collections/do-nha-bep'
-          element={<KitchenwarePage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <KitchenwarePage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes}
+            />
+          }
         />
         <Route
           path='/products/:dataname'
-          element={<DetailProductPage
-            accountInfos={accountInfos}
-            localeLogos={localeLogos} bannerServices={bannerServices} datas={datas} dataTypes={dataTypes} />}
+          element={
+            <DetailProductPage
+              accountInfos={accountInfos}
+              localeLogos={localeLogos}
+              bannerServices={bannerServices}
+              datas={datas}
+              dataTypes={dataTypes} />
+          }
         />
         <Route
           path='/checkout/:username'
-          element={<CheckOutPage datas={datas} />}
+          element={
+            <CheckOutPage datas={datas} />
+          }
         />
         <Route
           path='/admin'
-          element={<AdminHome listPage={listPage} />}
+          element={
+            <AdminHome listPage={listPage} />
+          }
         />
         <Route
           path='/manager-users'
-          element={<ManagerUsersPage listPage={listPage} />}
+          element={
+            <ManagerUsersPage listPage={listPage} />
+          }
         />
         <Route
           path='/manager-users/detail/:id'
-          element={<DetailUserPage listPage={listPage} />}
+          element={
+            <DetailUserPage listPage={listPage} />
+          }
         />
         <Route
           path='/manager-users/create-user'
-          element={<CreateUserPage listPage={listPage} />}
+          element={
+            <CreateUserPage listPage={listPage} />
+          }
         />
 
         <Route
           path='/manager-products'
-          element={<ManagerProductsPage listPage={listPage} />}
+          element={
+            <ManagerProductsPage listPage={listPage} />
+          }
         />
         <Route
           path='/manager-products/create-product'
-          element={<CreateProductPage listPage={listPage} />}
+          element={
+            <CreateProductPage listPage={listPage} />
+          }
         />
         <Route
           path='/manager-products/detail/:id'
-          element={<DetailProductAdminPage listPage={listPage} />}
+          element={
+            <DetailProductAdminPage listPage={listPage} />
+          }
         />
+
       </Routes>
       {gotoTop && <GoToTop />}
     </div>

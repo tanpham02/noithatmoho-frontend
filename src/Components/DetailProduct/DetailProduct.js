@@ -107,7 +107,7 @@ const DetailProduct = () => {
         <div className="product-detail">
             <div className="grid">
                 {isLoading ?
-                    <span class="loader-products"></span> :
+                    <span className="loader-products"></span> :
 
                     <div className="grid__row">
                         <div style={{ display: 'flex' }}>

@@ -2,11 +2,10 @@
     background-color: #fff;
 
     &.theme-dark {
-        background-color: black !important;
+        background-color: black;
 
         & .top-bar__wrapper {
-            background-color: black !important;
-
+            background-color: black;
         }
     }
 }

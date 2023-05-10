@@ -63,7 +63,8 @@ const AccountAddress = ({ accountInfos }) => {
             localStorage.removeItem('isAdmin')
             localStorage.removeItem('idUser')
             localStorage.removeItem('selectedFilePath')
-            window.location.replace('/')
+            localStorage.setItem('isLogin', JSON.stringify(false))
+            window.location.reload()
         }
     }
 
@@ -157,7 +158,7 @@ const AccountAddress = ({ accountInfos }) => {
                             </ul>
                         </div>
                         {isLoading ?
-                            <span class="loader-account"></span> :
+                            <span className="loader-account"></span> :
                             <div className='grid__col-2-7'>
                                 <div className='user-address'>
                                     <div className='user-address__heading'>

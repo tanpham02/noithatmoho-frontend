@@ -262,7 +262,7 @@ const ManagerProducts = () => {
             </Link >
 
             {isLoading ?
-                <div class="products-lds-ring"><div></div><div></div><div></div><div></div></div> :
+                <div className="products-lds-ring"><div></div><div></div><div></div><div></div></div> :
                 <div className="productList">
                     <DataGrid
                         rows={dataSearch}

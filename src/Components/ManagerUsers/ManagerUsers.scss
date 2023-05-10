@@ -40,13 +40,7 @@
     }
 }
 
-.MuiDataGrid-main .MuiDataGrid-columnsContainer {
-    font-weight: 700 !important;
-    color: var(--gray-color);
-    font-size: 1.2rem;
-}
-
-.MuiDataGrid-root .MuiDataGrid-columnHeaderTitle {
+.MuiDataGrid-columnHeaderTitle {
     overflow: hidden;
     font-weight: 700 !important;
     white-space: nowrap;
@@ -54,23 +48,65 @@
     color: var(--gray-color);
     font-size: 1.5rem;
     opacity: 0.85;
-
-    &.active {
-        color: #c7c7c7 !important;
-        filter: brightness(3);
-    }
 }
-
-
 
 .MuiDataGrid-cell.MuiDataGrid-cell--textLeft {
     font-size: 1.4rem !important;
-    color: #000 !important;
+    color: #000;
 
-    &.active {
-        color: var(--border) !important;
+}
+
+.container-admin.active {
+    & .MuiDataGrid-cell.MuiDataGrid-cell--textLeft {
+        color: #c7c7c7
+    }
+
+    & .MuiDataGrid-columnHeaderTitle {
+        color: #c7c7c7 !important;
+        filter: brightness(3) !important;
+    }
+
+    & .MuiDataGrid-root .MuiDataGrid-columnHeader:not(.MuiDataGrid-columnHeader--sorted) .MuiDataGrid-sortIcon,
+    & .MuiSvgIcon-fontSizeSmall {
+        opacity: 1;
+        color: #c7c7c7;
+    }
+
+    & .MuiTablePagination-actions button .MuiIconButton-label .MuiSvgIcon-root {
+        color: #fff;
+    }
+
+}
+
+.MuiSvgIcon-fontSizeSmall {
+    color: #0000008a;
+}
+
+.MuiDataGrid-root .MuiDataGrid-columnHeader:not(.MuiDataGrid-columnHeader--sorted) .MuiDataGrid-sortIcon {
+    opacity: 0.5;
+}
+
+.MuiTablePagination-actions button .MuiIconButton-label .MuiSvgIcon-root {
+    font-size: 2rem;
+    color: var(--gray-color);
+}
+
+.MuiIconButton-root {
+    color: var(--gray-color) !important;
+    font-size: 2.1rem !important;
+
+
+    &.Mui-disabled {
+        opacity: 0.5;
     }
 }
+
+
+.MuiIconButton-root {
+    color: #fff !important;
+    opacity: 1.5;
+}
+
 
 
 .MuiDataGrid-root .MuiDataGrid-window {
@@ -120,23 +156,7 @@
     font-size: 1.3erm;
 }
 
-.MuiIconButton-root {
-    color: #fff !important;
-    opacity: 1.5;
 
-    &.Mui-disabled {
-        opacity: 0.5;
-    }
-
-    &.active {
-        color: #fff !important;
-        opacity: 1.5;
-
-        &.Mui-disabled {
-            opacity: 0.5;
-        }
-    }
-}
 
 .MuiSvgIcon-root.userListDelete {
     font-size: 2.3rem !important;

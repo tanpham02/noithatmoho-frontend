@@ -19,9 +19,8 @@
         color: #fff;
         height: 48px;
         font-size: 1.45rem;
-        position: relative;
         text-align: center;
-        right: -39.8%;
+        margin-left: 60px;
     
         &:hover {
             background-color: #3c92bf;
@@ -269,8 +268,6 @@ input {
     color: var(--gray-color);
     font-size: 1.45rem;
     height: 48px;
-    position: absolute;
-    right: 400px;
 }
 
 

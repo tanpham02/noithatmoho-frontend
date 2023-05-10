@@ -78,7 +78,7 @@ const BedRoom = ({ datas, dataTypes, dataGroupTypes, filterCategories, filterPri
                     />
 
                     {isLoading ?
-                        <span class="loader-main-products"></span> :
+                        <span className="loader-main-products"></span> :
                         <>
                             {currentPageData.map((data, index) => (
                                 <div

@@ -51,6 +51,7 @@ const ManagerUsers = () => {
             setIsLoading(false)
         }
         getData()
+
     }, [])
 
     const handleDelete = (id) => {
@@ -66,57 +67,6 @@ const ManagerUsers = () => {
             return
         }
     }
-
-
-    useEffect(() => {
-        const muiContainer = document.querySelectorAll('.MuiDataGrid-root .MuiDataGrid-columnsContainer .MuiDataGrid-columnHeaderTitle')
-        if (currentTheme === THEME_DARK) {
-            muiContainer && muiContainer.forEach(cell => cell.classList.add('active'))
-        } else {
-            muiContainer && muiContainer.forEach(cell => cell.classList.remove('active'))
-        }
-    })
-
-
-    useEffect(() => {
-        const muiConCell = document.querySelectorAll('.MuiDataGrid-cell')
-        currentTheme && muiConCell?.forEach(cell => {
-            if (currentTheme === THEME_DARK) {
-                cell.classList.add('active')
-                console.log('Active')
-            } else {
-                console.log(currentTheme === THEME_DARK)
-                cell.classList.remove('active')
-                console.log('nonActive')
-            }
-        })
-    }, [])
-
-
-    useEffect(() => {
-        const muiConBtn = document.querySelectorAll('.MuiIconButton-root')
-        muiConBtn && muiConBtn.forEach(cell => {
-            if (currentTheme === THEME_DARK) {
-                cell.classList.add('active')
-                return
-            } else {
-                cell.classList.remove('active')
-                return
-            }
-        })
-    })
-
-
-    useEffect(() => {
-        const muiPagination = document.querySelector('.MuiTablePagination-caption')
-        if (currentTheme === THEME_DARK) {
-            muiPagination?.classList.add('active')
-            return
-        } else {
-            muiPagination?.classList.remove('active')
-            return
-        }
-    })
 
     const columns = [
         {
@@ -147,7 +97,7 @@ const ManagerUsers = () => {
                             }}
                                 className="checkout__info-avata"
                             >
-                                <i style={{color: '#fff'}} className="fa-regular fa-user"></i>
+                                <i style={{ color: '#fff' }} className="fa-regular fa-user"></i>
                             </div>
                         }
                         {params.row.full_name}
@@ -251,7 +201,7 @@ const ManagerUsers = () => {
 
             <div className="userList">
                 {isLoading ?
-                    <div class="users-lds-ring"><div></div><div></div><div></div><div></div></div> :
+                    <div className="users-lds-ring"><div></div><div></div><div></div><div></div></div> :
                     <DataGrid
                         rows={dataSearch}
                         disableSelectionOnClick

@@ -175,8 +175,9 @@ const Account = ({ accountInfos, onReload }) => {
             localStorage.removeItem('fullNameAccount')
             localStorage.removeItem('isAdmin')
             localStorage.removeItem('idUser')
+            localStorage.removeItem('selectedFilePath')
             localStorage.setItem('isLogin', JSON.stringify(false))
-            window.location.replace('/')
+            window.location.reload()
         }
     }
 
@@ -337,8 +338,6 @@ const Account = ({ accountInfos, onReload }) => {
         }
     }, [dataUserCheckout])
 
-    console.log(dataUserCheckout?.checkout?.split('; ')[8]?.trim() === 'Fail')
-
     return (
         <>
             <div className='account'>
@@ -433,7 +432,7 @@ const Account = ({ accountInfos, onReload }) => {
                             </div>
 
                             {isLoading ?
-                                <span class="loader-products"></span> :
+                                <span className="loader-products"></span> :
                                 <>
 
                                     {(!isSuccessCheckout
@@ -444,233 +443,238 @@ const Account = ({ accountInfos, onReload }) => {
                                     ) &&
                                         <div className="warraper-products-bought">
                                             {dataUserCheckout?.checkout &&
-                                                <div className="products-bought">
-                                                    <>
-                                                        <span className="products-bought__heading">Đơn hàng của bạn</span>
-                                                        <ul className="checkout__cart-lists">
-                                                            {JSON.parse(dataUserCheckout.checkout?.split('; ')[2]).map((bought, index) => (
-                                                                <li key={index} className="checkout__cart-item">
-                                                                    <Link
-                                                                        onClick={() => localStorage.setItem('productDetail', JSON.stringify(bought.id))}
-                                                                        to={`/products/${(bought.name).split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`}
-                                                                        style={{
-                                                                            display: 'flex',
-                                                                            alignItems: 'center',
-                                                                            justifyContent: 'space-between',
-                                                                            padding: '8px 15px 15px 0',
-                                                                            width: '100%'
-                                                                        }}
-                                                                    >
-                                                                        <div className='cart-item__wrap'>
-                                                                            <div className="cart-item__img">
-                                                                                <img src={bought.img.split(', ')[0]} alt={bought.name} />
-                                                                                <span key={index} className='cart-item__quantity'>{bought.quantity}</span>
+                                                <>
+                                                    <div className="products-bought">
+                                                        <>
+                                                            <span className="products-bought__heading">Đơn hàng của bạn</span>
+                                                            <ul className="checkout__cart-lists">
+                                                                {JSON.parse(dataUserCheckout.checkout?.split('; ')[2]).map((bought, index) => (
+                                                                    <li key={index} className="checkout__cart-item">
+                                                                        <Link
+                                                                            onClick={() => localStorage.setItem('productDetail', JSON.stringify(bought.id))}
+                                                                            to={`/products/${(bought.name).split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`}
+                                                                            style={{
+                                                                                display: 'flex',
+                                                                                alignItems: 'center',
+                                                                                justifyContent: 'space-between',
+                                                                                padding: '8px 15px 15px 0',
+                                                                                width: '100%'
+                                                                            }}
+                                                                        >
+                                                                            <div className='cart-item__wrap'>
+                                                                                <div className="cart-item__img">
+                                                                                    <img src={bought.img.split(', ')[0]} alt={bought.name} />
+                                                                                    <span key={index} className='cart-item__quantity'>{bought.quantity}</span>
+                                                                                </div>
+                                                                                <div className="cart-item__desc">
+                                                                                    <h3 className="cart-item__name"
+                                                                                        style={{
+                                                                                            width: '100%'
+                                                                                        }}
+                                                                                    >
+                                                                                        {bought.name}</h3>
+                                                                                    <span className="cart-item__color">Màu tự nhiên</span>
+                                                                                </div>
                                                                             </div>
-                                                                            <div className="cart-item__desc">
-                                                                                <h3 className="cart-item__name"
-                                                                                    style={{
-                                                                                        width: '100%'
-                                                                                    }}
-                                                                                >
-                                                                                    {bought.name}</h3>
-                                                                                <span className="cart-item__color">Màu tự nhiên</span>
-                                                                            </div>
-                                                                        </div>
-                                                                        <span className="cart-item__prices" style={{ letterSpacing: 1 }}>
-                                                                            {bought.discount ?
-                                                                                (bought.prices - (bought.prices * (parseInt(bought.discount)) / 100)).toLocaleString("en-VI") :
-                                                                                parseInt(bought.prices).toLocaleString("en-VI")
-                                                                            }
-                                                                            <span className="VND">₫</span>
-                                                                        </span>
-                                                                    </Link>
-                                                                </li>
-                                                            ))}
-                                                        </ul>
+                                                                            <span className="cart-item__prices" style={{ letterSpacing: 1 }}>
+                                                                                {bought.discount ?
+                                                                                    (bought.prices - (bought.prices * (parseInt(bought.discount)) / 100)).toLocaleString("en-VI") :
+                                                                                    parseInt(bought.prices).toLocaleString("en-VI")
+                                                                                }
+                                                                                <span className="VND">₫</span>
+                                                                            </span>
+                                                                        </Link>
+                                                                    </li>
+                                                                ))}
+                                                            </ul>
 
-                                                        <div style={{
-                                                            padding: '0px 0px 20px 2px'
-                                                        }}>
-
-                                                            <div className="info-checkout" style={{
-                                                                display: 'flex',
-                                                                color: '#434343',
-                                                                flexDirection: 'column',
-                                                                fontWeight: 500,
-                                                                borderTop: '1px solid var(--border-color)',
-                                                                padding: '20px 0 30px 0',
+                                                            <div style={{
+                                                                padding: '0px 0px 20px 2px'
                                                             }}>
-                                                                <h3 style={{
-                                                                    fontWeight: 600,
-                                                                    fontSize: '1.55rem',
-                                                                    marginBottom: 12,
-                                                                    color: '#4b4b4b'
-                                                                }}>Thông tin đơn hàng</h3>
-                                                                <span
 
-                                                                    style={{
+                                                                <div className="info-checkout" style={{
+                                                                    display: 'flex',
+                                                                    color: '#434343',
+                                                                    flexDirection: 'column',
+                                                                    fontWeight: 500,
+                                                                    borderTop: '1px solid var(--border-color)',
+                                                                    padding: '20px 0 30px 0',
+                                                                }}>
+                                                                    <h3 style={{
                                                                         fontWeight: 600,
-                                                                        color: '#4b4b4b',
-                                                                        fontSize: '1.3rem'
-                                                                    }}
-                                                                >- Tên người đặt hàng:
-                                                                    <span style={{
-                                                                        fontWeight: 500,
-                                                                        color: '#434343',
-                                                                        fontSize: '1.25rem',
-                                                                        letterSpacing: '1px'
-                                                                    }}>&nbsp;{dataUserCheckout.checkout.split('; ')[0]}</span>
-                                                                </span>
-                                                                <span
-                                                                    className="mt--12"
-                                                                    style={{
-                                                                        fontWeight: 600,
-                                                                        color: '#4b4b4b',
-                                                                        fontSize: '1.3rem'
-                                                                    }}
-                                                                >- Số điện thoại:
-                                                                    <span style={{
-                                                                        fontWeight: 500,
-                                                                        color: '#434343',
-                                                                        fontSize: '1.25rem',
-                                                                        letterSpacing: '1px'
-                                                                    }}>&nbsp;{dataUserCheckout.checkout.split('; ')[1]}</span>
-                                                                </span>
-                                                                <span
-                                                                    className="mt--12"
-                                                                    style={{
-                                                                        fontWeight: 600,
-                                                                        color: '#4b4b4b',
-                                                                        fontSize: '1.3rem'
-                                                                    }}
-                                                                >- Ngày đặt hàng:
-                                                                    <span style={{
-                                                                        fontWeight: 500,
-                                                                        color: '#434343',
-                                                                        fontSize: '1.25rem',
-                                                                        letterSpacing: '1px'
-                                                                    }}>&nbsp;{dataUserCheckout.checkout.split('; ')[7]}</span>
-                                                                </span>
-                                                                <span
-                                                                    className="mt--12"
-                                                                    style={{
-                                                                        fontWeight: 600,
-                                                                        color: '#4b4b4b',
-                                                                        fontSize: '1.3rem'
-                                                                    }}
-                                                                >- Vận chuyển bởi:
-                                                                    <span style={{
-                                                                        fontWeight: 500,
-                                                                        color: '#434343',
-                                                                        fontSize: '1.25rem'
-                                                                    }}>&nbsp;{dataUserCheckout.checkout.split('; ')[4]}</span>
-                                                                </span>
-                                                                <span
-                                                                    style={{
-                                                                        fontWeight: 600,
-                                                                        color: '#434343',
-                                                                        fontSize: '1.3rem'
-                                                                    }}
-                                                                    className="mt--12">- Phương thức thanh toán:
-                                                                    <span style={{
-                                                                        fontWeight: 500,
-                                                                        color: '#434343',
-                                                                        fontSize: '1.25rem'
-                                                                    }}>
-                                                                        &nbsp;{dataUserCheckout.checkout.split('; ')[5]}
+                                                                        fontSize: '1.55rem',
+                                                                        marginBottom: 12,
+                                                                        color: '#4b4b4b'
+                                                                    }}>Thông tin đơn hàng</h3>
+                                                                    <span
+
+                                                                        style={{
+                                                                            fontWeight: 600,
+                                                                            color: '#4b4b4b',
+                                                                            fontSize: '1.3rem'
+                                                                        }}
+                                                                    >- Tên người đặt hàng:
+                                                                        <span style={{
+                                                                            fontWeight: 500,
+                                                                            color: '#434343',
+                                                                            fontSize: '1.25rem',
+                                                                            letterSpacing: '1px'
+                                                                        }}>&nbsp;{dataUserCheckout.checkout.split('; ')[0]}</span>
                                                                     </span>
-                                                                </span>
-                                                                {handleSubTotal !==
-                                                                    parseInt(dataUserCheckout.checkout.split('; ')[6].split(',').join('').slice(0, -1)) &&
+                                                                    <span
+                                                                        className="mt--12"
+                                                                        style={{
+                                                                            fontWeight: 600,
+                                                                            color: '#4b4b4b',
+                                                                            fontSize: '1.3rem'
+                                                                        }}
+                                                                    >- Số điện thoại:
+                                                                        <span style={{
+                                                                            fontWeight: 500,
+                                                                            color: '#434343',
+                                                                            fontSize: '1.25rem',
+                                                                            letterSpacing: '1px'
+                                                                        }}>&nbsp;{dataUserCheckout.checkout.split('; ')[1]}</span>
+                                                                    </span>
+                                                                    <span
+                                                                        className="mt--12"
+                                                                        style={{
+                                                                            fontWeight: 600,
+                                                                            color: '#4b4b4b',
+                                                                            fontSize: '1.3rem'
+                                                                        }}
+                                                                    >- Ngày đặt hàng:
+                                                                        <span style={{
+                                                                            fontWeight: 500,
+                                                                            color: '#434343',
+                                                                            fontSize: '1.25rem',
+                                                                            letterSpacing: '1px'
+                                                                        }}>&nbsp;{dataUserCheckout.checkout.split('; ')[7]}</span>
+                                                                    </span>
+                                                                    <span
+                                                                        className="mt--12"
+                                                                        style={{
+                                                                            fontWeight: 600,
+                                                                            color: '#4b4b4b',
+                                                                            fontSize: '1.3rem'
+                                                                        }}
+                                                                    >- Vận chuyển bởi:
+                                                                        <span style={{
+                                                                            fontWeight: 500,
+                                                                            color: '#434343',
+                                                                            fontSize: '1.25rem'
+                                                                        }}>&nbsp;{dataUserCheckout.checkout.split('; ')[4]}</span>
+                                                                    </span>
                                                                     <span
                                                                         style={{
                                                                             fontWeight: 600,
                                                                             color: '#434343',
                                                                             fontSize: '1.3rem'
                                                                         }}
-                                                                        className="mt--12">- Mã giảm giá:
+                                                                        className="mt--12">- Phương thức thanh toán:
                                                                         <span style={{
                                                                             fontWeight: 500,
                                                                             color: '#434343',
-                                                                            fontSize: '1.25rem',
-                                                                            position: 'relative',
-                                                                            letterSpacing: '1px'
+                                                                            fontSize: '1.25rem'
                                                                         }}>
-                                                                            &nbsp;- {(handleSubTotal - parseInt(dataUserCheckout.checkout.split('; ')[6].split(',').join('').slice(0, -1))).toLocaleString('en-vi')}
-                                                                            <span className="VND" style={{
-                                                                                position: 'absolute',
-                                                                                top: '-1px',
-                                                                                right: '-9px',
-                                                                                fontSize: '1.15rem'
-                                                                            }}>₫</span>
+                                                                            &nbsp;{dataUserCheckout.checkout.split('; ')[5]}
                                                                         </span>
-                                                                    </span>}
-                                                            </div>
+                                                                    </span>
+                                                                    {handleSubTotal !==
+                                                                        parseInt(dataUserCheckout.checkout.split('; ')[6].split(',').join('').slice(0, -1)) &&
+                                                                        <span
+                                                                            style={{
+                                                                                fontWeight: 600,
+                                                                                color: '#434343',
+                                                                                fontSize: '1.3rem'
+                                                                            }}
+                                                                            className="mt--12">- Mã giảm giá:
+                                                                            <span style={{
+                                                                                fontWeight: 500,
+                                                                                color: '#434343',
+                                                                                fontSize: '1.25rem',
+                                                                                position: 'relative',
+                                                                                letterSpacing: '1px'
+                                                                            }}>
+                                                                                &nbsp;- {(handleSubTotal - parseInt(dataUserCheckout.checkout.split('; ')[6].split(',').join('').slice(0, -1))).toLocaleString('en-vi')}
+                                                                                <span className="VND" style={{
+                                                                                    position: 'absolute',
+                                                                                    top: '-1px',
+                                                                                    right: '-9px',
+                                                                                    fontSize: '1.15rem'
+                                                                                }}>₫</span>
+                                                                            </span>
+                                                                        </span>}
+                                                                </div>
 
-                                                            <div
-                                                                style={{
-                                                                    display: 'flex',
-                                                                    alignItems: 'center',
-                                                                    justifyContent: 'space-between',
-                                                                    borderTop: '1px solid var(--border-color)',
-                                                                    paddingTop: '20px',
-                                                                }}
-                                                            >
-                                                                <h4
+                                                                <div
                                                                     style={{
-                                                                        color: '#4b4b4b',
-                                                                        fontSize: '1.55rem',
-                                                                        fontWeight: 600,
-                                                                        display: "inline-block"
-                                                                    }}>Vui lòng chuẩn bị trước số tiền: </h4>
-                                                                <span
-                                                                    className="cart-item__prices-total"
-                                                                    style={{
-                                                                        position: 'relative',
-                                                                        textAlign: 'right',
-                                                                        margin: '22px 19px 6px',
-                                                                        display: 'inline - block',
-                                                                        fontWeight: 500,
-                                                                        fontSize: '1.6rem',
-                                                                        letterSpacing: '1px',
-                                                                        color: '#4b4b4b'
+                                                                        display: 'flex',
+                                                                        alignItems: 'center',
+                                                                        justifyContent: 'space-between',
+                                                                        borderTop: '1px solid var(--border-color)',
+                                                                        paddingTop: '20px',
                                                                     }}
                                                                 >
-                                                                    {dataUserCheckout.checkout.split('; ')[6].slice(0, -1)}
-                                                                    <span className="VND" style={{
-                                                                        position: 'absolute',
-                                                                        top: '-1px',
-                                                                        right: '-10px',
-                                                                        fontSize: '1.3rem'
-                                                                    }}>₫</span>
-                                                                </span>
-                                                            </div>
+                                                                    <h4
+                                                                        style={{
+                                                                            color: '#4b4b4b',
+                                                                            fontSize: '1.55rem',
+                                                                            fontWeight: 600,
+                                                                            display: "inline-block"
+                                                                        }}>Vui lòng chuẩn bị trước số tiền: </h4>
+                                                                    <span
+                                                                        className="cart-item__prices-total"
+                                                                        style={{
+                                                                            position: 'relative',
+                                                                            textAlign: 'right',
+                                                                            margin: '22px 19px 6px',
+                                                                            display: 'inline - block',
+                                                                            fontWeight: 500,
+                                                                            fontSize: '1.6rem',
+                                                                            letterSpacing: '1px',
+                                                                            color: '#4b4b4b'
+                                                                        }}
+                                                                    >
+                                                                        {dataUserCheckout.checkout.split('; ')[6].slice(0, -1)}
+                                                                        <span className="VND" style={{
+                                                                            position: 'absolute',
+                                                                            top: '-1px',
+                                                                            right: '-10px',
+                                                                            fontSize: '1.3rem'
+                                                                        }}>₫</span>
+                                                                    </span>
+                                                                </div>
 
-                                                        </div>
-                                                        <div
-                                                            style={{
-                                                                display: 'flex',
-                                                                justifyContent: 'space-evenly',
-                                                                alignItems: 'center'
-                                                            }}
-                                                        >
+                                                            </div>
+                                                        </>
+                                                    </div>
+                                                    <div
+                                                        style={{
+                                                            display: 'flex',
+                                                            justifyContent: 'flex-end',
+                                                            padding: '0 20px 32px 0',
+                                                        }}
+                                                    >
+
+                                                        {!isCancelCheckout &&
                                                             <button
-                                                                className="btn btn-checkout-account"
-                                                                onClick={handleIsSuccessCheckout}
+                                                                className="btn btn-checkout__cancel"
+                                                                onClick={handleCancelCheckout}
                                                             >
-                                                                Đã nhận được hàng
+                                                                Hủy
                                                             </button>
-                                                            {!isCancelCheckout &&
-                                                                <button
-                                                                    className="btn btn-checkout__cancel"
-                                                                    onClick={handleCancelCheckout}
-                                                                >
-                                                                    Hủy
-                                                                </button>
-                                                            }
-                                                        </div>
-                                                    </>
-                                                </div>}
+                                                        }
+
+                                                        <button
+                                                            className="btn btn-checkout-account"
+                                                            onClick={handleIsSuccessCheckout}
+                                                        >
+                                                            Đã nhận được hàng
+                                                        </button>
+                                                    </div>
+                                                </>
+                                            }
                                         </div>
                                     }
 

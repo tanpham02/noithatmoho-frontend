@@ -33,12 +33,12 @@ const Admin = ({ listPage }) => {
 
 
     return (
-        <div className={`wrapper-theme ${currentTheme === THEME_DARK && 'theme-dark'}`}>
+        <div className={`wrapper-theme`}>
             {isLoading ?
-                <div class="lds-ring"><div></div><div></div><div></div><div></div></div> :
+                <div className="lds-ring"><div></div><div></div><div></div><div></div></div> :
                 <>
                     <Topbar currentTheme={currentTheme} dispatch={dispatch} />
-                    <div className={`container-admin ${currentTheme === THEME_DARK && 'active'}`}>
+                    <div className={`container-admin ${currentTheme === THEME_DARK ? 'active' : ''}`}>
                         <SideBarAdmin listPage={listPage} />
                         <div className='home-admin'>
                             <FeaturedInfo userDatas={userDatas} currentTheme={currentTheme} THEME_DARK={THEME_DARK} />

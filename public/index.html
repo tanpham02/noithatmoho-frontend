@@ -44,16 +44,16 @@
     chatbox.setAttribute("attribution", "biz_inbox");
   </script>
 
-  <!-- Your SDK code -->
+  <!-- Chat Messager -->
   <script>
-    window.fbAsyncInit = function() {
+    window.fbAsyncInit = function () {
       FB.init({
-        xfbml            : true,
-        version          : 'v16.0'
+        xfbml: true,
+        version: 'v16.0'
       });
     };
 
-    (function(d, s, id) {
+    (function (d, s, id) {
       var js, fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) return;
       js = d.createElement(s); js.id = id;
@@ -61,6 +61,31 @@
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
   </script>
+
+
+  <!-- Login With Facebook-->
+  <script>
+    window.fbAsyncInit = function () {
+      FB.init({
+        appId: '191172777186900',
+        cookie: true,
+        xfbml: true,
+        version: 'v16.0'
+      });
+
+      FB.AppEvents.logPageView();
+
+    };
+
+    (function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) { return; }
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  </script>
+
   <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

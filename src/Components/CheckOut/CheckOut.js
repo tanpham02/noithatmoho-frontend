@@ -448,7 +448,7 @@ const CheckOut = ({ datas }) => {
     return (
         <>
             {isLoading ?
-                <span class="loader-checkout"></span> :
+                <span className="loader-checkout"></span> :
                 <>
                     <div className="checkout">
                         <div className="grid">
@@ -473,7 +473,7 @@ const CheckOut = ({ datas }) => {
                                                     <span> {infoUser.email && `(${infoUser.email})`}</span>
                                                 </div>
                                                 <Link className="userInfo__item-link-update" to="/account/addresses">Cập nhật thông tin địa chỉ</Link> <br />
-                                                <Link onClick={handleLogout} className="userInfo__item-link-logout" to="/account/logout">Đăng xuất</Link>
+                                                <Link onClick={handleLogout} className="userInfo__item-link-logout" to="/">Đăng xuất</Link>
                                             </div>
                                         </div>
                                     </div>
@@ -590,7 +590,7 @@ const CheckOut = ({ datas }) => {
                                             style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}
                                         >
                                             {isLoadingBtn ?
-                                                <span class="loader-btn-checkout">Loading</span> :
+                                                <span className="loader-btn-checkout">Loading</span> :
                                                 'Hoàn tất đơn hàng'
                                             }
 

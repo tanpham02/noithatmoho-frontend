@@ -5,14 +5,12 @@ const themeDark = payload => {
     return {
         type: THEME_DARK,
         payload
-
     }
 }
 const themeLight = payload => {
     return {
         type: THEME_LIGHT,
         payload
-
     }
 }
 

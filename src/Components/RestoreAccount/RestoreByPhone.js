@@ -277,7 +277,7 @@ const RestoreByPhone = () => {
                         onClick={handleReisterWithPhone}
                     >
                         {isLoading ?
-                            <span class="loader-register">Loading</span> :
+                            <span className="loader-register">Loading</span> :
                             'CẬP NHẬT'
                         }
                     </button>)}

@@ -207,7 +207,7 @@ const RestoreByEmail = () => {
                         className="btn btn-register"
                     >
                         {isLoading ?
-                            <span class="loader-register">Loading</span> :
+                            <span className="loader-register">Loading</span> :
                             'CẬP NHẬT'
                         }
 

@@ -39,7 +39,7 @@ const HomePage = ({ dataGroupTypes, dataTypes, accountInfos, localeLogos, banner
                     position: 'absolute',
                     top: '47%',
                     left: '47%',
-                }} class="loader-main-products"></span> :
+                }} className="loader-main-products"></span> :
                 <>
                     <Header localeLogos={localeLogos} accountInfos={accountInfos} />
                     <Sliders sliders={sliders} />

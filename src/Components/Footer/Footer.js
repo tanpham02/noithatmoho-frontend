@@ -1,9 +1,11 @@
 import { memo } from "react"
 import { Link } from "react-router-dom"
 import { types } from '../Header/Header'
+import { useTranslation } from "react-i18next"
 import './Footer.scss'
 
 const Footer = () => {
+    const { t } = useTranslation(['navigation'])
     return (
         <footer className="footer">
             <div className="grid">
@@ -32,7 +34,7 @@ const Footer = () => {
                                 .filter(typeFilter => typeFilter["groupType-id"] === 4)
                                 .map(type => type.names.map((policy, index) => (
                                     <li key={index} className="footer-item">
-                                        <Link to={policy.href} title={policy.name} className="footer-item__link">{policy.name}</Link>
+                                        <Link to={policy.href} title={t(policy.name)} className="footer-item__link">{t(policy.name)}</Link>
                                     </li>
                                 )))
                             }

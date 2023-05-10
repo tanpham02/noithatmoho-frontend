@@ -18,7 +18,7 @@ const ManagerUsersPage = ({ listPage }) => {
     return (
         <>
             <Topbar currentTheme={currentTheme} dispatch={dispatch} />
-            <div className={`container-admin ${currentTheme === THEME_DARK && 'active'}`}>
+            <div className={`container-admin ${currentTheme === THEME_DARK ? 'active' : ''}`}>
                 <SideBarAdmin listPage={listPage} />
                 <div className='home-admin'>
                     <ManagerUsers />

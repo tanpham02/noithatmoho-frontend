@@ -81,7 +81,7 @@ const DinningRoom = ({ datas, dataTypes, dataGroupTypes, filterCategories, filte
 
                     {isLoading ?
 
-                        <span class="loader-main-products"></span> :
+                        <span className="loader-main-products"></span> :
                         <>
                             {currentPageData.map((data, index) => (
                                 <div

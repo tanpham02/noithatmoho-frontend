@@ -299,7 +299,7 @@ const RegisterPhone = () => {
 
                 {PhonePassW && (<button className="btn btn-register__phone my--22" onClick={handleReisterWithPhone}>
                     {isLoading ?
-                        <span class="loader-register">Loading</span> :
+                        <span className="loader-register">Loading</span> :
                         'ĐĂNG KÝ'
                     }
                 </button>)}

@@ -92,7 +92,7 @@ const Cart = () => {
             {
 
                 isLoading ?
-                    <span class="loader-carts"></span> :
+                    <span className="loader-carts"></span> :
                     <>
 
                         <div className="cart__container">

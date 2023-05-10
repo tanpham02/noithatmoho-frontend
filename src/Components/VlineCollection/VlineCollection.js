@@ -72,7 +72,7 @@ const VlineCollection = ({ datas, dataTypes, filterCategories, filterPrices, fil
                     />
                     {isLoading ?
 
-                        <span class="loader-main-products"></span> :
+                        <span className="loader-main-products"></span> :
 
                         <>
                             {currentPageData.map((data, index) => (

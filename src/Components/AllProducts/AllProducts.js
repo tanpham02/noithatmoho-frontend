@@ -62,7 +62,7 @@ const AllProducts = ({ datas, filterCategories, filterPrices, filterSort }) => {
 
                     {isLoading ?
 
-                        <span class="loader-main-products"></span> :
+                        <span className="loader-main-products"></span> :
 
                         <>
                             {currentPageData.map((data, index) => (

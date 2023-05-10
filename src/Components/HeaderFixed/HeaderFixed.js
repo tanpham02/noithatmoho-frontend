@@ -29,7 +29,9 @@ const HeaderFixed = ({ onLanguage, search, setValueSearch, localeLogos, accountI
             localStorage.removeItem('fullNameAccount')
             localStorage.removeItem('isAdmin')
             localStorage.removeItem('idUser')
-            window.location.replace('/')
+            localStorage.removeItem('selectedFilePath')
+            localStorage.setItem('isLogin', JSON.stringify(false))
+            window.location.reload()
         }
     }
 

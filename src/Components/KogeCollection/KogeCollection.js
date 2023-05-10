@@ -56,7 +56,7 @@ const KogeCollection = ({ datas, dataTypes, filterCategories, filterPrices, filt
                     />
                     {isLoading ?
 
-                        <span class="loader-main-products"></span> :
+                        <span className="loader-main-products"></span> :
                         expectedData.map((data, index) => (
                             <div
                                 key={index}

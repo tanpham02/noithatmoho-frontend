@@ -78,7 +78,7 @@ const Decoration = ({ datas, dataTypes, dataGroupTypes, filterCategories, filter
 
                     {isLoading ?
 
-                        <span class="loader-main-products"></span> :
+                        <span className="loader-main-products"></span> :
                         <>
                             {currentPageData.map((data, index) => (
                                 <div

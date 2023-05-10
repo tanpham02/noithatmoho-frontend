@@ -422,7 +422,7 @@ const DetailProductAdmin = () => {
                                     className="btn productButton"
                                 >
                                     {isLoading ?
-                                        <div class="admin-product-lds-dual-ring"></div> :
+                                        <div className="admin-product-lds-dual-ring"></div> :
                                         'Update'
                                     }
                                 </button>

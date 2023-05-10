@@ -206,7 +206,7 @@ const RegisterEmail = () => {
                     style={{cursor: `${isLoading ? 'wait' : 'pointer'}`}}
                 >
                     {isLoading ?
-                        <span class="loader-register">Loading</span> :
+                        <span className="loader-register">Loading</span> :
                         'ĐĂNG KÝ'
                     }
 
