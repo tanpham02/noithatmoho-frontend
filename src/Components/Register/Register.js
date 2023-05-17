@@ -156,7 +156,11 @@ const Register = () => {
                     }, 1500)
 
                     window.setTimeout(() => {
-                        window.location.replace('/')
+                        if (getUser.id === 1 || '1') {
+                            window.location.replace('/admin')
+                        } else {
+                            window.location.replace('/')
+                        }
                     }, 2000)
                     return
                 }
@@ -174,6 +178,14 @@ const Register = () => {
                     setIsLoading(false)
                     window.setTimeout(() => {
                         window.location.replace('/')
+                    }, 2000)
+
+                    window.setTimeout(() => {
+                        if (getUser.id === 1 || '1') {
+                            window.location.replace('/admin')
+                        } else {
+                            window.location.replace('/')
+                        }
                     }, 2000)
                     return
                 }
@@ -272,9 +284,9 @@ const Register = () => {
                                                 clientId='273310959546-ih5nf3j8me1j68112tuk6ummroecml7s.apps.googleusercontent.com'
                                                 onSuccess={onSuccess}
                                             />
-
                                             <FacebookLogin
                                                 appId="191172777186900"
+                                                autoLoad={true}
                                                 fields="name,email,picture"
                                                 callback={responseFacebook}
                                                 textButton='Đăng nhập với Facebook'
