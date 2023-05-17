@@ -24,9 +24,6 @@ const checkTypes = [
 ]
 
 const Register = () => {
-
-
-
     const [checkedType, setCheckedType] = useState(0)
     const [checkedGender, setcheckedGender] = useState(0)
     const [showRegisterPhone, setShowRegisterPhone] = useState(false)
@@ -208,7 +205,15 @@ const Register = () => {
                                                 clientId='273310959546-ih5nf3j8me1j68112tuk6ummroecml7s.apps.googleusercontent.com'
                                                 onSuccess={onSuccess}
                                             />
-                                            <button className="login-with__facebook cancel--border">Đăng nhập với Facebook</button>
+                                            <FacebookLogin
+                                                appId="191172777186900"
+                                                autoLoad={true}
+                                                fields="name,email,picture"
+                                                callback={responseFacebook}
+                                                textButton='Đăng nhập với Facebook'
+                                                cssClass='login-with__facebook'
+                                                icon='fa-brands fa-facebook'
+                                            />
                                         </div>
                                     </div>
                                 </div>
@@ -269,7 +274,6 @@ const Register = () => {
 
                                             <FacebookLogin
                                                 appId="191172777186900"
-                                                autoLoad={false}
                                                 fields="name,email,picture"
                                                 callback={responseFacebook}
                                                 textButton='Đăng nhập với Facebook'
