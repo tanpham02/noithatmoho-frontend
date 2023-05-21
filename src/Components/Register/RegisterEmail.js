@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import axios from 'axios'
 import * as Yup from "yup"
+import { API_SERVER_MYDUNG, API_SERVER_TANPHAM } from "../.."
 
 const RegisterEmail = () => {
 
@@ -68,12 +69,22 @@ const RegisterEmail = () => {
 
                             setIsLoading(true)
                             async function createdUser() {
-                                await axios.post('https://noithatmoho-backend.up.railway.app/api/users', newValues)
-                                setIsLoading(false)
-                                checkOutToast()
-                                setTimeout(() => {
-                                    window.location.replace('/')
-                                }, 3000)
+                                try {
+                                    await axios.post(`${API_SERVER_TANPHAM}/api/users`, newValues)
+                                    setIsLoading(false)
+                                    checkOutToast()
+                                    setTimeout(() => {
+                                        window.location.replace('/')
+                                    }, 3000)
+
+                                } catch (err) {
+                                    await axios.post(`${API_SERVER_MYDUNG}/api/users`, newValues)
+                                    setIsLoading(false)
+                                    checkOutToast()
+                                    setTimeout(() => {
+                                        window.location.replace('/')
+                                    }, 3000)
+                                }
                             }
                             createdUser()
                         }
@@ -87,9 +98,16 @@ const RegisterEmail = () => {
 
     useEffect(() => {
         async function registerMail() {
-            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/users')
-            const dataUsers = await res.data
-            setDatas([...dataUsers])
+            try {
+                const res = await axios.get(`${API_SERVER_TANPHAM}/api/users`)
+                const dataUsers = await res.data
+                setDatas([...dataUsers])
+
+            } catch (err) {
+                const res = await axios.get(`${API_SERVER_MYDUNG}/api/users`)
+                const dataUsers = await res.data
+                setDatas([...dataUsers])
+            }
         }
         registerMail()
     }, [])
@@ -203,7 +221,7 @@ const RegisterEmail = () => {
                     type="submit"
                     className="btn btn-register my--22"
                     disabled={isLoading}
-                    style={{cursor: `${isLoading ? 'wait' : 'pointer'}`}}
+                    style={{ cursor: `${isLoading ? 'wait' : 'pointer'}` }}
                 >
                     {isLoading ?
                         <span className="loader-register">Loading</span> :

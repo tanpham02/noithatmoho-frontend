@@ -4,6 +4,7 @@ import Account from "../../Components/Account/Account"
 import BannerService from "../../Components/BannerService/BannerService"
 import Footer from "../../Components/Footer/Footer"
 import axios from "axios"
+import { API_SERVER_MYDUNG, API_SERVER_TANPHAM } from "../.."
 
 
 const AccountPage = ({ localeLogos, bannerServices, accountInfos }) => {
@@ -16,13 +17,20 @@ const AccountPage = ({ localeLogos, bannerServices, accountInfos }) => {
 
     useEffect(() => {
         window.scroll(0, 0)
-    },[])
+    }, [])
 
     useEffect(() => {
         async function fetchData() {
-            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/users')
-            const data = res.data
-            setData(data)
+            try {
+                const res = await axios.get(`${API_SERVER_TANPHAM}/api/users`)
+                const data = res.data
+                setData(data)
+
+            } catch (err) {
+                const res = await axios.get(`${API_SERVER_MYDUNG}/api/users`)
+                const data = res.data
+                setData(data)
+            }
         }
         fetchData()
     }, [])

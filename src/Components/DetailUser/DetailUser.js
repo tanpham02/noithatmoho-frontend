@@ -9,6 +9,7 @@ import {
     PhoneAndroid
 } from "@material-ui/icons";
 import './DetailUser.scss'
+import { API_SERVER_MYDUNG, API_SERVER_TANPHAM } from '../..';
 
 const DetailUser = () => {
     const [user, setUser] = useState({})
@@ -25,9 +26,16 @@ const DetailUser = () => {
     useEffect(() => {
         const id = window.location.pathname.split('/')[3]
         async function fetchData() {
-            const res = await axios.get(`https://noithatmoho-backend.up.railway.app/api/users/${id}`)
-            const datas = res.data
-            setUser({ ...datas })
+            try {
+                const res = await axios.get(`${API_SERVER_TANPHAM}/api/users/${id}`)
+                const datas = res.data
+                setUser({ ...datas })
+
+            } catch (err) {
+                const res = await axios.get(`${API_SERVER_MYDUNG}/api/users/${id}`)
+                const datas = res.data
+                setUser({ ...datas })
+            }
         }
         fetchData()
 
@@ -85,13 +93,24 @@ const DetailUser = () => {
 
         setIsLoading(true)
         async function updateUser() {
-            const res = await axios.put(`https://noithatmoho-backend.up.railway.app/api/users/${user.id}`, dataUpdate)
-            setIsLoading(false)
-            checkOutToast()
-            window.setTimeout(() => {
-                window.location.reload()
-            }, 2800)
-            return res
+            try {
+                const res = await axios.put(`${API_SERVER_TANPHAM}/api/users/${user.id}`, dataUpdate)
+                setIsLoading(false)
+                checkOutToast()
+                window.setTimeout(() => {
+                    window.location.reload()
+                }, 2800)
+                return res
+
+            } catch (err) {
+                const res = await axios.put(`${API_SERVER_MYDUNG}/api/users/${user.id}`, dataUpdate)
+                setIsLoading(false)
+                checkOutToast()
+                window.setTimeout(() => {
+                    window.location.reload()
+                }, 2800)
+                return res
+            }
         }
         if (window.confirm(`Bạn có chắc chắn muốn cập nhật thông tin của ${fullName}?`) === true) {
             updateUser()

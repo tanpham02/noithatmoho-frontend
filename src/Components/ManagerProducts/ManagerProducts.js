@@ -8,6 +8,7 @@ import { themeProvider } from '../../context/ProviderTheme/ProviderTheme'
 import { THEME_DARK } from '../../reducers/actions'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { API_SERVER_MYDUNG, API_SERVER_TANPHAM } from '../..';
 
 
 const ManagerProducts = () => {
@@ -36,21 +37,38 @@ const ManagerProducts = () => {
     useEffect(() => {
         setIsLoading(true)
         async function getData() {
-            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/products')
-            const datas = await res.data
-            setDataProducts(datas)
-            setIsLoading(false)
+            try {
+                const res = await axios.get(`${API_SERVER_TANPHAM}/api/products`)
+                const datas = await res.data
+                setDataProducts(datas)
+                setIsLoading(false)
+
+            } catch (err) {
+                const res = await axios.get(`${API_SERVER_MYDUNG}/api/products`)
+                const datas = await res.data
+                setDataProducts(datas)
+                setIsLoading(false)
+            }
         }
         getData()
     }, [])
 
     const handleDelete = (id) => {
         async function deletePro() {
-            await axios.delete(`https://noithatmoho-backend.up.railway.app/api/products/${id}`)
-            checkOutToast()
-            setTimeout(() => {
-                window.location.reload()
-            }, 2800)
+            try {
+                await axios.delete(`${API_SERVER_TANPHAM}/api/products/${id}`)
+                checkOutToast()
+                setTimeout(() => {
+                    window.location.reload()
+                }, 2800)
+
+            } catch (err) {
+                await axios.delete(`${API_SERVER_MYDUNG}/api/products/${id}`)
+                checkOutToast()
+                setTimeout(() => {
+                    window.location.reload()
+                }, 2800)
+            }
         }
         if (window.confirm('Bạn có chắc chắn muốn xóa sản phẩm này?') === true) {
             deletePro()

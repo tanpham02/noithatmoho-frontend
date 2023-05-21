@@ -3,6 +3,7 @@ import { useState, memo, useEffect, useCallback } from "react"
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { Link } from "react-router-dom"
+import { API_SERVER_MYDUNG, API_SERVER_TANPHAM } from "../.."
 
 const RestoreByEmail = () => {
 
@@ -23,9 +24,16 @@ const RestoreByEmail = () => {
 
     useEffect(() => {
         async function fetchData() {
-            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/users')
-            const data = await res.data
-            setDatas(data)
+            try {
+                const res = await axios.get(`${API_SERVER_TANPHAM}/api/users`)
+                const data = await res.data
+                setDatas(data)
+
+            } catch (err) {
+                const res = await axios.get(`${API_SERVER_MYDUNG}/api/users`)
+                const data = await res.data
+                setDatas(data)
+            }
         }
         fetchData()
     }, [otp])
@@ -47,10 +55,18 @@ const RestoreByEmail = () => {
     const handleSendOtp = (e) => {
 
         async function fetchData() {
-            await axios.post(`https://noithatmoho-backend.up.railway.app/api/sendOTPRestoreAccountByEmail`, {
-                email
-            })
-            return
+            try {
+                await axios.post(`${API_SERVER_TANPHAM}/api/sendOTPRestoreAccountByEmail`, {
+                    email
+                })
+                return
+
+            } catch (err) {
+                await axios.post(`${API_SERVER_MYDUNG}/api/sendOTPRestoreAccountByEmail`, {
+                    email
+                })
+                return
+            }
         }
 
         if (email) {
@@ -89,10 +105,18 @@ const RestoreByEmail = () => {
                 setShowInputOtp(false)
                 setErrMsg(false)
                 async function fetchData() {
-                    await axios.put(`https://noithatmoho-backend.up.railway.app/api/users/${user?.id}`, {
-                        ...user,
-                        otp: ''
-                    })
+                    try {
+                        await axios.put(`${API_SERVER_TANPHAM}/api/users/${user?.id}`, {
+                            ...user,
+                            otp: ''
+                        })
+
+                    } catch (err) {
+                        await axios.put(`${API_SERVER_MYDUNG}/api/users/${user?.id}`, {
+                            ...user,
+                            otp: ''
+                        })
+                    }
                 }
                 fetchData()
 
@@ -111,19 +135,36 @@ const RestoreByEmail = () => {
             if (regexPass.test(newPassWord)) {
                 setIsLoading(true)
                 async function resetPassword() {
-                    await axios.put(`https://noithatmoho-backend.up.railway.app/api/users/${user.id}`,
-                        {
-                            ...user,
-                            password: newPassWord,
-                            otp: null
-                        })
-                    setIsLoading(false)
-                    setErrorPass(false)
-                    checkOutToast()
-                    setTimeout(() => {
-                        window.location.replace('/')
-                    }, 3000)
-                    return
+                    try {
+                        await axios.put(`${API_SERVER_TANPHAM}/api/users/${user.id}`,
+                            {
+                                ...user,
+                                password: newPassWord,
+                                otp: null
+                            })
+                        setIsLoading(false)
+                        setErrorPass(false)
+                        checkOutToast()
+                        setTimeout(() => {
+                            window.location.replace('/')
+                        }, 3000)
+                        return
+
+                    } catch (err) {
+                        await axios.put(`${API_SERVER_MYDUNG}/api/users/${user.id}`,
+                            {
+                                ...user,
+                                password: newPassWord,
+                                otp: null
+                            })
+                        setIsLoading(false)
+                        setErrorPass(false)
+                        checkOutToast()
+                        setTimeout(() => {
+                            window.location.replace('/')
+                        }, 3000)
+                        return
+                    }
                 }
                 resetPassword()
             } else {

@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
-import { useState, useEffect, useRef, memo } from 'react'
+import { useState, useEffect, memo } from 'react'
 import axios from 'axios'
 import RegisterPage from './pages/RegisterPage/Register'
 import HomePage from './pages/Home/Home'
@@ -76,6 +76,7 @@ import {
   Storefront,
   StoreRounded
 } from "@material-ui/icons"
+import { API_SERVER_MYDUNG, API_SERVER_TANPHAM } from '.'
 
 
 const localeLogos = [
@@ -243,11 +244,9 @@ const listPage = [
 
 function App() {
   const [gotoTop, setGotoTop] = useState(false)
-  const [showChat, setShowChat] = useState(false)
   const [datas, setDatas] = useState([])
   const [dataGroupTypes, setDataGroupTypes] = useState([])
   const [dataTypes, setDataTypes] = useState([])
-  const timerId = useRef()
 
 
   const accountInfos = [
@@ -269,30 +268,49 @@ function App() {
     }
   ]
 
-
   useEffect(() => {
     document.querySelector('.fb-reset')?.classList?.add('hidden')
     async function getDataProducts() {
-      const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/products')
-      setDatas([...res.data])
-      document.querySelector('.fb-reset')?.classList?.remove('hidden')
+      try {
+        const res = await axios.get(`${API_SERVER_TANPHAM}/api/products`)
+        setDatas([...res.data])
+        document.querySelector('.fb-reset')?.classList?.remove('hidden')
+        console.log('Ok')
+      } catch (err) {
+        const res = await axios.get(`${API_SERVER_MYDUNG}/api/products`)
+        setDatas([...res.data])
+        document.querySelector('.fb-reset')?.classList?.remove('hidden')
+      }
     }
     getDataProducts()
   }, [])
 
 
+
   useEffect(() => {
     async function getDataGroupTypes() {
-      const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/groupTypes')
-      setDataGroupTypes([...res.data])
+      try {
+        const res = await axios.get(`${API_SERVER_TANPHAM}/api/groupTypes`)
+        setDataGroupTypes([...res.data])
+      } catch (err) {
+        const res = await axios.get(`${API_SERVER_MYDUNG}/api/groupTypes`)
+        setDataGroupTypes([...res.data])
+      }
     }
     getDataGroupTypes()
+
   }, [])
 
   useEffect(() => {
     async function getDataTypes() {
-      const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/types')
-      setDataTypes([...res.data])
+      try {
+        const res = await axios.get(`${API_SERVER_TANPHAM}/api/types`)
+        setDataTypes([...res.data])
+
+      } catch (err) {
+        const res = await axios.get(`${API_SERVER_MYDUNG}/api/types`)
+        setDataTypes([...res.data])
+      }
     }
     getDataTypes()
   }, [])

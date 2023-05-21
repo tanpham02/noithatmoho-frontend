@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import axios from 'axios'
+import { API_SERVER_MYDUNG, API_SERVER_TANPHAM } from "../..";
 
 
 const RegisterPhone = () => {
@@ -46,9 +47,16 @@ const RegisterPhone = () => {
 
     useEffect(() => {
         async function fetchData() {
-            const res = await axios('https://noithatmoho-backend.up.railway.app/api/users')
-            const output = await res.data
-            setDatas([...output])
+            try {
+                const res = await axios(`${API_SERVER_TANPHAM}/api/users`)
+                const output = await res.data
+                setDatas([...output])
+
+            } catch (err) {
+                const res = await axios(`${API_SERVER_MYDUNG}/api/users`)
+                const output = await res.data
+                setDatas([...output])
+            }
         }
         fetchData()
     }, [otp])
@@ -106,17 +114,36 @@ const RegisterPhone = () => {
         if (handleValidataPhone) {
             if (phoneNumber !== '' && !flag) {
                 setShowInput(true)
-                axios.post('https://noithatmoho-backend.up.railway.app/api/send-otp-sms', {
-                    phone_number: `+84${phoneNumber.slice(1)}`
-                })
-                    .then(response => {
-                        if (response !== '') {
-                            console.log(response.data)
-                        }
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    })
+                const handleValidate = async () => {
+                    try {
+                        await axios.post(`${API_SERVER_TANPHAM}/api/send-otp-sms`, {
+                            phone_number: `+84${phoneNumber.slice(1)}`
+                        })
+                            .then(response => {
+                                if (response !== '') {
+                                    console.log(response.data)
+                                }
+                            })
+                            .catch(error => {
+                                console.log(error);
+                            })
+
+                    } catch (err) {
+                        await axios.post(`${API_SERVER_MYDUNG}/api/send-otp-sms`, {
+                            phone_number: `+84${phoneNumber.slice(1)}`
+                        })
+                            .then(response => {
+                                if (response !== '') {
+                                    console.log(response.data)
+                                }
+                            })
+                            .catch(error => {
+                                console.log(error);
+                            })
+                    }
+
+                }
+                handleValidate()
             }
         } else {
             setValidatePhone(false)
@@ -143,14 +170,22 @@ const RegisterPhone = () => {
                     setShowInput(false)
                     setFalseOtp(false)
                     async function removeOtp() {
-                        await axios.put(`https://noithatmoho-backend.up.railway.app/api/users/${otpData.id}`, {
-                            ...otpData,
-                            otp: ''
-                        })
+                        try {
+                            await axios.put(`${API_SERVER_TANPHAM}/api/users/${otpData.id}`, {
+                                ...otpData,
+                                otp: ''
+                            })
+
+                        } catch (err) {
+                            await axios.put(`${API_SERVER_MYDUNG}/api/users/${otpData.id}`, {
+                                ...otpData,
+                                otp: ''
+                            })
+                        }
                     }
                     removeOtp()
                     return phoneNumber
-                }   
+                }
                 if (otp !== otpData.otp) {
                     setFalseOtp(true)
                     return -1
@@ -182,14 +217,26 @@ const RegisterPhone = () => {
                 setIsLoading(true)
                 async function insertUserByPhone() {
                     output.forEach(async user => {
-                        await axios.put(`https://noithatmoho-backend.up.railway.app/api/users/${user.id}`, {
-                            ...user,
-                            password: passwordByPhone,
-                            vouchers: 'MOHO500K, MOHO300K, MOHO200K, MOHO100K, MOHO50K',
-                            otp: ''
-                        })
-                        setIsLoading(false)
-                        return passwordByPhone
+                        try {
+                            await axios.put(`${API_SERVER_TANPHAM}/api/users/${user.id}`, {
+                                ...user,
+                                password: passwordByPhone,
+                                vouchers: 'MOHO500K, MOHO300K, MOHO200K, MOHO100K, MOHO50K',
+                                otp: ''
+                            })
+                            setIsLoading(false)
+                            return passwordByPhone
+
+                        } catch (err) {
+                            await axios.put(`${API_SERVER_MYDUNG}/api/users/${user.id}`, {
+                                ...user,
+                                password: passwordByPhone,
+                                vouchers: 'MOHO500K, MOHO300K, MOHO200K, MOHO100K, MOHO50K',
+                                otp: ''
+                            })
+                            setIsLoading(false)
+                            return passwordByPhone
+                        }
                     })
                 }
                 checkOutToast()

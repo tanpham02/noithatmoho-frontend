@@ -3,6 +3,7 @@ import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import './CreateProduct.scss'
+import { API_SERVER_MYDUNG, API_SERVER_TANPHAM } from '../..'
 
 const CreateProduct = () => {
     const [listImgs, setListImgs] = useState([])
@@ -56,18 +57,32 @@ const CreateProduct = () => {
 
     useEffect(() => {
         async function getDataType() {
-            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/types')
-            const datas = await res.data
-            setDataType(datas)
+            try {
+                const res = await axios.get(`${API_SERVER_TANPHAM}/api/types`)
+                const datas = await res.data
+                setDataType(datas)
+
+            } catch (err) {
+                const res = await axios.get(`${API_SERVER_MYDUNG}/api/types`)
+                const datas = await res.data
+                setDataType(datas)
+            }
         }
         getDataType()
     }, [])
 
     useEffect(() => {
         async function getDataGroupType() {
-            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/groupTypes')
-            const datas = await res.data
-            setDataGroupType(datas)
+            try {
+                const res = await axios.get(`${API_SERVER_TANPHAM}/api/groupTypes`)
+                const datas = await res.data
+                setDataGroupType(datas)
+
+            } catch (err) {
+                const res = await axios.get(`${API_SERVER_MYDUNG}/api/groupTypes`)
+                const datas = await res.data
+                setDataGroupType(datas)
+            }
         }
         getDataGroupType()
     }, [])
@@ -115,13 +130,24 @@ const CreateProduct = () => {
             setRegexDiscount(false)
             setIsLoading(true)
             async function createProduct() {
-                const res = await axios.post('https://noithatmoho-backend.up.railway.app/api/products', createPro)
-                setIsLoading(false)
-                checkOutToast()
-                window.setTimeout(() => {
-                    window.location.replace('/manager-products')
-                }, 2800)
-                return res.data
+                try {
+                    const res = await axios.post(`${API_SERVER_TANPHAM}/api/products`, createPro)
+                    setIsLoading(false)
+                    checkOutToast()
+                    window.setTimeout(() => {
+                        window.location.replace('/manager-products')
+                    }, 2800)
+                    return res.data
+
+                } catch (err) {
+                    const res = await axios.post(`${API_SERVER_MYDUNG}/api/products`, createPro)
+                    setIsLoading(false)
+                    checkOutToast()
+                    window.setTimeout(() => {
+                        window.location.replace('/manager-products')
+                    }, 2800)
+                    return res.data
+                }
             }
             createProduct()
             return

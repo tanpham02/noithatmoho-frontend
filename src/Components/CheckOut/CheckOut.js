@@ -4,6 +4,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { Link } from 'react-router-dom'
 import './CheckOut.scss'
+import { API_SERVER_MYDUNG, API_SERVER_TANPHAM } from "../.."
 
 export const ID_USER = JSON.parse(localStorage.getItem('idUser'))
 
@@ -97,10 +98,18 @@ const CheckOut = ({ datas }) => {
     useEffect(() => {
         setIsLoading(true)
         async function getUsers() {
-            const res = await axios.get(`https://noithatmoho-backend.up.railway.app/api/users/${ID_USER}`)
-            const users = await res.data
-            setInfoUser(users)
-            setIsLoading(false)
+            try {
+                const res = await axios.get(`${API_SERVER_TANPHAM}/api/users/${ID_USER}`)
+                const users = await res.data
+                setInfoUser(users)
+                setIsLoading(false)
+
+            } catch (err) {
+                const res = await axios.get(`${API_SERVER_MYDUNG}/api/users/${ID_USER}`)
+                const users = await res.data
+                setInfoUser(users)
+                setIsLoading(false)
+            }
         }
         getUsers()
     }, [])
@@ -383,34 +392,65 @@ const CheckOut = ({ datas }) => {
             }
 
             async function checkOut() {
-                await axios.put(`https://noithatmoho-backend.up.railway.app/api/users/${ID_USER}`, checkoutMain)
-                dataCheckOuts.forEach(checkoutData => {
-                    datas.filter(async (data) => {
-                        if (data.id === checkoutData.id) {
-                            if (checkoutData.id === data.id) {
-                                const quantity_sold = await data.quantity_sold + checkoutData.quantity
-                                const quantity_stock = await data.quantity_stock && data.quantity_stock !== 0 ?
-                                    data.quantity_stock - checkoutData.quantity :
-                                    0
-                                const updatePro = {
-                                    ...data,
-                                    quantity_sold,
-                                    quantity_stock
-                                }
+                try {
+                    await axios.put(`${API_SERVER_TANPHAM}/api/users/${ID_USER}`, checkoutMain)
+                    dataCheckOuts.forEach(checkoutData => {
+                        datas.filter(async (data) => {
+                            if (data.id === checkoutData.id) {
+                                if (checkoutData.id === data.id) {
+                                    const quantity_sold = await data.quantity_sold + checkoutData.quantity
+                                    const quantity_stock = await data.quantity_stock && data.quantity_stock !== 0 ?
+                                        data.quantity_stock - checkoutData.quantity :
+                                        0
+                                    const updatePro = {
+                                        ...data,
+                                        quantity_sold,
+                                        quantity_stock
+                                    }
 
-                                await axios.put(`https://noithatmoho-backend.up.railway.app/api/products/${checkoutData.id}`, updatePro)
-                                localStorage.setItem('cartLists', JSON.stringify([]))
-                                localStorage.setItem('isSuccessCheckout', JSON.stringify(false))
-                                localStorage.setItem('isCancelCheckout', JSON.stringify(false))
-                                setIsLoadingBtn(false)
+                                    await axios.put(`${API_SERVER_TANPHAM}/api/products/${checkoutData.id}`, updatePro)
+                                    localStorage.setItem('cartLists', JSON.stringify([]))
+                                    localStorage.setItem('isSuccessCheckout', JSON.stringify(false))
+                                    localStorage.setItem('isCancelCheckout', JSON.stringify(false))
+                                    setIsLoadingBtn(false)
+                                }
                             }
-                        }
+                        })
                     })
-                })
-                checkOutToast()
-                setTimeout(() => {
-                    window.location.replace('/account')
-                }, 3000)
+                    checkOutToast()
+                    setTimeout(() => {
+                        window.location.replace('/account')
+                    }, 3000)
+                } catch (err) {
+                    await axios.put(`${API_SERVER_MYDUNG}/api/users/${ID_USER}`, checkoutMain)
+                    dataCheckOuts.forEach(checkoutData => {
+                        datas.filter(async (data) => {
+                            if (data.id === checkoutData.id) {
+                                if (checkoutData.id === data.id) {
+                                    const quantity_sold = await data.quantity_sold + checkoutData.quantity
+                                    const quantity_stock = await data.quantity_stock && data.quantity_stock !== 0 ?
+                                        data.quantity_stock - checkoutData.quantity :
+                                        0
+                                    const updatePro = {
+                                        ...data,
+                                        quantity_sold,
+                                        quantity_stock
+                                    }
+
+                                    await axios.put(`${API_SERVER_MYDUNG}/api/products/${checkoutData.id}`, updatePro)
+                                    localStorage.setItem('cartLists', JSON.stringify([]))
+                                    localStorage.setItem('isSuccessCheckout', JSON.stringify(false))
+                                    localStorage.setItem('isCancelCheckout', JSON.stringify(false))
+                                    setIsLoadingBtn(false)
+                                }
+                            }
+                        })
+                    })
+                    checkOutToast()
+                    setTimeout(() => {
+                        window.location.replace('/account')
+                    }, 3000)
+                }
             }
 
 

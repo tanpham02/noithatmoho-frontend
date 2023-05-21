@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import './Header.scss'
 import HeaderFixed from "../HeaderFixed/HeaderFixed"
 import axios from "axios"
+import { API_SERVER_MYDUNG, API_SERVER_TANPHAM } from "../.."
 export const DEFAULT_LANG = 'vi';
 
 export const groupTypes = [
@@ -464,14 +465,26 @@ const Header = ({ localeLogos, accountInfos }) => {
 
     useEffect(() => {
         async function getData() {
-            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/products')
-            const datas = await res.data
-            const results = datas.filter(data => {
-                if (data.name.toLowerCase().includes(search.trim().toLowerCase())) {
-                    return data
-                }
-            })
-            setDataSearch(results)
+            try {
+                const res = await axios.get(`${API_SERVER_TANPHAM}/api/products`)
+                const datas = await res.data
+                const results = datas.filter(data => {
+                    if (data.name.toLowerCase().includes(search.trim().toLowerCase())) {
+                        return data
+                    }
+                })
+                setDataSearch(results)
+
+            } catch (err) {
+                const res = await axios.get(`${API_SERVER_MYDUNG}/api/products`)
+                const datas = await res.data
+                const results = datas.filter(data => {
+                    if (data.name.toLowerCase().includes(search.trim().toLowerCase())) {
+                        return data
+                    }
+                })
+                setDataSearch(results)
+            }
         }
         if (search) {
             getData()

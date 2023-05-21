@@ -2,6 +2,7 @@ import { useState, useEffect, useLayoutEffect, useMemo, memo } from "react"
 import { Link } from 'react-router-dom'
 import axios from "axios"
 import './DetailProduct.scss'
+import { API_SERVER_MYDUNG, API_SERVER_TANPHAM } from "../.."
 
 const DetailProduct = () => {
 
@@ -23,10 +24,18 @@ const DetailProduct = () => {
         setIsLoading(true)
         const id = JSON.parse(localStorage.getItem('productDetail'))
         async function getData() {
-            const res = await axios.get(`https://noithatmoho-backend.up.railway.app/api/products/${id}`)
-            const data = await res.data
-            setDataDetail(prev => [...prev, data])
-            setIsLoading(false)
+            try {
+                const res = await axios.get(`${API_SERVER_TANPHAM}/api/products/${id}`)
+                const data = await res.data
+                setDataDetail(prev => [...prev, data])
+                setIsLoading(false)
+
+            } catch (err) {
+                const res = await axios.get(`${API_SERVER_MYDUNG}/api/products/${id}`)
+                const data = await res.data
+                setDataDetail(prev => [...prev, data])
+                setIsLoading(false)
+            }
         }
         getData()
     }, [])

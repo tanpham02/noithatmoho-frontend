@@ -2,6 +2,7 @@ import { memo, useEffect, useState } from 'react'
 import "./WidgetSm.scss";
 import { Visibility } from "@material-ui/icons";
 import axios from 'axios';
+import { API_SERVER_MYDUNG, API_SERVER_TANPHAM } from '../..';
 
 const WidgetSm = ({ currentTheme, THEME_DARK }) => {
   const [userDatas, setUserData] = useState([])
@@ -9,9 +10,15 @@ const WidgetSm = ({ currentTheme, THEME_DARK }) => {
 
   useEffect(() => {
     async function getData() {
-      const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/users')
-      const data = await res.data
-      setUserData(data)
+      try {
+        const res = await axios.get(`${API_SERVER_TANPHAM}/api/users`)
+        const data = await res.data
+        setUserData(data)
+      } catch (err) {
+        const res = await axios.get(`${API_SERVER_MYDUNG}/api/users`)
+        const data = await res.data
+        setUserData(data)
+      }
     }
     getData()
   }, [])

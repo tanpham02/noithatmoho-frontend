@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, memo } from 'react'
 import { Link } from "react-router-dom"
 import axios from 'axios'
 import './Login.scss'
+import { API_SERVER_MYDUNG, API_SERVER_TANPHAM } from '../..'
 
 const Login = ({ onGetDataAuthor, fixedHeader }) => {
     const [emailOrPhonenumber, setEmailOrPhonenumber] = useState('')
@@ -15,9 +16,16 @@ const Login = ({ onGetDataAuthor, fixedHeader }) => {
 
     useEffect(() => {
         async function fetchData() {
-            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/users')
-            const data = await res.data
-            setDatas([...data])
+            try {
+                const res = await axios.get(`${API_SERVER_TANPHAM}/api/users`)
+                const data = await res.data
+                setDatas([...data])
+
+            } catch (err) {
+                const res = await axios.get(`${API_SERVER_MYDUNG}/api/users`)
+                const data = await res.data
+                setDatas([...data])
+            }
         }
         fetchData()
     }, [emailOrPhonenumber])
@@ -85,20 +93,38 @@ const Login = ({ onGetDataAuthor, fixedHeader }) => {
 
                         setIsLoading(true)
                         async function LoginData() {
-                            await axios.post('https://noithatmoho-backend.up.railway.app/api/login', dataLogin)
-                            datas.filter(user => {
-                                if (user.email === emailOrPhonenumber || user.phone_number === emailOrPhonenumber) {
-                                    if (user) {
-                                        if (user.is_admin === 1) {
-                                            window.location.replace('/admin')
+                            try {
+                                await axios.post(`${API_SERVER_TANPHAM}/api/login`, dataLogin)
+                                datas.filter(user => {
+                                    if (user.email === emailOrPhonenumber || user.phone_number === emailOrPhonenumber) {
+                                        if (user) {
+                                            if (user.is_admin === 1) {
+                                                window.location.replace('/admin')
+                                                return user
+                                            }
+                                            window.location.replace('/')
                                             return user
                                         }
-                                        window.location.replace('/')
-                                        return user
                                     }
-                                }
-                            })
-                            setIsLoading(false)
+                                })
+                                setIsLoading(false)
+
+                            } catch (err) {
+                                await axios.post(`${API_SERVER_MYDUNG}/api/login`, dataLogin)
+                                datas.filter(user => {
+                                    if (user.email === emailOrPhonenumber || user.phone_number === emailOrPhonenumber) {
+                                        if (user) {
+                                            if (user.is_admin === 1) {
+                                                window.location.replace('/admin')
+                                                return user
+                                            }
+                                            window.location.replace('/')
+                                            return user
+                                        }
+                                    }
+                                })
+                                setIsLoading(false)
+                            }
                         }
                         LoginData()
                         return data

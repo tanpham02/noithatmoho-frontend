@@ -1,8 +1,9 @@
-import { useState, useEffect, memo, useCallback, useContext } from 'react'
+import { useState, useEffect, memo, useCallback } from 'react'
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import './CreateUser.scss'
+import { API_SERVER_MYDUNG, API_SERVER_TANPHAM } from '../..'
 
 
 const CreateUser = () => {
@@ -26,9 +27,16 @@ const CreateUser = () => {
 
     useEffect(() => {
         async function fetchData() {
-            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/users')
-            const datas = await res.data
-            setDataUsers(datas)
+            try {
+                const res = await axios.get(`${API_SERVER_TANPHAM}/api/users`)
+                const datas = await res.data
+                setDataUsers(datas)
+
+            } catch (err) {
+                const res = await axios.get(`${API_SERVER_MYDUNG}/api/users`)
+                const datas = await res.data
+                setDataUsers(datas)
+            }
         }
         fetchData()
     }, [])
@@ -104,13 +112,24 @@ const CreateUser = () => {
 
 
         async function createUser() {
-            const res = await axios.post('https://noithatmoho-backend.up.railway.app/api/users', dataUser)
-            setIsLoading(false)
-            checkOutToast()
-            setTimeout(() => {
-                window.location.replace('/manager-users')
-            }, 2500)
-            return res.data
+            try {
+                const res = await axios.post(`${API_SERVER_TANPHAM}/api/users`, dataUser)
+                setIsLoading(false)
+                checkOutToast()
+                setTimeout(() => {
+                    window.location.replace('/manager-users')
+                }, 2500)
+                return res.data
+
+            } catch (err) {
+                const res = await axios.post(`${API_SERVER_MYDUNG}/api/users`, dataUser)
+                setIsLoading(false)
+                checkOutToast()
+                setTimeout(() => {
+                    window.location.replace('/manager-users')
+                }, 2500)
+                return res.data
+            }
         }
 
         if (regexNumber.test(phoneNumber) && regexP.test(passWord)) {

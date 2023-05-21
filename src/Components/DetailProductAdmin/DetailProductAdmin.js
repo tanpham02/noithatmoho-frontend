@@ -3,6 +3,7 @@ import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import './DetailProductAdmin.scss'
+import { API_SERVER_MYDUNG, API_SERVER_TANPHAM } from '../..'
 
 const DetailProductAdmin = () => {
     const [product, setProduct] = useState({})
@@ -53,9 +54,16 @@ const DetailProductAdmin = () => {
     useEffect(() => {
         const id = window.location.pathname.split('/')[3]
         async function fetchData() {
-            const res = await axios.get(`https://noithatmoho-backend.up.railway.app/api/products/${id}`)
-            const datas = res.data
-            setProduct(datas)
+            try {
+                const res = await axios.get(`${API_SERVER_TANPHAM}/api/products/${id}`)
+                const datas = res.data
+                setProduct(datas)
+
+            } catch (err) {
+                const res = await axios.get(`${API_SERVER_MYDUNG}/api/products/${id}`)
+                const datas = res.data
+                setProduct(datas)
+            }
         }
         fetchData()
 
@@ -109,13 +117,23 @@ const DetailProductAdmin = () => {
 
         setIsLoading(true)
         async function updatePro() {
-            const res = await axios.put(`https://noithatmoho-backend.up.railway.app/api/products/${product.id}`, updateData)
-            setIsLoading(false)
-            checkOutToast()
-            window.setTimeout(() => {
-                window.location.reload()
-            }, 2800)
-            return res.data
+            try {
+                const res = await axios.put(`${API_SERVER_TANPHAM}/api/products/${product.id}`, updateData)
+                setIsLoading(false)
+                checkOutToast()
+                window.setTimeout(() => {
+                    window.location.reload()
+                }, 2800)
+                return res.data
+            } catch (err) {
+                const res = await axios.put(`${API_SERVER_MYDUNG}/api/products/${product.id}`, updateData)
+                setIsLoading(false)
+                checkOutToast()
+                window.setTimeout(() => {
+                    window.location.reload()
+                }, 2800)
+                return res.data
+            }
         }
         if (window.confirm('Bạn có chắc chắn muốn cập nhật sản phẩm này?') === true) {
             updatePro()

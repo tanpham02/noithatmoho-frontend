@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './AccountAddress.scss'
+import { API_SERVER_MYDUNG, API_SERVER_TANPHAM } from '../..';
 const AccountAddress = ({ accountInfos }) => {
     const [showFormUpdate, setShowFormUpdate] = useState(false)
     const [datas, setDatas] = useState([])
@@ -17,10 +18,18 @@ const AccountAddress = ({ accountInfos }) => {
     useEffect(() => {
         setIsLoading(true)
         async function getUser() {
-            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/users')
-            const data = await res.data
-            setDatas(data)
-            setIsLoading(false)
+            try {
+                const res = await axios.get(`${API_SERVER_TANPHAM}/api/users`)
+                const data = await res.data
+                setDatas(data)
+                setIsLoading(false)
+
+            } catch (err) {
+                const res = await axios.get(`${API_SERVER_MYDUNG}/api/users`)
+                const data = await res.data
+                setDatas(data)
+                setIsLoading(false)
+            }
         }
         getUser()
     }, [])
@@ -86,14 +95,26 @@ const AccountAddress = ({ accountInfos }) => {
                 phone_number: phoneNumber
             }
             async function updateAdress() {
-                await axios.put(`https://noithatmoho-backend.up.railway.app/api/users/${parseInt(JSON.parse(localStorage.getItem('idUser')))}`,
-                    dataUpdate)
-                    .then(res => console.log(res))
-                    .catch(err => console.log(err))
-                updateToast()
-                setTimeout(() => {
-                    window.location.reload()
-                }, 2500)
+                try {
+                    await axios.put(`${API_SERVER_TANPHAM}/api/users/${parseInt(JSON.parse(localStorage.getItem('idUser')))}`,
+                        dataUpdate)
+                        .then(res => console.log(res))
+                        .catch(err => console.log(err))
+                    updateToast()
+                    setTimeout(() => {
+                        window.location.reload()
+                    }, 2500)
+
+                } catch (err) {
+                    await axios.put(`${API_SERVER_MYDUNG}/api/users/${parseInt(JSON.parse(localStorage.getItem('idUser')))}`,
+                        dataUpdate)
+                        .then(res => console.log(res))
+                        .catch(err => console.log(err))
+                    updateToast()
+                    setTimeout(() => {
+                        window.location.reload()
+                    }, 2500)
+                }
             }
             if (!/^[0-9]+$/.test(phoneNumber)) {
                 setValidatePhone(true)
@@ -121,14 +142,26 @@ const AccountAddress = ({ accountInfos }) => {
             phone_number: null
         }
         async function clearAddress() {
-            await axios.put(`https://noithatmoho-backend.up.railway.app/api/users/${parseInt(JSON.parse(localStorage.getItem('idUser')))}`,
-                dataDelete)
-                .then(res => console.log(res))
-                .catch(err => console.log(err))
-            clearToast()
-            setTimeout(() => {
-                window.location.reload()
-            }, 1500)
+            try {
+                await axios.put(`${API_SERVER_TANPHAM}/api/users/${parseInt(JSON.parse(localStorage.getItem('idUser')))}`,
+                    dataDelete)
+                    .then(res => console.log(res))
+                    .catch(err => console.log(err))
+                clearToast()
+                setTimeout(() => {
+                    window.location.reload()
+                }, 1500)
+
+            } catch (err) {
+                await axios.put(`${API_SERVER_MYDUNG}/api/users/${parseInt(JSON.parse(localStorage.getItem('idUser')))}`,
+                    dataDelete)
+                    .then(res => console.log(res))
+                    .catch(err => console.log(err))
+                clearToast()
+                setTimeout(() => {
+                    window.location.reload()
+                }, 1500)
+            }
         }
         if (window.confirm('Bạn có chắc chắn muốn xóa địa chỉ này?') === true) {
             clearAddress()

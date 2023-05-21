@@ -6,20 +6,37 @@ import BannerService from "../../Components/BannerService/BannerService"
 import Footer from "../../Components/Footer/Footer"
 import { memo, useEffect, useState } from "react"
 import axios from "axios"
+import { API_SERVER_MYDUNG, API_SERVER_TANPHAM } from "../.."
 
 
 
-const HomePage = ({ dataGroupTypes, dataTypes, accountInfos, localeLogos, bannerServices, sliders, customers }) => {
+const HomePage = ({
+    dataGroupTypes,
+    dataTypes,
+    accountInfos,
+    localeLogos,
+    bannerServices,
+    sliders,
+    customers
+}) => {
     const [datas, setDatas] = useState([])
     const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         setIsLoading(true)
         async function fetchData() {
-            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/products')
-            const data = await res.data
-            setDatas(data)
-            setIsLoading(false)
+            try {
+                const res = await axios.get(`${API_SERVER_TANPHAM}/api/products`)
+                const data = await res.data
+                setDatas(data)
+                setIsLoading(false)
+
+            } catch (err) {
+                const res = await axios.get(`${API_SERVER_MYDUNG}/api/products`)
+                const data = await res.data
+                setDatas(data)
+                setIsLoading(false)
+            }
         }
         fetchData()
     }, [])

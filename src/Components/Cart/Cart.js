@@ -3,6 +3,7 @@ import { useState, useEffect, useMemo, memo } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import './Cart.scss'
+import { API_SERVER_MYDUNG, API_SERVER_TANPHAM } from '../..'
 
 const Cart = () => {
     const [datas, setDatas] = useState([])
@@ -20,10 +21,18 @@ const Cart = () => {
     useEffect(() => {
         setIsLoading(true)
         async function fetchData() {
-            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/products')
-            const data = await res.data
-            setIsLoading(false)
-            setDatas(data)
+            try {
+                const res = await axios.get(`${API_SERVER_TANPHAM}/api/products`)
+                const data = await res.data
+                setIsLoading(false)
+                setDatas(data)
+
+            } catch (err) {
+                const res = await axios.get(`${API_SERVER_MYDUNG}/api/products`)
+                const data = await res.data
+                setIsLoading(false)
+                setDatas(data)
+            }
         }
         fetchData()
     }, [])

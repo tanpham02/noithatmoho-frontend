@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo, memo } from "react"
 import axios from 'axios'
+import { API_SERVER_MYDUNG, API_SERVER_TANPHAM } from "../.."
 
 const DiscountFilter = ({ onGetData, filterCategories, filterPrices, filterSort }) => {
     const [datas, setDatas] = useState([])
@@ -16,9 +17,16 @@ const DiscountFilter = ({ onGetData, filterCategories, filterPrices, filterSort 
 
     useEffect(() => {
         async function fetchData() {
-            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/products')
-            const datas = await res.data
-            setDatas([...datas])
+            try {
+                const res = await axios.get(`${API_SERVER_TANPHAM}/api/products`)
+                const datas = await res.data
+                setDatas([...datas])
+
+            } catch (err) {
+                const res = await axios.get(`${API_SERVER_MYDUNG}/api/products`)
+                const datas = await res.data
+                setDatas([...datas])
+            }
         }
         fetchData()
     }, [])

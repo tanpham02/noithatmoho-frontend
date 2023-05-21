@@ -9,6 +9,7 @@ import WidgetSm from '../WidgetSm/WidgetSm'
 import WidgetLg from '../WidgetLg/WidgetLg'
 import './Admin.scss'
 import { THEME_DARK } from '../Topbar/Topbar'
+import { API_SERVER_MYDUNG, API_SERVER_TANPHAM } from '../..'
 
 
 
@@ -23,10 +24,18 @@ const Admin = ({ listPage }) => {
     useEffect(() => {
         setIsLoading(true)
         async function getData() {
-            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/users')
-            const data = await res.data
-            setUserData(data)
-            setIsLoading(false)
+            try {
+                const res = await axios.get(`${API_SERVER_TANPHAM}/api/users`)
+                const data = await res.data
+                setUserData(data)
+                setIsLoading(false)
+
+            } catch (err) {
+                const res = await axios.get(`${API_SERVER_MYDUNG}/api/users`)
+                const data = await res.data
+                setUserData(data)
+                setIsLoading(false)
+            }
         }
         getData()
     }, [])

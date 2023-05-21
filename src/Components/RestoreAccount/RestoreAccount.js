@@ -9,6 +9,7 @@ import './RestoreAccount.scss'
 import axios from "axios"
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { API_SERVER_MYDUNG, API_SERVER_TANPHAM } from "../.."
 
 const RestoreAccount = ({ restoreTypes }) => {
     const [checked, setChecked] = useState(0)
@@ -56,9 +57,16 @@ const RestoreAccount = ({ restoreTypes }) => {
 
     useEffect(() => {
         const getUsers = async () => {
-            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/users')
-            const datas = await res.data
-            setUsers(datas)
+            try {
+                const res = await axios.get(`${API_SERVER_TANPHAM}/api/users`)
+                const datas = await res.data
+                setUsers(datas)
+
+            } catch (err) {
+                const res = await axios.get(`${API_SERVER_MYDUNG}/api/users`)
+                const datas = await res.data
+                setUsers(datas)
+            }
         }
         getUsers()
     }, [])
@@ -89,21 +97,40 @@ const RestoreAccount = ({ restoreTypes }) => {
                     return
                 }
                 const newUser = async () => {
-                    const res = await axios.post('https://noithatmoho-backend.up.railway.app/api/users', {
-                        email,
-                        full_name: name,
-                        avatar: picture,
-                        vouchers: 'MOHO500K, MOHO300K, MOHO200K, MOHO100K, MOHO50K'
-                    })
-                    localStorage.setItem('isLogin', JSON.stringify(true))
-                    localStorage.setItem('fullNameAccount', JSON.stringify(name))
-                    localStorage.setItem('isAdmin', JSON.stringify(res.data.is_admin))
-                    localStorage.setItem('idUser', JSON.stringify(res.data.id))
-                    setIsLoading(false)
-                    window.setTimeout(() => {
-                        window.location.replace('/')
-                    }, 2000)
-                    return
+                    try {
+                        const res = await axios.post(`${API_SERVER_TANPHAM}/api/users`, {
+                            email,
+                            full_name: name,
+                            avatar: picture,
+                            vouchers: 'MOHO500K, MOHO300K, MOHO200K, MOHO100K, MOHO50K'
+                        })
+                        localStorage.setItem('isLogin', JSON.stringify(true))
+                        localStorage.setItem('fullNameAccount', JSON.stringify(name))
+                        localStorage.setItem('isAdmin', JSON.stringify(res.data.is_admin))
+                        localStorage.setItem('idUser', JSON.stringify(res.data.id))
+                        setIsLoading(false)
+                        window.setTimeout(() => {
+                            window.location.replace('/')
+                        }, 2000)
+                        return
+
+                    } catch (err) {
+                        const res = await axios.post(`${API_SERVER_MYDUNG}/api/users`, {
+                            email,
+                            full_name: name,
+                            avatar: picture,
+                            vouchers: 'MOHO500K, MOHO300K, MOHO200K, MOHO100K, MOHO50K'
+                        })
+                        localStorage.setItem('isLogin', JSON.stringify(true))
+                        localStorage.setItem('fullNameAccount', JSON.stringify(name))
+                        localStorage.setItem('isAdmin', JSON.stringify(res.data.is_admin))
+                        localStorage.setItem('idUser', JSON.stringify(res.data.id))
+                        setIsLoading(false)
+                        window.setTimeout(() => {
+                            window.location.replace('/')
+                        }, 2000)
+                        return
+                    }
                 }
                 newUser()
 
@@ -141,21 +168,40 @@ const RestoreAccount = ({ restoreTypes }) => {
                     return
                 }
                 const newUser = async () => {
-                    const res = await axios.post('https://noithatmoho-backend.up.railway.app/api/users', {
-                        email: profiles.email,
-                        full_name: profiles.name,
-                        avatar: profiles.picture.data.url,
-                        vouchers: 'MOHO500K, MOHO300K, MOHO200K, MOHO100K, MOHO50K'
-                    })
-                    localStorage.setItem('isLogin', JSON.stringify(true))
-                    localStorage.setItem('fullNameAccount', JSON.stringify(profiles.name))
-                    localStorage.setItem('isAdmin', JSON.stringify(res.data.is_admin))
-                    localStorage.setItem('idUser', JSON.stringify(res.data.id))
-                    setIsLoading(false)
-                    window.setTimeout(() => {
-                        window.location.replace('/')
-                    }, 2000)
-                    return
+                    try {
+                        const res = await axios.post(`${API_SERVER_TANPHAM}/api/users`, {
+                            email: profiles.email,
+                            full_name: profiles.name,
+                            avatar: profiles.picture.data.url,
+                            vouchers: 'MOHO500K, MOHO300K, MOHO200K, MOHO100K, MOHO50K'
+                        })
+                        localStorage.setItem('isLogin', JSON.stringify(true))
+                        localStorage.setItem('fullNameAccount', JSON.stringify(profiles.name))
+                        localStorage.setItem('isAdmin', JSON.stringify(res.data.is_admin))
+                        localStorage.setItem('idUser', JSON.stringify(res.data.id))
+                        setIsLoading(false)
+                        window.setTimeout(() => {
+                            window.location.replace('/')
+                        }, 2000)
+                        return
+
+                    } catch (err) {
+                        const res = await axios.post(`${API_SERVER_MYDUNG}/api/users`, {
+                            email: profiles.email,
+                            full_name: profiles.name,
+                            avatar: profiles.picture.data.url,
+                            vouchers: 'MOHO500K, MOHO300K, MOHO200K, MOHO100K, MOHO50K'
+                        })
+                        localStorage.setItem('isLogin', JSON.stringify(true))
+                        localStorage.setItem('fullNameAccount', JSON.stringify(profiles.name))
+                        localStorage.setItem('isAdmin', JSON.stringify(res.data.is_admin))
+                        localStorage.setItem('idUser', JSON.stringify(res.data.id))
+                        setIsLoading(false)
+                        window.setTimeout(() => {
+                            window.location.replace('/')
+                        }, 2000)
+                        return
+                    }
                 }
                 newUser()
             }

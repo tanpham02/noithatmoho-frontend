@@ -4,6 +4,7 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import "./WidgetLg.scss";
 import axios from 'axios';
+import { API_SERVER_MYDUNG, API_SERVER_TANPHAM } from '../..';
 
 const WidgetLg = ({ currentTheme, THEME_DARK }) => {
 
@@ -38,18 +39,32 @@ const WidgetLg = ({ currentTheme, THEME_DARK }) => {
 
   useEffect(() => {
     async function getData() {
-      const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/users')
-      const data = await res.data
-      setUserData(data)
+      try {
+        const res = await axios.get(`${API_SERVER_TANPHAM}/api/users`)
+        const data = await res.data
+        setUserData(data)
+
+      } catch (err) {
+        const res = await axios.get(`${API_SERVER_MYDUNG}/api/users`)
+        const data = await res.data
+        setUserData(data)
+      }
     }
     getData()
   }, [])
 
   useEffect(() => {
     async function getproducts() {
-      const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/products')
-      const data = await res.data
-      setProducts(data)
+      try {
+        const res = await axios.get(`${API_SERVER_TANPHAM}/api/products`)
+        const data = await res.data
+        setProducts(data)
+
+      } catch (err) {
+        const res = await axios.get(`${API_SERVER_MYDUNG}/api/products`)
+        const data = await res.data
+        setProducts(data)
+      }
     }
     getproducts()
   }, [])
@@ -82,16 +97,30 @@ const WidgetLg = ({ currentTheme, THEME_DARK }) => {
 
       if (localeDayDb === localeDay) {
         async function updateProBought() {
-          await axios.put(`https://noithatmoho-backend.up.railway.app/api/users/${idUser}`, {
-            ...dataUserCheckout,
-            checkout: output,
-            transactions: `${transactions}`
-          })
-          successToast()
-          setTimeout(() => {
+          try {
+            await axios.put(`${API_SERVER_TANPHAM}/api/users/${idUser}`, {
+              ...dataUserCheckout,
+              checkout: output,
+              transactions: `${transactions}`
+            })
+            successToast()
+            setTimeout(() => {
+              window.location.reload()
+            }, 2500)
             window.location.reload()
-          }, 2500)
-          window.location.reload()
+
+          } catch (err) {
+            await axios.put(`${API_SERVER_MYDUNG}/api/users/${idUser}`, {
+              ...dataUserCheckout,
+              checkout: output,
+              transactions: `${transactions}`
+            })
+            successToast()
+            setTimeout(() => {
+              window.location.reload()
+            }, 2500)
+            window.location.reload()
+          }
         }
         if (window.confirm('Khách đã nhận được hàng?') === true) {
           updateProBought()
@@ -119,32 +148,62 @@ const WidgetLg = ({ currentTheme, THEME_DARK }) => {
     }
 
     async function cancelCheckout() {
-      const res = await axios.put(`https://noithatmoho-backend.up.railway.app/api/users/${idUser}`, cancelCheckoutData).then(res => {
-        return dataUserCheckout?.checkout && JSON.parse(dataUserCheckout.checkout?.split('; ')[2]).forEach(checkoutData => {
-          products.filter(async data => {
-            if (data.id === checkoutData.id) {
-              if (checkoutData.id === data.id) {
-                const quantity_sold = data.quantity_sold && data.quantity_sold !== 0 ?
-                  data.quantity_sold - checkoutData.quantity : 0
-                const quantity_stock = data.quantity_stock + checkoutData.quantity
-                const updatePro = {
-                  ...data,
-                  quantity_sold,
-                  quantity_stock
+      try {
+        const res = await axios.put(`${API_SERVER_TANPHAM}/api/users/${idUser}`, cancelCheckoutData).then(res => {
+          return dataUserCheckout?.checkout && JSON.parse(dataUserCheckout.checkout?.split('; ')[2]).forEach(checkoutData => {
+            products.filter(async data => {
+              if (data.id === checkoutData.id) {
+                if (checkoutData.id === data.id) {
+                  const quantity_sold = data.quantity_sold && data.quantity_sold !== 0 ?
+                    data.quantity_sold - checkoutData.quantity : 0
+                  const quantity_stock = data.quantity_stock + checkoutData.quantity
+                  const updatePro = {
+                    ...data,
+                    quantity_sold,
+                    quantity_stock
+                  }
+                  await axios.put(`${API_SERVER_TANPHAM}/api/products/${data.id}`, updatePro)
+                    .then(res => console.log(res.data))
+                    .catch(err => console.log(err))
                 }
-                await axios.put(`https://noithatmoho-backend.up.railway.app/api/products/${data.id}`, updatePro)
-                  .then(res => console.log(res.data))
-                  .catch(err => console.log(err))
               }
-            }
+            })
           })
         })
-      })
-      cancelToast()
-      setTimeout(() => {
-        window.location.reload()
-      }, 2500)
-      return res.data
+        cancelToast()
+        setTimeout(() => {
+          window.location.reload()
+        }, 2500)
+        return res.data
+
+      } catch (err) {
+        const res = await axios.put(`${API_SERVER_MYDUNG}/api/users/${idUser}`, cancelCheckoutData).then(res => {
+          return dataUserCheckout?.checkout && JSON.parse(dataUserCheckout.checkout?.split('; ')[2]).forEach(checkoutData => {
+            products.filter(async data => {
+              if (data.id === checkoutData.id) {
+                if (checkoutData.id === data.id) {
+                  const quantity_sold = data.quantity_sold && data.quantity_sold !== 0 ?
+                    data.quantity_sold - checkoutData.quantity : 0
+                  const quantity_stock = data.quantity_stock + checkoutData.quantity
+                  const updatePro = {
+                    ...data,
+                    quantity_sold,
+                    quantity_stock
+                  }
+                  await axios.put(`${API_SERVER_MYDUNG}/api/products/${data.id}`, updatePro)
+                    .then(res => console.log(res.data))
+                    .catch(err => console.log(err))
+                }
+              }
+            })
+          })
+        })
+        cancelToast()
+        setTimeout(() => {
+          window.location.reload()
+        }, 2500)
+        return res.data
+      }
     }
 
     if (window.confirm('Bạn có chắc chắn muốn hủy đơn hàng này?') === true) {

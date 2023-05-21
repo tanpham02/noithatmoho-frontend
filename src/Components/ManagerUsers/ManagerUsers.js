@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import axios from 'axios'
 import { themeProvider } from '../../context/ProviderTheme/ProviderTheme'
 import { THEME_DARK } from "../../reducers/actions"
+import { API_SERVER_MYDUNG, API_SERVER_TANPHAM } from "../.."
 
 const ManagerUsers = () => {
     const [dataUsers, setDataUSers] = useState([])
@@ -45,10 +46,18 @@ const ManagerUsers = () => {
     useEffect(() => {
         setIsLoading(true)
         async function getData() {
-            const res = await axios.get('https://noithatmoho-backend.up.railway.app/api/users')
-            const datas = await res.data
-            setDataUSers(datas)
-            setIsLoading(false)
+            try {
+                const res = await axios.get(`${API_SERVER_TANPHAM}/api/users`)
+                const datas = await res.data
+                setDataUSers(datas)
+                setIsLoading(false)
+
+            } catch (err) {
+                const res = await axios.get(`${API_SERVER_MYDUNG}/api/users`)
+                const datas = await res.data
+                setDataUSers(datas)
+                setIsLoading(false)
+            }
         }
         getData()
 
@@ -56,11 +65,20 @@ const ManagerUsers = () => {
 
     const handleDelete = (id) => {
         async function deleteUser() {
-            await axios.delete(`https://noithatmoho-backend.up.railway.app/api/users/${id}`)
-            checkOutToast()
-            setTimeout(() => {
-                window.location.reload()
-            }, 2800)
+            try {
+                await axios.delete(`${API_SERVER_TANPHAM}/api/users/${id}`)
+                checkOutToast()
+                setTimeout(() => {
+                    window.location.reload()
+                }, 2800)
+
+            } catch (err) {
+                await axios.delete(`${API_SERVER_MYDUNG}/api/users/${id}`)
+                checkOutToast()
+                setTimeout(() => {
+                    window.location.reload()
+                }, 2800)
+            }
         }
         if (window.confirm('Bạn có chắc chắn muốn xóa người dùng này?') === true) {
             deleteUser()
