@@ -130,7 +130,13 @@ const Register = () => {
                         localStorage.setItem('idUser', JSON.stringify(res.data.id))
                         setIsLoading(false)
                         window.setTimeout(() => {
-                            window.location.replace('/')
+                            if (getUser.id === 1 || '1') {
+                                window.location.replace('/admin')
+                                return
+                            } else {
+                                window.location.replace('/')
+                                return
+                            }
                         }, 2000)
                         return
 
@@ -147,7 +153,13 @@ const Register = () => {
                         localStorage.setItem('idUser', JSON.stringify(res.data.id))
                         setIsLoading(false)
                         window.setTimeout(() => {
-                            window.location.replace('/')
+                            if (getUser.id === 1 || '1') {
+                                window.location.replace('/admin')
+                                return
+                            } else {
+                                window.location.replace('/')
+                                return
+                            }
                         }, 2000)
                         return
                     }
@@ -185,8 +197,10 @@ const Register = () => {
                     window.setTimeout(() => {
                         if (getUser.id === 1 || '1') {
                             window.location.replace('/admin')
+                            return
                         } else {
                             window.location.replace('/')
+                            return
                         }
                     }, 2000)
                     return
@@ -211,8 +225,10 @@ const Register = () => {
                         window.setTimeout(() => {
                             if (getUser.id === 1 || '1') {
                                 window.location.replace('/admin')
+                                return
                             } else {
                                 window.location.replace('/')
+                                return
                             }
                         }, 2000)
                         return

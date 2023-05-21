@@ -9,7 +9,6 @@ import axios from "axios"
 import { API_SERVER_MYDUNG, API_SERVER_TANPHAM } from "../.."
 
 
-
 const HomePage = ({
     dataGroupTypes,
     dataTypes,
@@ -54,8 +53,8 @@ const HomePage = ({
             {isLoading ?
                 <span style={{
                     position: 'absolute',
-                    top: '47%',
-                    left: '47%',
+                    top: '50%',
+                    left: '50%',
                 }} className="loader-main-products"></span> :
                 <>
                     <Header localeLogos={localeLogos} accountInfos={accountInfos} />
