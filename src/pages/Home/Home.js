@@ -53,8 +53,8 @@ const HomePage = ({
             {isLoading ?
                 <span style={{
                     position: 'absolute',
-                    top: '48.5%',
-                    left: '48.5%',
+                    top: '48%',
+                    left: '48%',
                 }} className="loader-main-products"></span> :
                 <>
                     <Header localeLogos={localeLogos} accountInfos={accountInfos} />
