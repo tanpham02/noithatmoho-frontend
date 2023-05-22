@@ -91,7 +91,7 @@ const Register = () => {
         getUsers()
     }, [])
 
-    const onSuccess = async (response) => {
+    const responseGoogle = async (response) => {
         setIsLoading(true)
         try {
             const token = await response
@@ -130,13 +130,7 @@ const Register = () => {
                         localStorage.setItem('idUser', JSON.stringify(res.data.id))
                         setIsLoading(false)
                         window.setTimeout(() => {
-                            if (getUser.id === 1 || '1') {
-                                window.location.replace('/admin')
-                                return
-                            } else {
-                                window.location.replace('/')
-                                return
-                            }
+                            window.location.replace('/')
                         }, 2000)
                         return
 
@@ -153,13 +147,7 @@ const Register = () => {
                         localStorage.setItem('idUser', JSON.stringify(res.data.id))
                         setIsLoading(false)
                         window.setTimeout(() => {
-                            if (getUser.id === 1 || '1') {
-                                window.location.replace('/admin')
-                                return
-                            } else {
-                                window.location.replace('/')
-                                return
-                            }
+                            window.location.replace('/')
                         }, 2000)
                         return
                     }
@@ -195,13 +183,7 @@ const Register = () => {
                     }, 1500)
 
                     window.setTimeout(() => {
-                        if (getUser.id === 1 || '1') {
-                            window.location.replace('/admin')
-                            return
-                        } else {
-                            window.location.replace('/')
-                            return
-                        }
+                        window.location.replace('/')
                     }, 2000)
                     return
                 }
@@ -221,16 +203,6 @@ const Register = () => {
                         window.setTimeout(() => {
                             window.location.replace('/')
                         }, 2000)
-
-                        window.setTimeout(() => {
-                            if (getUser.id === 1 || '1') {
-                                window.location.replace('/admin')
-                                return
-                            } else {
-                                window.location.replace('/')
-                                return
-                            }
-                        }, 2000)
                         return
 
                     } catch (err) {
@@ -247,14 +219,6 @@ const Register = () => {
                         setIsLoading(false)
                         window.setTimeout(() => {
                             window.location.replace('/')
-                        }, 2000)
-
-                        window.setTimeout(() => {
-                            if (getUser.id === 1 || '1') {
-                                window.location.replace('/admin')
-                            } else {
-                                window.location.replace('/')
-                            }
                         }, 2000)
                         return
                     }
@@ -286,7 +250,7 @@ const Register = () => {
                                         <div className="login-with mt--38">
                                             <GoogleLogin
                                                 clientId='273310959546-ih5nf3j8me1j68112tuk6ummroecml7s.apps.googleusercontent.com'
-                                                onSuccess={onSuccess}
+                                                onSuccess={responseGoogle}
                                             />
                                             <FacebookLogin
                                                 appId="191172777186900"
@@ -352,7 +316,7 @@ const Register = () => {
                                         <div className="login-with mt--38">
                                             <GoogleLogin
                                                 clientId='273310959546-ih5nf3j8me1j68112tuk6ummroecml7s.apps.googleusercontent.com'
-                                                onSuccess={onSuccess}
+                                                onSuccess={responseGoogle}
                                             />
                                             <FacebookLogin
                                                 appId="191172777186900"
