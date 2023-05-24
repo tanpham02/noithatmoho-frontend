@@ -1,7 +1,9 @@
 import { memo } from "react"
 import './BannerService.scss'
+import { useTranslation } from 'react-i18next'
 
 const BannerService = ({ bannerServices }) => {
+    const { t } = useTranslation(['navigation'])
     return (
         <div className="banner-service">
             <div className="grid" style={{ height: '100%' }}>
@@ -13,7 +15,7 @@ const BannerService = ({ bannerServices }) => {
                                 alt={bannerService.name}
                             />
                             <span className="banner-service__title">{bannerService.name}</span>
-                            <span className="banner-service__desc">Miễn Phí</span>
+                            <span className="banner-service__desc">{t('Free')}</span>
                         </div>
                     ))}
                 </div>

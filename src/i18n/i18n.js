@@ -9,22 +9,27 @@ import NAV_VI from '../locale/vi/nav-vi.json'
 import FOOTER_EN from '../locale/en/footer-en.json'
 import FOOTER_VI from '../locale/vi/footer-vi.json'
 
+import PRODUCTS_EN from '../locale/en/products-en.json'
+import PRODUCTS_VI from '../locale/vi/products-vi.json'
+
 // Set up translations
 i18n.use(initReactI18next).init({
   resources: {
     en: {
       header: HEADER_EN,
       navigation: NAV_EN,
-      footer: FOOTER_EN
+      footer: FOOTER_EN,
+      products: PRODUCTS_EN
     },
     vi: {
       header: HEADER_VI,
       navigation: NAV_VI,
-      footer: FOOTER_VI
+      footer: FOOTER_VI,
+      products: PRODUCTS_VI
     },
   },
 
-  lng: localStorage.getItem('lang') ?? 'vi' , // lang khởi tạo là vi
+  lng: localStorage.getItem('lang') ?? 'vi', // lang khởi tạo là vi
   fallbackLng: 'vi', // nếu không handle được thì mặc định nó sẽ lấy lang vi
-  ns: ['header', 'navigation', 'footer'] // namespace
+  ns: ['header', 'navigation', 'footer', 'products'], // namespace
 });

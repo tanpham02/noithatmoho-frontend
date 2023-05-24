@@ -5,16 +5,16 @@ import { useTranslation } from "react-i18next"
 import './Footer.scss'
 
 const Footer = () => {
-    const { t } = useTranslation(['navigation'])
+    const { t } = useTranslation(['navigation', 'header', 'footer'])
     return (
         <footer className="footer">
             <div className="grid">
                 <div className="grid__row">
                     <div className="grid__col-4 pr-not-last">
-                        <h3 className="footer__title">NỘI THẤT MOHO</h3>
+                        <h3 className="footer__title" style={{textTransform: 'uppercase'}}>{t('Furniture', {ns: 'header'})}</h3>
                         <div className="footer__content mt--22">
                             <p>
-                                Nội Thất MOHO là thương hiệu đến từ Savimex với gần 40 năm kinh nghiệm trong việc sản xuất và xuất khẩu nội thất đạt chuẩn quốc tế.
+                                {t('Introduced Brands', {ns: 'footer'})}
                             </p>
                         </div>
                         <div className="footer__logo">
@@ -28,7 +28,7 @@ const Footer = () => {
                         </div>
                     </div>
                     <div className="grid__col-4 pr--22">
-                        <h3 className="footer__title">DỊCH VỤ</h3>
+                        <h3 className="footer__title" style={{textTransform: 'uppercase'}}>{t('Service')}</h3>
                         <ul className="footer__lists mt--22">
                             {types
                                 .filter(typeFilter => typeFilter["groupType-id"] === 4)
@@ -41,7 +41,7 @@ const Footer = () => {
                         </ul>
                     </div>
                     <div className="grid__col-4 pr-not-last">
-                        <h3 className="footer__title">THÔNG TIN LIÊN HỆ</h3>
+                        <h3 className="footer__title" style={{textTransform: 'uppercase'}}>{t('Contact Info', {ns: 'header'})}</h3>
                         <ul className="footer__lists contact mt--22">
                             <li className="footer__item address">
                                 <i className="address-icon footer-item_icon fa-solid fa-location-dot"></i>
@@ -56,14 +56,14 @@ const Footer = () => {
                                 <i className="phonenumber-icon footer__item-icon fa-solid fa-phone"></i>
                                 <div>
                                     <div className="footer__item-child">037 280 0762 (Hotline/Zalo)</div>
-                                    <div className="footer__item-child">035 665 1058 (Đội Giao hàng)</div>
+                                    <div className="footer__item-child">{`035 665 1058 (${t('Delivery Teams', {ns: 'footer'})})`}</div>
                                 </div>
                             </li>
                             <li className="footer__item orther">
                                 <i className="email-icon fa-solid fa-envelope"></i>
                                 <div>
-                                    <div className="footer__item-child">cskh@moho.com.vn</div>
-                                    <div className="footer__item-child">Công Ty Cổ Phần Hợp Tác Kinh Tế Và Xuất Nhập Khẩu Savimex - STK: 0071001303667 - Vietcombank CN HCM</div>
+                                    <div className="footer__item-child">phamvantan1311@gmail.com</div>
+                                    <div className="footer__item-child">{t('Introduced Company', {ns: 'footer   '})}</div>
                                 </div>
                             </li>
 
@@ -78,7 +78,7 @@ const Footer = () => {
             </div>
 
             <div className="footer__bottom">
-                <p>Copyright © 2023 Nội Thất MOHO.</p>
+                <p>Copyright © 2023 {t('Furniture', {ns: 'header'})} MOHO.</p>
             </div>
         </footer>
     )

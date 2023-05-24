@@ -3,12 +3,15 @@ import { Link } from 'react-router-dom'
 import axios from "axios"
 import './DetailProduct.scss'
 import { API_SERVER_MYDUNG, API_SERVER_TANPHAM } from "../.."
+import { useTranslation } from 'react-i18next'
+
 
 const DetailProduct = () => {
-
+    const { t } = useTranslation(['products', 'header'])
     useEffect(() => {
         window.scroll(0, 0)
     }, [])
+
 
     const [dataDetail, setDataDetail] = useState([])
     const [quantity, setQuantity] = useState('1')
@@ -18,7 +21,6 @@ const DetailProduct = () => {
     })
     const [stock, setStock] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
-
 
     useEffect(() => {
         setIsLoading(true)
@@ -39,7 +41,6 @@ const DetailProduct = () => {
         }
         getData()
     }, [])
-
 
     useEffect(() => {
         dataDetail.forEach(data => {
@@ -64,7 +65,7 @@ const DetailProduct = () => {
 
     const handleAddCatLists = (id, quantity_stock) => {
         if (quantity_stock === 0) {
-            window.alert('Sản phẩm tạm hết hàng. Vui lòng chọn sản phẩm khác!')
+            window.alert(`${t('Product is temporarily out of stock. Please choose another product')}`)
             return
         } else {
             setCartLists(prev => {
@@ -103,7 +104,7 @@ const DetailProduct = () => {
 
     const handleBuyProduct = (id, quantity_stock) => {
         if (quantity_stock === 0) {
-            window.alert('Sản phẩm tạm hết hàng. Vui lòng chọn sản phẩm khác!')
+            window.alert(`${t('Product is temporarily out of stock. Please choose another product')}`)
             return
         } else {
             localStorage.setItem('cartLists', JSON.stringify([{ id, quantity: parseInt(quantity) }]))
@@ -132,7 +133,7 @@ const DetailProduct = () => {
                                                 >
                                                     <img
                                                         src={img}
-                                                        alt={data.name}
+                                                        alt={t(data.name)}
                                                     />
                                                 </div>)
                                             )}
@@ -146,7 +147,7 @@ const DetailProduct = () => {
                                             }
                                             <img
                                                 src={data.image_url.split(', ')[isACtive]}
-                                                alt={data.name}
+                                                alt={t(data.name)}
                                             />
                                         </div>
                                     </div>
@@ -157,7 +158,7 @@ const DetailProduct = () => {
                                 {dataDetail.map((data, index) => (
                                     <div className="product-detail__content" key={index}>
                                         <div className="product-detail__heading">
-                                            <h3 className="product-detail__name">{data.name}</h3>
+                                            <h3 className="product-detail__name">{t(data.name)}</h3>
                                             <div className="product-detail__overview">
                                                 <div className="product-detail__content-review">
                                                     <i className="fa-solid fa-star"></i>
@@ -174,7 +175,7 @@ const DetailProduct = () => {
                                                     alignItems: ' center',
                                                     width: '160px'
                                                 }}>
-                                                    <span className="product-detail__content-share">Chia sẻ:&nbsp;
+                                                    <span className="product-detail__content-share">{t('Share')}:&nbsp;
                                                         <Link
                                                             to={`https://www.facebook.com/sharer/sharer.php?u=https://moho.com.vn/${window.location.pathname}`}
                                                         >
@@ -183,7 +184,7 @@ const DetailProduct = () => {
                                                     </span>
 
                                                     <span className="product-detail__content-quantity">
-                                                        Đã bán:&nbsp;
+                                                        {t('Sold')}:&nbsp;
                                                         {data.quantity_sold}
                                                     </span>
                                                 </div>
@@ -220,7 +221,7 @@ const DetailProduct = () => {
                                                     </> :
                                                     (data.prices === 0) ?
                                                         <span className="product-detail__prices-new" style={{ fontSize: 12 }}>
-                                                            {`Giá dự kiến chỉ từ ${parseInt(30000000).toLocaleString('EN-VI')}`}
+                                                            {`${t('Estimated price from')} ${parseInt(30000000).toLocaleString('EN-VI')}`}
                                                             <span className="VND">₫</span>
                                                         </span>
                                                         :
@@ -239,14 +240,14 @@ const DetailProduct = () => {
                                                     height: '40px',
                                                     padding: '0 12px',
                                                     borderRadius: '4px'
-                                                }}>Tạm hết hàng</span>
+                                                }}>{t('Temporarily out of stock')}</span>
                                             }
                                         </div>
 
                                         <div className="product-detail__desc">
                                             {data.size &&
                                                 <span className="product-detail__desc-size">
-                                                    <strong>Kích thước: &nbsp;</strong>
+                                                    <strong>{t('Size')}: &nbsp;</strong>
                                                     {data.size.split(', ').length === 1 ?
                                                         data.size.split(', ')[0] :
                                                         data.size.split(', ').map(si =>
@@ -259,15 +260,14 @@ const DetailProduct = () => {
                                             {data.size ?
                                                 <>
                                                     <div className="product-detail__desc-material">
-                                                        <strong>Chất liệu:&nbsp;</strong>
-                                                        <span>- Mặt bàn màu nâu: Gỗ thông tự nhiên</span>
-                                                        <span>- Mặt bàn màu tự nhiên: Gỗ công nghiệp MDF chuẩn CARB-P2 (*), Veneer gỗ sồi</span>
-                                                        <span>- Chân bàn màu nâu: Gỗ thông tự nhiên</span>
-                                                        <span>- Chân bàn màu tự nhiên: Gỗ cao su tự nhiên</span>
+                                                        <strong>{t('Material')}:&nbsp;</strong>
+                                                        <span>- {t('Table top')}</span>
+                                                        <span>- {t('Table legs')}</span>
+                                                        <span>- {t('Industrial wood, Rubber veneer')}</span>
                                                     </div>
                                                     <div className="product-detail__desc-standard">
-                                                        <span>(*) Tiêu chuẩn California Air Resources Board xuất khẩu Mỹ, đảm bảo gỗ không độc hại, an toàn cho sức khỏe</span>
-                                                        <span> Chống thấm, cong vênh, trầy xước, mối mọt</span>
+                                                        <span>(*) {t('Standard California')}</span> <br />
+                                                        <span className="mt--12" style={{ display: 'block' }}> {t('Waterproof, warping, scratches, termites')}</span>
                                                     </div>
                                                 </>
                                                 :
@@ -278,15 +278,15 @@ const DetailProduct = () => {
                                                     fontWeight: '400'
                                                 }}
                                                 >
-                                                    <strong style={{ color: '#434343' }}>Giá dự kiến chưa bao gồm đá, kính, thiết bị bếp,...</strong>
+                                                    <strong style={{ color: '#434343' }}>{t('Estimated price does not include stone, glass, kitchen equipment,...')}</strong>
                                                     <span style={{ display: 'block' }} className='mb--14 mt--12'>
-                                                        - Thiết kế miễn phí
+                                                        - {t('Free Design')}
                                                     </span>
                                                     <span style={{ display: 'block' }} className='mb--14'>
-                                                        - Lắp đặt miễn phí
+                                                        - {t('Free installation')}
                                                     </span>
                                                     <span style={{ display: 'block' }}>
-                                                        - Kiểm tra định kỳ miễn phí
+                                                        - {t('Free Periodic Checks')}
                                                     </span>
                                                 </div>
                                             }
@@ -303,7 +303,7 @@ const DetailProduct = () => {
                                                             fontWeight: 600
                                                         }}
                                                     >
-                                                        {`Sản phẩm có sẵn ${data.quantity_stock > 0 ? data.quantity_stock : 0}`}
+                                                        {`${t('Products available')} ${data.quantity_stock > 0 ? data.quantity_stock : 0}`}
                                                     </span>
 
                                                     <div className="product-detail__quantity">
@@ -324,7 +324,7 @@ const DetailProduct = () => {
                                                 </>
                                             }
                                         </div>
-                                        {stock && <span className="errorMsg">Số lượng trong kho không đủ</span>}
+                                        {stock && <span className="errorMsg">{t('The quantity in stock is not enough')}</span>}
                                         {JSON.parse(localStorage.getItem('isAdmin')) !== 1 && <div className="product-detail__btn">
                                             {data.prices ?
                                                 <>
@@ -333,7 +333,7 @@ const DetailProduct = () => {
                                                         className={`btn product-detail__btn-add-cart btn--color-prima-blue ${stock && 'stock-btn'}`}
                                                         disabled={stock}
                                                     >
-                                                        Thêm vào giỏ
+                                                        {t('Add to Carts')}
                                                     </button>
                                                     {JSON.parse(localStorage.getItem('isLogin')) ?
                                                         stock ? <Link
@@ -345,7 +345,7 @@ const DetailProduct = () => {
                                                             onClick={(e) => e.preventDefault()}
                                                             className={`btn product-detail__btn-add-cart btn--color-prima-orange ${stock && 'stock-btn'}`}
                                                         >
-                                                            Mua ngay
+                                                            {t('BUY NOW')}
                                                         </Link> :
                                                             <Link
                                                                 style={{
@@ -359,7 +359,7 @@ const DetailProduct = () => {
                                                                 onClick={() => handleBuyProduct(data.id, data.quantity_stock)}
                                                                 className={`btn product-detail__btn-add-cart btn--color-prima-orange ${stock && 'stock-btn'}`}
                                                             >
-                                                                Mua ngay
+                                                                {t('BUY NOW')}
                                                             </Link> :
                                                         <Link
                                                             style={{
@@ -367,39 +367,47 @@ const DetailProduct = () => {
                                                                 fontSize: '1.333rem'
                                                             }}
                                                             onClick={(e) => {
-                                                                e.preventDefault(); window.alert('Vui lòng đăng nhập để trải nghiệm tốt hơn!')
+                                                                e.preventDefault(); window.alert(`${t('Please login for a better experience')}`)
                                                             }}
                                                             className={`btn product-detail__btn-add-cart btn--color-prima-orange ${stock && 'stock-btn'}`}
                                                         >
-                                                            Mua ngay
+                                                            {t('BUY NOW')}
                                                         </Link>
                                                     }
 
                                                 </> :
-                                                <button style={{ fontSize: '1.5rem', height: 50 }} className="btn product-detail__btn-add-cart btn--color-prima-blue">LIÊN HỆ ĐỂ NHẬN TƯ VẤN VÀ THIẾT KẾ MIỄN PHÍ</button>
+                                                <button
+                                                    style={{
+                                                        fontSize: '1.4rem',
+                                                        height: 50
+                                                    }}
+                                                    className="btn product-detail__btn-add-cart btn--color-prima-blue"
+                                                >
+                                                    {t('CONTACT US FOR FREE CONSULTING AND DESIGN')}
+                                                </button>
                                             }
                                         </div>}
 
                                         < div className="product-detail__info-promotion" >
                                             <span>
                                                 <i className="fa-solid fa-check"></i>
-                                                Miễn phí giao hàng & lắp đặt tại tất cả quận huyện thuộc TP.HCM, Hà Nội, Biên Hòa và một số quận thuộc Bình Dương (*)
+                                                {t('Delivery policy', { ns: 'header' })}
                                             </span>
                                             <span>
                                                 <i className="fa-solid fa-check"></i>
-                                                Miễn phí 1 đổi 1 - Bảo hành 2 năm - Bảo trì trọn đời (**)
+                                                {t('Free 1 to 1 exchange - 2 years warranty - Lifetime maintenance')}
                                             </span>
                                             <span>
                                                 <i className="fa-solid fa-check"></i>
-                                                Nhập mã ưu đãi
+                                                {t('Enter promo code')}
                                                 <strong>&nbsp;MOHO50K, MOHO100K, MOHO200K, MOHO300K, MOHO500K.&nbsp;</strong>
-                                                Chỉ áp dụng 01 lần/01 khách hàng và không áp dụng cùng với các chương trình khuyến mại khác. Hạn sử dụng: 31/12/2023 (*)
+                                                {t('Valid only once per customer and cannot be combined with other promotions. Expiry date:')} 31/12/2023 (*)
                                             </span>
                                             <span>
-                                                (*) Không áp dụng cho danh mục Đồ Trang Trí
+                                                (*) {t('Not applicable for Decoration category')}
                                             </span>
                                             <span>
-                                                (**) Không áp dụng cho các sản phẩm Clearance. Chỉ bảo hành 01 năm cho khung ghế, mâm và cần đối với Ghế Văn Phòng
+                                                (**) {t('Only 1 year warranty for chair frame, wheel and lever for Office Chair')}
                                             </span>
                                         </div>
                                     </div>

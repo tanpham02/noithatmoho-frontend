@@ -1,12 +1,20 @@
 import { useState, useEffect, useCallback, memo } from "react"
 import { Link } from "react-router-dom"
 import BedSideFilter from "./BedSideFilter"
+import { useTranslation } from 'react-i18next'
 
-const BedSide = ({ datas, dataTypes, filterCategories, filterPrices, filterSort }) => {
+const BedSide = ({
+    datas,
+    dataTypes,
+    filterCategories,
+    filterPrices,
+    filterSort
+}) => {
     const [dataKoges, setDataKoges] = useState([])
     const [indexShowImg, setIndexShowImg] = useState(0)
     const [expectedData, setExpectedData] = useState([])
     const [isLoading, setIsLoading] = useState(false)
+    const { t } = useTranslation(['products', 'navigation'])
 
     useEffect(() => {
 
@@ -44,10 +52,10 @@ const BedSide = ({ datas, dataTypes, filterCategories, filterPrices, filterSort 
 
     return (
         <main className="container product-lists">
-            <img className="img-page" src="/assets/img/img-page/collection_bed-side.png" alt="Tủ Đầu Giường" />
+            <img className="img-page" src="/assets/img/img-page/collection_bed-side.png" alt={`${t('Bedside')}`} />
             <div className="grid">
                 <div className="grid__row">
-                    <h2 className="products__title px--16">Tủ Đầu Giường</h2>
+                    <h2 className="products__title px--16">{t('Bedside')}</h2>
                     <BedSideFilter
                         dataKoges={dataKoges}
                         filterPrices={filterPrices}
@@ -67,7 +75,7 @@ const BedSide = ({ datas, dataTypes, filterCategories, filterPrices, filterSort 
                                 onMouseLeave={() => handleMouseLeave(index)}
                                 onClick={() => localStorage.setItem('productDetail', JSON.stringify(data.id))}
                             >
-                                <Link to={`/products/${(data.name).split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`}>
+                                <Link to={`/products/${t(data.name).split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`}>
                                     {data.discount &&
                                         <span className="product-discount">
                                             {
@@ -94,22 +102,22 @@ const BedSide = ({ datas, dataTypes, filterCategories, filterPrices, filterSort 
                                     }
                                     <div className="products__img">
                                         <img src={indexShowImg === index ? data.image_url.split(', ')[1] || data.image_url.split(', ')[0] : data.image_url.split(', ')[0]}
-                                            alt={data.name}
+                                            alt={t(data.name)}
                                             className="products__img-child"
                                         />
                                     </div>
                                     <div className="products__content">
-                                        <h3 className="product-content__name">{data.name}</h3>
+                                        <h3 className="product-content__name">{t(data.name)}</h3>
                                         <div className="product-content__price">
 
                                             {data.discount ?
                                                 <span className="product__price-new">{data.prices === 0 ?
-                                                    `Giá dự kiến chỉ từ ${(30000000).toLocaleString('en-VI')}` :
+                                                    `${t('Estimated price from')} ${(30000000).toLocaleString('en-VI')}` :
                                                     (data.prices - (data.prices * (parseInt(data.discount)) / 100)).toLocaleString("en-VI") /* ,{style: "currency", currency: "VND"} */}
                                                     <span className="cart__total-price-vnd">₫</span>
                                                 </span> :
                                                 <span className="product__price-new">{data.prices === 0 ?
-                                                    `Giá dự kiến chỉ từ ${(30000000).toLocaleString('en-VI')}` :
+                                                    `${t('Estimated price from')} ${(30000000).toLocaleString('en-VI')}` :
                                                     data.prices.toLocaleString("en-VI")}<span className="cart__total-price-vnd">₫</span>
                                                 </span>
                                             }
@@ -127,7 +135,7 @@ const BedSide = ({ datas, dataTypes, filterCategories, filterPrices, filterSort 
                                                 <i className="fa-solid fa-star"></i>
                                                 <span className="quantity-review">(12)</span>
                                             </div>
-                                            <span className="product-content__sold-quantity">Đã bán {data.quantity_sold}</span>
+                                            <span className="product-content__sold-quantity">{t('Sold')} {data.quantity_sold}</span>
                                         </div>
                                     </div>
                                 </Link>

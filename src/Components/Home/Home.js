@@ -1,11 +1,13 @@
 import { useEffect, useState, memo } from "react"
 import { Link } from "react-router-dom"
+import { useTranslation } from 'react-i18next'
 import './Home.scss'
 const Home = ({ datas, dataGroupTypes, dataTypes }) => {
     const [indexShowImg, setIndexShowImg] = useState(0)
     const [dataDiscount, setDataDiscount] = useState([])
     const [dataBestSeller, setDataBestSeller] = useState([])
     const [dataDecors, setDataDecors] = useState([])
+    const { t } = useTranslation(['products'])
 
     const handleMouseEnter = (index) => {
         setIndexShowImg(index)
@@ -57,8 +59,8 @@ const Home = ({ datas, dataGroupTypes, dataTypes }) => {
                 <div className="grid__row ">
                     <div className="discount-home">
                         <div className="flex-box">
-                            <h2 className="products__title px--16 discount-home__heading">Ưu Đãi Giới Hạn</h2>
-                            <Link to='/collections/uu-dai' className="seen-more">Xem thêm</Link>
+                            <h2 className="products__title px--16 discount-home__heading">{t('Limited Offer')}</h2>
+                            <Link to='/collections/uu-dai' className="seen-more">{t('See more')}</Link>
                         </div>
                         {dataDiscount.slice(0, 8).map((data, index) => (
                             <div
@@ -68,7 +70,7 @@ const Home = ({ datas, dataGroupTypes, dataTypes }) => {
                                 onMouseLeave={() => handleMouseLeave(index)}
                                 onClick={() => localStorage.setItem('productDetail', JSON.stringify(data.id))}
                             >
-                                <Link to={`/products/${(data.name).split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`}>
+                                <Link to={`/products/${(t(data.name)).split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`}>
                                     {
                                         data.discount &&
                                         <span className="product-discount">
@@ -88,12 +90,12 @@ const Home = ({ datas, dataGroupTypes, dataTypes }) => {
                                     }
                                     <div className="products__img">
                                         <img src={indexShowImg === index ? data.image_url.split(', ')[1] || data.image_url.split(', ')[0] : data.image_url.split(', ')[0]}
-                                            alt={data.name}
+                                            alt={t(data.name)}
                                             className="products__img-child"
                                         />
                                     </div>
                                     <div className="products__content">
-                                        <h3 className="product-content__name">{data.name}</h3>
+                                        <h3 className="product-content__name">{t(data.name)}</h3>
                                         <div className="product-content__price">
 
                                             {data.discount ?
@@ -120,7 +122,7 @@ const Home = ({ datas, dataGroupTypes, dataTypes }) => {
                                                 <i className="fa-solid fa-star"></i>
                                                 <span className="quantity-review">(12)</span>
                                             </div>
-                                            <span className="product-content__sold-quantity">Đã bán {data.quantity_sold}</span>
+                                            <span className="product-content__sold-quantity">{t('Sold')} {data.quantity_sold}</span>
                                         </div>
                                     </div>
                                 </Link>
@@ -129,8 +131,8 @@ const Home = ({ datas, dataGroupTypes, dataTypes }) => {
                     </div>
                     <div className="best-seller-products-home">
                         <div className="flex-box">
-                            <h2 className="products__title px--16 best-seller-products-home__heading">Sản phẩm bán chạy</h2>
-                            <Link to='/page/best-seller' className="seen-more">Xem thêm</Link>
+                            <h2 className="products__title px--16 best-seller-products-home__heading">{t('Products Seller')}</h2>
+                            <Link to='/page/best-seller' className="seen-more">{t('See more')}</Link>
                         </div>
                         {dataBestSeller.slice(0, 12).map((data, index) => (
                             <div
@@ -140,7 +142,7 @@ const Home = ({ datas, dataGroupTypes, dataTypes }) => {
                                 onMouseLeave={() => handleMouseLeave(index)}
                                 onClick={() => localStorage.setItem('productDetail', JSON.stringify(data.id))}
                             >
-                                <Link to={`/products/${(data.name).split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`}>
+                                <Link to={`/products/${(t(data.name)).split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`}>
 
 
                                     {
@@ -162,12 +164,12 @@ const Home = ({ datas, dataGroupTypes, dataTypes }) => {
                                     }
                                     <div className="products__img">
                                         <img src={indexShowImg === index ? data.image_url.split(', ')[1] || data.image_url.split(', ')[0] : data.image_url.split(', ')[0]}
-                                            alt={data.name}
+                                            alt={t(data.name)}
                                             className="products__img-child"
                                         />
                                     </div>
                                     <div className="products__content">
-                                        <h3 className="product-content__name">{data.name}</h3>
+                                        <h3 className="product-content__name">{t(data.name)}</h3>
                                         <div className="product-content__price">
 
                                             {data.discount ?
@@ -194,7 +196,7 @@ const Home = ({ datas, dataGroupTypes, dataTypes }) => {
                                                 <i className="fa-solid fa-star"></i>
                                                 <span className="quantity-review">(12)</span>
                                             </div>
-                                            <span className="product-content__sold-quantity">Đã bán {data.quantity_sold}</span>
+                                            <span className="product-content__sold-quantity">{t('Sold')} {data.quantity_sold}</span>
                                         </div>
                                     </div>
                                 </Link>
@@ -202,7 +204,7 @@ const Home = ({ datas, dataGroupTypes, dataTypes }) => {
                         ))}
                     </div>
                     <div className="collection-home">
-                        <h2 className="products__title px--16 collection-home__heading">Bộ sưu tập nổi bật</h2>
+                        <h2 className="products__title px--16 collection-home__heading">{t('Featured Collection')}</h2>
 
                         <ul className="collection-home__left">
                             <li className="mb--14">
@@ -238,8 +240,8 @@ const Home = ({ datas, dataGroupTypes, dataTypes }) => {
                     </div>
                     <div className="decoration-home">
                         <div className="flex-box">
-                            <h2 className="products__title px--16 decoration-home__heading">Đồ trang trí HOT</h2>
-                            <Link to='/collections/do-trang-tri' className="seen-more">Xem thêm</Link>
+                            <h2 className="products__title px--16 decoration-home__heading">{t('Decorations HOT')}</h2>
+                            <Link to='/collections/do-trang-tri' className="seen-more">{t('See more')}</Link>
                         </div>
                         {dataDecors.slice(0, -5).map((data, index) => (
                             <div
@@ -249,7 +251,7 @@ const Home = ({ datas, dataGroupTypes, dataTypes }) => {
                                 onMouseLeave={() => handleMouseLeave(index)}
                                 onClick={() => localStorage.setItem('productDetail', JSON.stringify(data.id))}
                             >
-                                <Link to={`/products/${(data.name).split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`}>
+                                <Link to={`/products/${(t(data.name)).split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`}>
 
 
                                     {
@@ -271,12 +273,12 @@ const Home = ({ datas, dataGroupTypes, dataTypes }) => {
                                     }
                                     <div className="products__img">
                                         <img src={indexShowImg === index ? data.image_url.split(', ')[1] || data.image_url.split(', ')[0] : data.image_url.split(', ')[0]}
-                                            alt={data.name}
+                                            alt={t(data.name)}
                                             className="products__img-child"
                                         />
                                     </div>
                                     <div className="products__content">
-                                        <h3 className="product-content__name">{data.name}</h3>
+                                        <h3 className="product-content__name">{t(data.name)}</h3>
                                         <div className="product-content__price">
 
                                             {data.discount ?
@@ -303,7 +305,7 @@ const Home = ({ datas, dataGroupTypes, dataTypes }) => {
                                                 <i className="fa-solid fa-star"></i>
                                                 <span className="quantity-review">(12)</span>
                                             </div>
-                                            <span className="product-content__sold-quantity">Đã bán {data.quantity_sold}</span>
+                                            <span className="product-content__sold-quantity">{t('Sold')} {data.quantity_sold}</span>
                                         </div>
                                     </div>
                                 </Link>

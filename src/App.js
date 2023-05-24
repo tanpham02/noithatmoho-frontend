@@ -77,6 +77,7 @@ import {
   StoreRounded
 } from "@material-ui/icons"
 import { API_SERVER_MYDUNG, API_SERVER_TANPHAM } from '.'
+import { useTranslation } from 'react-i18next'
 
 
 const localeLogos = [
@@ -99,24 +100,7 @@ const localeLogos = [
 ]
 
 
-const bannerServices = [
-  {
-    name: 'Giao Hàng & Lắp Đặt',
-    url: '/assets/img/banner-service/banner-service_1.png'
-  },
-  {
-    name: 'Đổi Trả 1 - 1',
-    url: '/assets/img/banner-service/banner-service_2.png'
-  },
-  {
-    name: 'Bảo Hành 2 Năm',
-    url: '/assets/img/banner-service/banner-service_3.png'
-  },
-  {
-    name: 'Tư Vấn Thiết Kế',
-    url: '/assets/img/banner-service/banner-service_4.png'
-  },
-]
+
 
 const sliders = [
   {
@@ -247,7 +231,26 @@ function App() {
   const [datas, setDatas] = useState([])
   const [dataGroupTypes, setDataGroupTypes] = useState([])
   const [dataTypes, setDataTypes] = useState([])
+  const { t } = useTranslation(['navigation'])
 
+  const bannerServices = [
+    {
+      name: `${t('Delivery & Installation')}`,
+      url: '/assets/img/banner-service/banner-service_1.png'
+    },
+    {
+      name: `${t('Return 1 - 1')}`,
+      url: '/assets/img/banner-service/banner-service_2.png'
+    },
+    {
+      name: `${t('Warranty 2 Years')}`,
+      url: '/assets/img/banner-service/banner-service_3.png'
+    },
+    {
+      name: `${t('Design Consultancy')}`,
+      url: '/assets/img/banner-service/banner-service_4.png'
+    },
+  ]
 
   const accountInfos = [
     {
@@ -275,7 +278,6 @@ function App() {
         const res = await axios.get(`${API_SERVER_TANPHAM}/api/products`)
         setDatas([...res.data])
         document.querySelector('.fb-reset')?.classList?.remove('hidden')
-        console.log('Ok')
       } catch (err) {
         const res = await axios.get(`${API_SERVER_MYDUNG}/api/products`)
         setDatas([...res.data])

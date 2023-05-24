@@ -3,63 +3,73 @@ import BestSeller from "../../Components/BestSeller/BestSeller"
 import BannerService from "../../Components/BannerService/BannerService"
 import Footer from "../../Components/Footer/Footer"
 import { memo, useEffect } from "react"
+import { useTranslation } from 'react-i18next'
 
-const filters = {
-    filterCategories: [
-        'Tủ Đầu Giường',
-        'Ghế',
-        'Bàn Sofa - Bàn Cafe - Bàn Trà',
-        'Bàn Làm Việc',
-        'Ghế Băng',
-        'Tủ Kệ Tivi',
-        'Tủ Giày',
-        'Giường Ngủ'
-    ],
-    filterPrices: [
-        {
-            name: 'Dưới 500,000₫',
-            value: 'under-500000'
-        },
-        {
-            name: '500,000₫ - 1,000,000₫',
-            value: '500000 - 1000000'
-        },
-        {
-            name: '1,000,000₫ - 1,500,000₫',
-            value: '1000000 - 1500000'
-        },
-        {
-            name: '2,000,000₫ - 5,000,000₫',
-            value: '2000000 - 5000000'
-        },
-        {
-            name: 'Trên 5,000,000₫',
-            value: 'over-5000000'
-        }
-    ],
-    filterSort: [
-        {
-            name: 'Giá: Tăng Dần',
-            value: 'Tăng Dần'
-        },
-        {
-            name: 'Giá: Giảm Dần',
-            value: 'Giảm Dần'
-        },
-        {
-            name: 'Tên: A-Z',
-            value: 'A-Z'
-        },
-        {
-            name: 'Tên: Z-A',
-            value: 'Z-A'
-        },
-    ]
-}
 
-const BestSellerPage = ({ datas, dataTypes, accountInfos, localeLogos, bannerServices }) => {
+const BestSellerPage = ({
+    datas,
+    dataTypes,
+    accountInfos,
+    localeLogos,
+    bannerServices
+}) => {
+    const { t } = useTranslation(['navigation', 'header'])
+
+    const filters = {
+        filterCategories: [
+            `${t('Bedside')}`,
+            `${t('Sofa Table')}`,
+            `${t('Desk')}`,
+            `${t('Bench')}`,
+            `${t('TV Stand')}`,
+            `${t('Cabinet & Shelf')}`,
+            `${t('Shoes Cabinet')}`,
+            `${t('Bed')}`,
+        ],
+        filterPrices: [
+            {
+                name: `${t('Under')} 500,000₫`,
+                value: `under-500000`
+            },
+            {
+                name: `500,000₫ - 1,000,000₫`,
+                value: `500000 - 1000000`
+            },
+            {
+                name: `1,000,000₫ - 1,500,000₫`,
+                value: `1000000 - 1500000`
+            },
+            {
+                name: `2,000,000₫ - 5,000,000₫`,
+                value: `2000000 - 5000000`
+            },
+            {
+                name: `${t('Over')} 5,000,000₫`,
+                value: `over-5000000`
+            }
+        ],
+        filterSort: [
+            {
+                name: `${t('Price')}: ${t('Increase')}`,
+                value: `${t('Increase')}`
+            },
+            {
+                name: `${t('Price')}: ${t('Decrease')}`,
+                value: `${t('Decrease')}`
+            },
+            {
+                name: `${t('Name')}: A-Z`,
+                value: `A-Z`
+            },
+            {
+                name: `${t('Name')}: Z-A`,
+                value: `Z-A`
+            },
+        ]
+    }
+
     useEffect(() => {
-        document.title = "Nội thất MOHO | Sản phẩm bán chạy"
+        document.title = `${t('Furniture', {ns: 'header'})} MOHO | Sản phẩm bán chạy`
     }, [])
 
     useEffect(() => {

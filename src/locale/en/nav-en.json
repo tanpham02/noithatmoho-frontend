@@ -1,5 +1,6 @@
 {
     "Product": "Product",
+    "All products": "All products",
     "Collection": "Collection",
     "New Lines": "New Lines",
     "Offer": "Offer",
@@ -47,6 +48,7 @@
     "Shoes Cabinet": "Shoes Cabinet",
     "Dining Table": "Dining Table",
     "Dining Chair": "Dining Chair",
+    "Bench": "Bench",
     "Dining Set": "Dining Set",
     "Bed": "Bed",
     "Bedside": "Bedside",
@@ -70,5 +72,20 @@
     "Decorative accessory": "Decorative accessory",
     "Rug": "Rug",
     "Wall Painting": "Wall Painting",
-    "Others": "Others"
+    "Others": "Others",
+    "Filters": "FILTERS",
+    "Category" : "CATEGORY",
+    "Product Price" : "PRODUCT PRICE",
+    "Under": "Under",
+    "Over": "Over",
+    "Price": "Price",
+    "Increase": "Increase",
+    "Decrease": "Decrease",
+    "Name": "Name",
+    "Remove all": "Remove all",
+    "Free": "Free",
+    "Delivery & Installation": "Delivery & Installation",
+    "Return 1 - 1": "Return 1 - 1",
+    "Warranty 2 Years": "Warranty 2 Years",
+    "Design Consultancy": "Design Consultancy"
 }

@@ -1,15 +1,35 @@
 import Navigation from "../Navigation/Navigation"
 import Login from "../Login/Login"
 import Cart from "../Cart/Cart"
-import { useState, useEffect, useCallback, useRef, memo } from "react"
+import {
+    useState,
+    useEffect,
+    useCallback,
+    useRef,
+    memo
+} from "react"
 import { Link } from "react-router-dom"
 import { useTranslation } from 'react-i18next'
 import './HeaderFixed.scss'
 
-import { groupTypes, types, products, DEFAULT_LANG } from '../Header/Header'
+import {
+    groupTypes,
+    types,
+    products,
+    DEFAULT_LANG
+} from '../Header/Header'
 
-const HeaderFixed = ({ onLanguage, search, setValueSearch, localeLogos, accountInfos, dataSearch, onGetValueSearch, onDetailPro }) => {
-    const { t } = useTranslation()
+const HeaderFixed = ({
+    onLanguage,
+    search,
+    setValueSearch,
+    localeLogos,
+    accountInfos,
+    dataSearch,
+    onGetValueSearch,
+    onDetailPro
+}) => {
+    const { t } = useTranslation(['header', 'products'])
     const [showLogin, setShowLogin] = useState(false)
     const [showCart, setShowCart] = useState(false)
     const [isLogin, setIsLogin] = useState(false)
@@ -194,9 +214,9 @@ const HeaderFixed = ({ onLanguage, search, setValueSearch, localeLogos, accountI
                                             key={index}
                                             onClick={() => onDetailPro(data.id)}
                                         >
-                                            <Link to={`/products/${(data.name).split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`}>
+                                            <Link to={`/products/${t(data.name, { ns: 'products' }).split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`}>
                                                 <div className="item-search__content">
-                                                    <h3 className="item-search__name">{data.name}</h3>
+                                                    <h3 className="item-search__name">{t(data.name, { ns: 'products' })}</h3>
                                                     {data.prices === 0 ?
                                                         <span className="item-search__prices">{`Giá dự kiến chỉ từ ${parseInt(30000000).toLocaleString('EN-VI')}`}
                                                             <span className="VND">₫</span>
@@ -207,7 +227,7 @@ const HeaderFixed = ({ onLanguage, search, setValueSearch, localeLogos, accountI
                                                     }
                                                 </div>
                                                 <div className="item-search_img">
-                                                    <img src={data.image_url.split(', ')[0]} alt={data.name} />
+                                                    <img src={data.image_url.split(', ')[0]} alt={t(data.name, { ns: 'products' })} />
                                                 </div>
                                             </Link>
                                         </li>

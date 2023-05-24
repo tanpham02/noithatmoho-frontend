@@ -1,14 +1,27 @@
-import { useState, useEffect, useMemo, memo } from "react"
+import {
+  useState,
+  useEffect,
+  useMemo,
+  memo
+} from "react"
+import { useTranslation } from 'react-i18next'
 
-const BedSideFilter = ({ dataKoges, filterCategories, filterPrices, filterSort, onGetData}) => {
+const BedSideFilter = ({
+  dataKoges,
+  filterCategories,
+  filterPrices,
+  filterSort,
+  onGetData
+}) => {
   const [dataSort, setDataSort] = useState([])
   const [dataFilters, setDataFilters] = useState([])
   const [category, setCategory] = useState('')
   const [checkedCategory, setCheckedCategory] = useState()
   const [checkedPrice, setCheckedPrice] = useState()
   const [price, setPrice] = useState('')
-  const [sort, setSort] = useState('Tăng Dần')
   const [filterValues, setFilterValues] = useState([])
+  const { t } = useTranslation(['navigation', 'products'])
+  const [sort, setSort] = useState(`${t('Increase')}`)
 
   useEffect(() => {
     setFilterValues([category, price])
@@ -27,10 +40,10 @@ const BedSideFilter = ({ dataKoges, filterCategories, filterPrices, filterSort, 
   useEffect(() => {
     if (sort !== '') {
       const output = dataKoges.sort((a, b) => {
-        if (sort === 'Tăng Dần') {
+        if (sort === `${t('Increase')}`) {
           return a.prices - b.prices
         }
-        if (sort === 'Giảm Dần') {
+        if (sort === `${t('Decrease')}`) {
           return b.prices - a.prices
         }
         if (sort === 'A-Z') {
@@ -50,7 +63,7 @@ const BedSideFilter = ({ dataKoges, filterCategories, filterPrices, filterSort, 
       let pri
       if (category && price) {
         if (category) {
-          if (data.name.toLowerCase().includes(category.toLowerCase())) {
+          if (t(data.name, { ns: 'products' }).toLowerCase().includes(category.toLowerCase())) {
             cate = data // nếu return nó sẽ không lọt xuống dưới vì ta đang set 2 trường hợp
           }
         }
@@ -74,7 +87,7 @@ const BedSideFilter = ({ dataKoges, filterCategories, filterPrices, filterSort, 
         return cate && pri
       }
       if (category) {
-        if (data.name.toLowerCase().includes(category.toLowerCase())) {
+        if (t(data.name, { ns: 'products' }).toLowerCase().includes(category.toLowerCase())) {
           return data
         }
       }
@@ -110,17 +123,17 @@ const BedSideFilter = ({ dataKoges, filterCategories, filterPrices, filterSort, 
       }
 
       if (!filterValue.includes(' - ') && filterValue === 'under-500000') {
-        prices = `Dưới ${parseInt('500000').toLocaleString('en-VI')}₫`
+        prices = `${t('Under')} ${parseInt('500000').toLocaleString('en-VI')}₫`
       }
 
       if (!filterValue.includes(' - ') && filterValue === 'over-5000000') {
-        prices = `Trên ${parseInt('5000000').toLocaleString('en-VI')}₫`
+        prices = `${t('Over')} ${parseInt('5000000').toLocaleString('en-VI')}₫`
       }
 
       if (filterValue !== '') {
         return (
           <strong key={index}>{
-            filterValue.includes('0') ? prices : `Danh Mục: ${filterValue}`
+            filterValue.includes('0') ? prices : `${t('Category')}: ${filterValue}`
           }
             <i onClick={() => handleRemoveFilterValue(index)} className="fa-solid fa-xmark filter-values__icon"></i>
           </strong>
@@ -150,10 +163,10 @@ const BedSideFilter = ({ dataKoges, filterCategories, filterPrices, filterSort, 
       <div className="filter px--16">
         <div className="filter__heading">
           <i className="fa-sharp fa-solid fa-filter"></i>
-          <h3 className="filter__name">BỘ LỌC</h3>
+          <h3 className="filter__name">{t('Filters')}</h3>
         </div>
         <div className="filter__category">
-          Danh Mục
+          {t('Category')}
           <i className="fa-solid fa-angle-down category-icon"></i>
           <ul className="filter-lists">
             {filterCategories.map((category, index) => (
@@ -217,7 +230,7 @@ const BedSideFilter = ({ dataKoges, filterCategories, filterPrices, filterSort, 
       {(filterValues[0] || filterValues[1]) ?
         <div className="filter-values">
           {handleShowValueFilter}
-          <span onClick={() => window.location.reload()} className="remove-all">Xóa hết</span>
+          <span onClick={() => window.location.reload()} className="remove-all">{t('Remove all')}</span>
         </div> : ''}
     </>
   )

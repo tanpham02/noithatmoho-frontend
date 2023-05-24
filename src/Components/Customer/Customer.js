@@ -3,8 +3,10 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import './Customer.scss'
+import { useTranslation } from 'react-i18next'
 
 const Customer = ({ customers }) => {
+    const { t } = useTranslation(['products'])
     const settings = {
         dots: false,
         infinite: true,
@@ -15,7 +17,7 @@ const Customer = ({ customers }) => {
     };
     return (
         <div className="customer py--40">
-            <h2 className="customer__title">Khách hàng MOHO tại</h2>
+            <h2 className="customer__title">{t('MOHO Customers at')}</h2>
             <Slider {...settings}>
                 {customers.map(((customer, index) => (
                     <div key={index} className="customers-main">

@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, memo } from "react"
 import { Link } from "react-router-dom"
+import { useTranslation } from 'react-i18next'
 import BedCollectionFilter from "./BedCollectionFilter"
 
 const BedCollection = ({ datas, dataTypes, filterCategories, filterPrices, filterSort }) => {
@@ -7,6 +8,7 @@ const BedCollection = ({ datas, dataTypes, filterCategories, filterPrices, filte
     const [indexShowImg, setIndexShowImg] = useState(0)
     const [expectedData, setExpectedData] = useState([])
     const [isLoading, setIsLoading] = useState(false)
+    const { t } = useTranslation(['products', 'navigation'])
 
     useEffect(() => {
 
@@ -46,10 +48,10 @@ const BedCollection = ({ datas, dataTypes, filterCategories, filterPrices, filte
 
     return (
         <main className="container product-lists">
-            <img className="img-page" src="/assets/img/img-page/collection_bed.png" alt="Giường Ngủ" />
+            <img className="img-page" src="/assets/img/img-page/collection_bed.png" alt={`${t('Bed', {ns: 'navigation'})}`}/>
             <div className="grid">
                 <div className="grid__row">
-                    <h2 className="products__title px--16">Giường Ngủ</h2>
+                    <h2 className="products__title px--16">{t('Bed', {ns: 'navigation'})}</h2>
                     <BedCollectionFilter
                         dataKoges={dataKoges}
                         filterPrices={filterPrices}
@@ -69,7 +71,7 @@ const BedCollection = ({ datas, dataTypes, filterCategories, filterPrices, filte
                                 onMouseLeave={() => handleMouseLeave(index)}
                                 onClick={() => localStorage.setItem('productDetail', JSON.stringify(data.id))}
                             >
-                                <Link to={`/products/${(data.name).split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`}>
+                                <Link to={`/products/${t(data.name).split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`}>
                                     {data.discount &&
                                         <span className="product-discount">
                                             {
@@ -96,12 +98,12 @@ const BedCollection = ({ datas, dataTypes, filterCategories, filterPrices, filte
                                     }
                                     <div className="products__img">
                                         <img src={indexShowImg === index ? data.image_url.split(', ')[1] || data.image_url.split(', ')[0] : data.image_url.split(', ')[0]}
-                                            alt={data.name}
+                                            alt={t(data.name)}
                                             className="products__img-child"
                                         />
                                     </div>
                                     <div className="products__content">
-                                        <h3 className="product-content__name">{data.name}</h3>
+                                        <h3 className="product-content__name">{t(data.name)}</h3>
                                         <div className="product-content__price">
 
                                             {data.discount ?
@@ -129,7 +131,7 @@ const BedCollection = ({ datas, dataTypes, filterCategories, filterPrices, filte
                                                 <i className="fa-solid fa-star"></i>
                                                 <span className="quantity-review">(12)</span>
                                             </div>
-                                            <span className="product-content__sold-quantity">Đã bán {data.quantity_sold}</span>
+                                            <span className="product-content__sold-quantity">{t('Sold')} {data.quantity_sold}</span>
                                         </div>
                                     </div>
                                 </Link>

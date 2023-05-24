@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import Pagination from '../Pagination/Pagination'
 import AllProductsFilter from "./AllProductsFilter"
 import './AllProducts.scss'
-
+import { useTranslation } from 'react-i18next'
 export const PAGE_SIZE = 8
 
 const AllProducts = ({ datas, filterCategories, filterPrices, filterSort }) => {
@@ -11,6 +11,7 @@ const AllProducts = ({ datas, filterCategories, filterPrices, filterSort }) => {
     const [expectedData, setExpectedData] = useState([])
     const [currentPageData, setCurrentPageData] = useState([])
     const [isLoading, setIsLoading] = useState(false)
+    const { t } = useTranslation(['products', 'navigation'])
 
     const handlePageChange = useCallback((page) => {
         const startIndex = (page - 1) * PAGE_SIZE
@@ -48,10 +49,10 @@ const AllProducts = ({ datas, filterCategories, filterPrices, filterSort }) => {
 
     return (
         <main className="container product-lists">
-            <img className="img-page" src="/assets/img/img-page/all-product.png" alt="Tất cả sản phẩm MOHO" />
+            <img className="img-page" src="/assets/img/img-page/all-product.png" alt={`${t('All products', { ns: 'navigation' })} MOHO`} />
             <div className="grid">
                 <div className="grid__row">
-                    <h2 className="products__title px--16">Tất cả sản phẩm MOHO</h2>
+                    <h2 className="products__title px--16">{`${t('All products', { ns: 'navigation' })} MOHO`}</h2>
                     <AllProductsFilter
                         dataAlls={datas}
                         filterPrices={filterPrices}
@@ -74,7 +75,7 @@ const AllProducts = ({ datas, filterCategories, filterPrices, filterSort }) => {
                                     onMouseLeave={() => handleMouseLeave(index)}
                                     onClick={() => localStorage.setItem('productDetail', JSON.stringify(data.id))}
                                 >
-                                    <Link to={`/products/${(data.name).split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`}>
+                                    <Link to={`/products/${t(data.name).split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`}>
 
                                         {data.discount &&
                                             <span className="product-discount">
@@ -103,22 +104,22 @@ const AllProducts = ({ datas, filterCategories, filterPrices, filterSort }) => {
 
                                         <div className="products__img">
                                             <img src={indexShowImg === index ? data.image_url.split(', ')[1] || data.image_url.split(', ')[0] : data.image_url.split(', ')[0]}
-                                                alt={data.name}
+                                                alt={t(data.name)}
                                                 className="products__img-child"
                                             />
                                         </div>
                                         <div className="products__content">
-                                            <h3 className="product-content__name">{data.name}</h3>
+                                            <h3 className="product-content__name">{t(data.name)}</h3>
                                             <div className="product-content__price">
 
                                                 {data.discount ?
                                                     <span className="product__price-new">{data.prices === 0 ?
-                                                        `Giá dự kiến chỉ từ ${(30000000).toLocaleString('en-VI')}` :
+                                                        `${t('Estimated price from')} ${(30000000).toLocaleString('en-VI')}` :
                                                         (data.prices - (data.prices * (parseInt(data.discount)) / 100)).toLocaleString("en-VI") /* ,{style: "currency", currency: "VND"} */}
                                                         <span className="cart__total-price-vnd">₫</span>
                                                     </span> :
                                                     <span className="product__price-new">{data.prices === 0 ?
-                                                        `Giá dự kiến chỉ từ ${(30000000).toLocaleString('en-VI')}` :
+                                                        `${t('Estimated price from')} ${(30000000).toLocaleString('en-VI')}` :
                                                         data.prices.toLocaleString("en-VI")}<span className="cart__total-price-vnd">₫</span>
                                                     </span>
                                                 }
@@ -136,7 +137,7 @@ const AllProducts = ({ datas, filterCategories, filterPrices, filterSort }) => {
                                                     <i className="fa-solid fa-star"></i>
                                                     <span className="quantity-review">(12)</span>
                                                 </div>
-                                                <span className="product-content__sold-quantity">Đã bán {data.quantity_sold}</span>
+                                                <span className="product-content__sold-quantity">{t('Sold')} {data.quantity_sold}</span>
                                             </div>
                                         </div>
                                     </Link>

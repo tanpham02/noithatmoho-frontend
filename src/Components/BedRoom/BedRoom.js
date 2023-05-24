@@ -5,8 +5,15 @@ import BedRoomFilter from './BedRoomFilter'
 import { PAGE_SIZE } from "../AllProducts/AllProducts"
 import Pagination from "../Pagination/Pagination"
 
-const BedRoom = ({ datas, dataTypes, dataGroupTypes, filterCategories, filterPrices, filterSort }) => {
-    const { t } = useTranslation(['navigation'])
+const BedRoom = ({
+    datas,
+    dataTypes,
+    dataGroupTypes,
+    filterCategories,
+    filterPrices,
+    filterSort
+}) => {
+    const { t } = useTranslation(['navigation', 'products'])
     const [id, setId] = useState([])
     const [dataBedRoom, setDataBedRoom] = useState([])
     const [indexShowImg, setIndexShowImg] = useState(0)
@@ -63,7 +70,7 @@ const BedRoom = ({ datas, dataTypes, dataGroupTypes, filterCategories, filterPri
 
     return (
         <main className="container product-lists">
-            <img className="img-page" src="/assets/img/img-page/phong-ngu.png" alt="Phòng Ngủ" />
+            <img className="img-page" src="/assets/img/img-page/phong-ngu.png" alt={`${t('Bed Room')}`} />
             <div className="grid">
                 <div className="grid__row">
                     <h2 className="products__title px--16">
@@ -88,7 +95,7 @@ const BedRoom = ({ datas, dataTypes, dataGroupTypes, filterCategories, filterPri
                                     onMouseLeave={() => handleMouseLeave(index)}
                                     onClick={() => localStorage.setItem('productDetail', JSON.stringify(data.id))}
                                 >
-                                    <Link to={`/products/${(data.name).split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`}>
+                                    <Link to={`/products/${t(data.name, { ns: 'products' }).split(' ').join('-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`}>
                                         {data.discount &&
                                             <span className="product-discount">
                                                 {
@@ -115,12 +122,12 @@ const BedRoom = ({ datas, dataTypes, dataGroupTypes, filterCategories, filterPri
                                         }
                                         <div className="products__img">
                                             <img src={indexShowImg === index ? data.image_url.split(', ')[1] || data.image_url.split(', ')[0] : data.image_url.split(', ')[0]}
-                                                alt={data.name}
+                                                alt={t(data.name, { ns: 'products' })}
                                                 className="products__img-child"
                                             />
                                         </div>
                                         <div className="products__content">
-                                            <h3 className="product-content__name">{data.name}</h3>
+                                            <h3 className="product-content__name">{t(data.name, { ns: 'products' })}</h3>
                                             <div className="product-content__price">
                                                 {data.discount ?
                                                     <span className="product__price-new">{data.discount ? (data.prices - (data.prices * (parseInt(data.discount)) / 100)).toLocaleString("en-VI") /* ,{style: "currency", currency: "VND"} */ : parseInt(data.prices).toLocaleString("en-VI")}
@@ -146,7 +153,7 @@ const BedRoom = ({ datas, dataTypes, dataGroupTypes, filterCategories, filterPri
                                                     <i className="fa-solid fa-star"></i>
                                                     <span className="quantity-review">(12)</span>
                                                 </div>
-                                                <span className="product-content__sold-quantity">Đã bán {data.quantity_sold}</span>
+                                                <span className="product-content__sold-quantity">{t('Sold', {ns: 'products'})} {data.quantity_sold}</span>
                                             </div>
                                         </div>
                                     </Link>

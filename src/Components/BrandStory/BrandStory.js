@@ -22,7 +22,7 @@ const BrandStory = () => {
                             <span className='text-justify'>Chính những khát khao lan toả biến nhà thực sự là
                                 <strong>&nbsp;"tổ ấm"</strong>,
                                 tháng 03/2020, thương hiệu nội thất MOHO được định hình và ra đời. Là một phần của Savimex với 35 kinh nghiệm trong sản xuất và xuất khẩu nội thất sang các thị trường khó tính như: Mỹ, Nhật, Hàn,... MOHO tiếp tục kế thừa và phát huy nhằm mang đến cho người Việt những sản phẩm nội thất
-                                <strong> 100% made in Vietnam&nbsp;</strong>
+                                <strong>&nbsp;100% made in Vietnam&nbsp;</strong>
                                 theo tiêu chuẩn&nbsp;quốc tế, đảm bảo
                                 <b>&nbsp;</b>
                                 an toàn sức khoẻ với chi phí hợp lý.&nbsp;

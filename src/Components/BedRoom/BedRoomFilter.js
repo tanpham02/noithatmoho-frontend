@@ -1,15 +1,28 @@
-import { useState, useMemo, useEffect, memo } from "react"
+import {
+    useState,
+    useMemo,
+    useEffect,
+    memo
+} from "react"
+import { useTranslation } from 'react-i18next'
 
-const DinningRoomFilter = ({ dataBedRoom, onGetData, filterCategories, filterPrices, filterSort }) => {
+const DinningRoomFilter = ({
+    dataBedRoom,
+    onGetData,
+    filterCategories,
+    filterPrices,
+    filterSort
+}) => {
 
     const [dataFilters, setDataFilters] = useState([])
     const [category, setCategory] = useState('')
     const [checkedCategory, setCheckedCategory] = useState()
     const [checkedPrice, setCheckedPrice] = useState()
     const [price, setPrice] = useState('')
-    const [sort, setSort] = useState('Tăng Dần')
     const [dataSort, setDataSort] = useState([])
     const [filterValues, setFilterValues] = useState([])
+    const { t } = useTranslation(['navigation'])
+    const [sort, setSort] = useState(`${t('Increase')}`)
 
     useEffect(() => {
         setFilterValues([category, price])
@@ -28,16 +41,16 @@ const DinningRoomFilter = ({ dataBedRoom, onGetData, filterCategories, filterPri
     useEffect(() => {
         if (sort !== '') {
             const output = dataBedRoom.sort((a, b) => {
-                if (sort === 'Tăng Dần') {
+                if (sort === `${t('Increase')}`) {
                     return a.prices - b.prices
                 }
-                if (sort === 'Giảm Dần') {
+                if (sort === `${t('Decrease')}`) {
                     return b.prices - a.prices
                 }
-                if (sort === 'A-Z') {
+                if (sort === `A-Z`) {
                     return a.name.localeCompare(b.name)
                 }
-                if (sort === 'Z-A') {
+                if (sort === `Z-A`) {
                     return b.name.localeCompare(a.name)
                 }
             })
@@ -51,7 +64,7 @@ const DinningRoomFilter = ({ dataBedRoom, onGetData, filterCategories, filterPri
             let pri
             if (category && price) {
                 if (category) {
-                    if (data.name.toLowerCase().includes(category.toLowerCase())) {
+                    if (t(data.name, { ns: 'products' }).toLowerCase().includes(category.toLowerCase())) {
                         cate = data // nếu return nó sẽ không lọt xuống dưới vì ta đang set 2 trường hợp
                     }
                 }
@@ -75,7 +88,7 @@ const DinningRoomFilter = ({ dataBedRoom, onGetData, filterCategories, filterPri
                 return cate && pri
             }
             if (category) {
-                if (data.name.toLowerCase().includes(category.toLowerCase())) {
+                if (t(data.name, { ns: 'products' }).toLowerCase().includes(category.toLowerCase())) {
                     return data
                 }
             }
@@ -112,17 +125,17 @@ const DinningRoomFilter = ({ dataBedRoom, onGetData, filterCategories, filterPri
             }
 
             if (!filterValue.includes(' - ') && filterValue === 'under-500000') {
-                prices = `Dưới ${parseInt('500000').toLocaleString('en-VI')}₫`
+                prices = `${t('Under')} ${parseInt('500000').toLocaleString('en-VI')}₫`
             }
 
             if (!filterValue.includes(' - ') && filterValue === 'over-5000000') {
-                prices = `Trên ${parseInt('5000000').toLocaleString('en-VI')}₫`
+                prices = `${t('Over')} ${parseInt('5000000').toLocaleString('en-VI')}₫`
             }
 
             if (filterValue !== '') {
                 return (
                     <strong key={index}>{
-                        filterValue.includes('0') ? prices : `Danh Mục: ${filterValue}`
+                        filterValue.includes('0') ? prices : `${t('Category')}: ${filterValue}`
                     }
                         <i onClick={() => handleRemoveFilterValue(index)} className="fa-solid fa-xmark filter-values__icon"></i>
                     </strong>
@@ -152,10 +165,10 @@ const DinningRoomFilter = ({ dataBedRoom, onGetData, filterCategories, filterPri
             <div className="filter px--16">
                 <div className="filter__heading">
                     <i className="fa-sharp fa-solid fa-filter"></i>
-                    <h3 className="filter__name">BỘ LỌC</h3>
+                    <h3 className="filter__name">{t('Filters')}</h3>
                 </div>
                 <div className="filter__category">
-                    Danh Mục
+                    {t('Category')}
                     <i className="fa-solid fa-angle-down category-icon"></i>
                     <ul className="filter-lists">
                         {filterCategories.map((category, index) => (
@@ -177,7 +190,7 @@ const DinningRoomFilter = ({ dataBedRoom, onGetData, filterCategories, filterPri
                     </ul>
                 </div>
                 <div className="filter__prices">
-                    GIÁ SẢN PHẨM
+                    {t('Product Price')}
                     <i className="fa-solid fa-angle-down"></i>
                     <ul className="filter-lists">
                         {filterPrices.map((valuePrice, index) => (
@@ -219,7 +232,7 @@ const DinningRoomFilter = ({ dataBedRoom, onGetData, filterCategories, filterPri
             {(filterValues[0] || filterValues[1]) ?
                 <div className="filter-values">
                     {handleShowValueFilter}
-                    <span onClick={() => window.location.reload()} className="remove-all">Xóa hết</span>
+                    <span onClick={() => window.location.reload()} className="remove-all">{t('Remove all')}</span>
                 </div> : ''}
 
 
