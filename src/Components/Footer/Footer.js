@@ -11,10 +11,10 @@ const Footer = () => {
             <div className="grid">
                 <div className="grid__row">
                     <div className="grid__col-4 pr-not-last">
-                        <h3 className="footer__title" style={{textTransform: 'uppercase'}}>{t('Furniture', {ns: 'header'})}</h3>
+                        <h3 className="footer__title" style={{ textTransform: 'uppercase' }}>{t('Furniture', { ns: 'header' })}</h3>
                         <div className="footer__content mt--22">
                             <p>
-                                {t('Introduced Brands', {ns: 'footer'})}
+                                {t('Introduced Brands', { ns: 'footer' })}
                             </p>
                         </div>
                         <div className="footer__logo">
@@ -28,7 +28,7 @@ const Footer = () => {
                         </div>
                     </div>
                     <div className="grid__col-4 pr--22">
-                        <h3 className="footer__title" style={{textTransform: 'uppercase'}}>{t('Service')}</h3>
+                        <h3 className="footer__title" style={{ textTransform: 'uppercase' }}>{t('Service')}</h3>
                         <ul className="footer__lists mt--22">
                             {types
                                 .filter(typeFilter => typeFilter["groupType-id"] === 4)
@@ -41,7 +41,7 @@ const Footer = () => {
                         </ul>
                     </div>
                     <div className="grid__col-4 pr-not-last">
-                        <h3 className="footer__title" style={{textTransform: 'uppercase'}}>{t('Contact Info', {ns: 'header'})}</h3>
+                        <h3 className="footer__title" style={{ textTransform: 'uppercase' }}>{t('Contact Info', { ns: 'header' })}</h3>
                         <ul className="footer__lists contact mt--22">
                             <li className="footer__item address">
                                 <i className="address-icon footer-item_icon fa-solid fa-location-dot"></i>
@@ -56,14 +56,14 @@ const Footer = () => {
                                 <i className="phonenumber-icon footer__item-icon fa-solid fa-phone"></i>
                                 <div>
                                     <div className="footer__item-child">037 280 0762 (Hotline/Zalo)</div>
-                                    <div className="footer__item-child">{`035 665 1058 (${t('Delivery Teams', {ns: 'footer'})})`}</div>
+                                    <div className="footer__item-child">{`035 665 1058 (${t('Delivery Teams', { ns: 'footer' })})`}</div>
                                 </div>
                             </li>
                             <li className="footer__item orther">
                                 <i className="email-icon fa-solid fa-envelope"></i>
                                 <div>
                                     <div className="footer__item-child">phamvantan1311@gmail.com</div>
-                                    <div className="footer__item-child">{t('Introduced Company', {ns: 'footer   '})}</div>
+                                    <div className="footer__item-child">{t('Introduced Company', { ns: 'footer' })}</div>
                                 </div>
                             </li>
 
@@ -78,7 +78,7 @@ const Footer = () => {
             </div>
 
             <div className="footer__bottom">
-                <p>Copyright © 2023 {t('Furniture', {ns: 'header'})} MOHO.</p>
+                <p>Copyright © 2023 {t('Furniture', { ns: 'header' })} MOHO.</p>
             </div>
         </footer>
     )
